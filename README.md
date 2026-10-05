@@ -133,3 +133,19 @@ builds is near-instant.
   `generateStaticParams`.
 - **Currency/duration**: prices are stored in cents and durations in minutes to avoid
   floating-point issues.
+
+## Auth API
+
+Passwords are hashed with **Argon2id**; tokens are **JWT** signed with
+`JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET`.
+
+| Method | Endpoint         | Description                                                              |
+| ------ | ---------------- | ------------------------------------------------------------------------ |
+| POST   | `/auth/register` | Creates a `User` (OWNER) + `Salon` with a 14-day trial                   |
+| POST   | `/auth/login`    | Returns `accessToken` (15 min) + `refreshToken` (30 d) as httpOnly cookies |
+| POST   | `/auth/refresh`  | Issues a new `accessToken` from the refresh cookie                       |
+| POST   | `/auth/logout`   | Clears both auth cookies                                                 |
+| GET    | `/auth/me`       | Returns the current user (Bearer or `access_token` cookie)               |
+
+Login/register are rate-limited (5 attempts / 15 min). `requireAuth` and
+`requireRole` pre-handlers guard protected routes.

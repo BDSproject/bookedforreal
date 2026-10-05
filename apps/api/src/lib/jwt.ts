@@ -1,0 +1,58 @@
+import jwt from "jsonwebtoken";
+
+import type { UserRole } from "@bookedforreal/db";
+
+/** Access token payload (short-lived, used for authentication). */
+export interface AccessTokenPayload {
+  sub: string;
+  email: string;
+  role: UserRole;
+  type: "access";
+}
+
+/** Refresh token payload (long-lived, only used to issue new access tokens). */
+export interface RefreshTokenPayload {
+  sub: string;
+  type: "refresh";
+}
+
+const ACCESS_TTL_SECONDS = 15 * 60; // 15 minutes
+const REFRESH_TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
+
+function accessSecret(): string {
+  return process.env.JWT_ACCESS_SECRET ?? "dev-access-secret";
+}
+
+function refreshSecret(): string {
+  return process.env.JWT_REFRESH_SECRET ?? "dev-refresh-secret";
+}
+
+/** Signs a short-lived access token for the given user. */
+export function signAccessToken(user: { id: string; email: string; role: UserRole }): string {
+  const payload: AccessTokenPayload = { sub: user.id, email: user.email, role: user.role, type: "access" };
+  return jwt.sign(payload, accessSecret(), { expiresIn: ACCESS_TTL_SECONDS });
+}
+
+/** Signs a long-lived refresh token for the given user id. */
+export function signRefreshToken(userId: string): string {
+  const payload: RefreshTokenPayload = { sub: userId, type: "refresh" };
+  return jwt.sign(payload, refreshSecret(), { expiresIn: REFRESH_TTL_SECONDS });
+}
+
+/** Verifies and decodes an access token; throws if invalid or wrong type. */
+export function verifyAccessToken(token: string): AccessTokenPayload {
+  const decoded = jwt.verify(token, accessSecret());
+  if (typeof decoded === "string" || decoded.type !== "access") {
+    throw new Error("Invalid access token");
+  }
+  return decoded as unknown as AccessTokenPayload;
+}
+
+/** Verifies and decodes a refresh token; throws if invalid or wrong type. */
+export function verifyRefreshToken(token: string): RefreshTokenPayload {
+  const decoded = jwt.verify(token, refreshSecret());
+  if (typeof decoded === "string" || decoded.type !== "refresh") {
+    throw new Error("Invalid refresh token");
+  }
+  return decoded as unknown as RefreshTokenPayload;
+}
