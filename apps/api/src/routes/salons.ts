@@ -22,6 +22,10 @@ interface SalonParams {
   slug: string;
 }
 
+/**
+ * Tenant-scoped routes. Every query against a tenant model MUST filter by
+ * `salonId` (resolved from the `:slug` param) to enforce multi-tenant isolation.
+ */
 export async function salonRoutes(app: FastifyInstance): Promise<void> {
   // GET /salons/:slug — public salon profile (tenant lookup by slug).
   app.get<{ Params: SalonParams }>("/:slug", async (request, reply) => {

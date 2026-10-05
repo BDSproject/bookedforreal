@@ -211,7 +211,7 @@ CREATE INDEX "services_salonId_idx" ON "services"("salonId");
 CREATE INDEX "availabilities_salonId_staffId_weekday_idx" ON "availabilities"("salonId", "staffId", "weekday");
 
 -- CreateIndex
-CREATE INDEX "clients_salonId_phone_idx" ON "clients"("salonId", "phone");
+CREATE INDEX "clients_phone_idx" ON "clients"("phone");
 
 -- CreateIndex
 CREATE INDEX "clients_salonId_email_idx" ON "clients"("salonId", "email");
