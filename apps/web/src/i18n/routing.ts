@@ -4,12 +4,13 @@ import { locales } from "@bookedforreal/i18n";
 
 /**
  * Locale routing configuration.
- * `as-needed` keeps the default locale (fr) without a URL prefix for clean SEO URLs.
+ * `always` prefixes every URL with the locale: /fr/... and /en/...
+ * The locale preference is persisted in the `NEXT_LOCALE` cookie by the middleware.
  */
 export const routing = defineRouting({
   locales,
   defaultLocale: "fr",
-  localePrefix: "as-needed",
+  localePrefix: "always",
 });
 
 export type AppLocale = (typeof routing.locales)[number];

@@ -6,7 +6,8 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Link } from "@/i18n/navigation";
-import { isLocale, routing } from "@/i18n/routing";
+import { isLocale, routing, type AppLocale } from "@/i18n/routing";
+import { hreflangAlternates } from "@/lib/seo";
 
 interface LocaleLayoutProps {
   children: ReactNode;
@@ -18,16 +19,17 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-/** SEO metadata, translated per locale. */
+/** SEO metadata: translated title/description + hreflang/x-default alternates. */
 export async function generateMetadata({ params }: LocaleLayoutProps): Promise<Metadata> {
   const { locale } = params;
   setRequestLocale(locale);
-  const t = await getTranslations({ locale, namespace: "metadata" });
+  const t = await getTranslations({ locale, namespace: "seo.home" });
 
   return {
     title: t("title"),
     description: t("description"),
     metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
+    alternates: hreflangAlternates(locale as AppLocale),
   };
 }
 

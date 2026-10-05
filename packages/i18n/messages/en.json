@@ -1,0 +1,175 @@
+{
+  "common": {
+    "appName": "Bookedforreal",
+    "nav": {
+      "home": "Home",
+      "book": "Book",
+      "salons": "Salons",
+      "dashboard": "Dashboard",
+      "login": "Log in",
+      "register": "Sign up"
+    },
+    "actions": {
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "save": "Save",
+      "delete": "Delete",
+      "back": "Back",
+      "next": "Next",
+      "close": "Close",
+      "edit": "Edit",
+      "seeMore": "See more"
+    },
+    "languages": {
+      "fr": "Français",
+      "en": "English"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Book your haircut in 3 clicks",
+      "subtitle": "Pick a salon, choose a service, confirm a time. That's it.",
+      "cta": "Book now",
+      "secondary": "Discover salons"
+    },
+    "steps": {
+      "1": {
+        "title": "Pick a salon",
+        "description": "Choose your favorite barbershop or hairdresser near you."
+      },
+      "2": {
+        "title": "Choose a service",
+        "description": "Cut, shave, color — select exactly what you need."
+      },
+      "3": {
+        "title": "Confirm your slot",
+        "description": "Pick a time and you're booked in seconds."
+      }
+    },
+    "pricing": {
+      "title": "Simple pricing",
+      "starter": "Starter",
+      "starterPrice": "€5/mo",
+      "pro": "Pro",
+      "proPrice": "€29/mo",
+      "cta": "Start free trial"
+    },
+    "demo": {
+      "title": "Try a live demo",
+      "subtitle": "See how booking works on a real salon page."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "noAccount": "No account yet?",
+      "register": "Sign up"
+    },
+    "register": {
+      "title": "Create your salon",
+      "salonName": "Salon name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create my salon",
+      "haveAccount": "Already have an account?",
+      "login": "Log in"
+    },
+    "logout": "Log out"
+  },
+  "booking": {
+    "title": "Book an appointment",
+    "steps": {
+      "service": "Service",
+      "datetime": "Date & time",
+      "contact": "Your details"
+    },
+    "service": {
+      "label": "Choose a service",
+      "placeholder": "Select a service"
+    },
+    "staff": {
+      "label": "Choose a staff member",
+      "any": "Any available"
+    },
+    "date": "Date",
+    "time": "Time",
+    "contact": {
+      "name": "Full name",
+      "phone": "Phone",
+      "email": "Email",
+      "notes": "Notes (optional)"
+    },
+    "confirm": "Confirm booking",
+    "confirmation": {
+      "title": "Booking confirmed!",
+      "subtitle": "You'll receive a confirmation email shortly."
+    },
+    "status": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "CANCELLED": "Cancelled",
+      "DONE": "Completed",
+      "NO_SHOW": "No-show"
+    }
+  },
+  "dashboard": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "appointments": "Appointments",
+      "clients": "Clients",
+      "services": "Services",
+      "staff": "Staff",
+      "settings": "Settings"
+    },
+    "stats": {
+      "today": "Today",
+      "upcoming": "Upcoming",
+      "clients": "Clients",
+      "services": "Services",
+      "staff": "Staff"
+    },
+    "appointments": {
+      "title": "Appointments",
+      "empty": "No appointments yet."
+    },
+    "clients": {
+      "title": "Clients",
+      "empty": "No clients yet."
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Bookedforreal — Hair & barber booking",
+      "description": "Book your haircut or shave in 3 clicks. Find a salon near you and reserve in seconds."
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "validation": "Please check the highlighted fields.",
+    "notFound": "Not found.",
+    "unauthorized": "You must be logged in.",
+    "forbidden": "You don't have permission to do this.",
+    "conflict": "This conflicts with an existing record.",
+    "slotTaken": "This slot is no longer available.",
+    "invalidCredentials": "Invalid email or password."
+  },
+  "emails": {
+    "confirmation": {
+      "subject": "Your appointment is confirmed",
+      "heading": "Appointment confirmed",
+      "body": "See you soon at {salonName} on {date} at {time}."
+    },
+    "reminder": {
+      "subject": "Reminder: your appointment tomorrow",
+      "heading": "Appointment reminder"
+    },
+    "cancellation": {
+      "subject": "Your appointment has been cancelled",
+      "heading": "Appointment cancelled"
+    }
+  }
+}

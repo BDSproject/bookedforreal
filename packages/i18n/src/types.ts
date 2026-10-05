@@ -1,4 +1,2 @@
-import type en from "./en";
-
-/** Shape shared by every locale message catalog. */
-export type Messages = typeof en;
+/** Shape shared by every locale message catalog (source of truth: messages/en.json). */
+export type Messages = typeof import("../messages/en.json");

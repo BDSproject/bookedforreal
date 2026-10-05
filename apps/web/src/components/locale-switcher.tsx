@@ -3,12 +3,13 @@
 import { useTransition } from "react";
 import { useLocale } from "next-intl";
 
+import { locales } from "@bookedforreal/i18n";
 import { cn } from "@bookedforreal/ui";
 
 import { usePathname, useRouter } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 
-const LOCALES: AppLocale[] = ["en", "fr"];
+const LOCALES: AppLocale[] = [...locales];
 
 /** Simple two-button language switcher (FR/EN). */
 export function LocaleSwitcher() {

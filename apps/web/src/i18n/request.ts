@@ -1,13 +1,14 @@
 import { getRequestConfig } from "next-intl/server";
 
-import { en, fr } from "@bookedforreal/i18n";
+import en from "@bookedforreal/i18n/messages/en.json";
+import fr from "@bookedforreal/i18n/messages/fr.json";
 
 import { isLocale, routing } from "./routing";
 
 const messages = { en, fr };
 
 /**
- * Resolves the active locale and loads its messages for the request.
+ * Resolves the active locale and loads its JSON message catalog.
  * Falls back to the default locale when the requested one is unsupported.
  */
 export default getRequestConfig(async ({ requestLocale }) => {

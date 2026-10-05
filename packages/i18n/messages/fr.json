@@ -1,0 +1,175 @@
+{
+  "common": {
+    "appName": "Bookedforreal",
+    "nav": {
+      "home": "Accueil",
+      "book": "Réserver",
+      "salons": "Salons",
+      "dashboard": "Tableau de bord",
+      "login": "Connexion",
+      "register": "Inscription"
+    },
+    "actions": {
+      "submit": "Envoyer",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "save": "Enregistrer",
+      "delete": "Supprimer",
+      "back": "Retour",
+      "next": "Suivant",
+      "close": "Fermer",
+      "edit": "Modifier",
+      "seeMore": "Voir plus"
+    },
+    "languages": {
+      "fr": "Français",
+      "en": "English"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Réservez votre coupe en 3 clics",
+      "subtitle": "Choisissez un salon, un service, un créneau. C'est fait.",
+      "cta": "Réserver",
+      "secondary": "Découvrir les salons"
+    },
+    "steps": {
+      "1": {
+        "title": "Choisissez un salon",
+        "description": "Sélectionnez votre barbier ou coiffeur préféré près de chez vous."
+      },
+      "2": {
+        "title": "Sélectionnez un service",
+        "description": "Coupe, rasage, coloration — choisissez ce qu'il vous faut."
+      },
+      "3": {
+        "title": "Confirmez votre créneau",
+        "description": "Choisissez une heure et vous êtes réservé en quelques secondes."
+      }
+    },
+    "pricing": {
+      "title": "Tarifs simples",
+      "starter": "Starter",
+      "starterPrice": "5 €/mois",
+      "pro": "Pro",
+      "proPrice": "29 €/mois",
+      "cta": "Essai gratuit"
+    },
+    "demo": {
+      "title": "Essayez une démo en direct",
+      "subtitle": "Découvrez la réservation sur une vraie page de salon."
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "email": "Email",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "noAccount": "Pas encore de compte ?",
+      "register": "S'inscrire"
+    },
+    "register": {
+      "title": "Créez votre salon",
+      "salonName": "Nom du salon",
+      "email": "Email",
+      "password": "Mot de passe",
+      "submit": "Créer mon salon",
+      "haveAccount": "Vous avez déjà un compte ?",
+      "login": "Se connecter"
+    },
+    "logout": "Se déconnecter"
+  },
+  "booking": {
+    "title": "Réserver un rendez-vous",
+    "steps": {
+      "service": "Service",
+      "datetime": "Date & heure",
+      "contact": "Vos coordonnées"
+    },
+    "service": {
+      "label": "Choisissez un service",
+      "placeholder": "Sélectionnez un service"
+    },
+    "staff": {
+      "label": "Choisissez un membre du personnel",
+      "any": "Premier disponible"
+    },
+    "date": "Date",
+    "time": "Heure",
+    "contact": {
+      "name": "Nom complet",
+      "phone": "Téléphone",
+      "email": "Email",
+      "notes": "Remarques (facultatif)"
+    },
+    "confirm": "Confirmer le rendez-vous",
+    "confirmation": {
+      "title": "Rendez-vous confirmé !",
+      "subtitle": "Vous recevrez un email de confirmation dans quelques instants."
+    },
+    "status": {
+      "PENDING": "En attente",
+      "CONFIRMED": "Confirmé",
+      "CANCELLED": "Annulé",
+      "DONE": "Terminé",
+      "NO_SHOW": "Absent"
+    }
+  },
+  "dashboard": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "appointments": "Rendez-vous",
+      "clients": "Clients",
+      "services": "Services",
+      "staff": "Personnel",
+      "settings": "Paramètres"
+    },
+    "stats": {
+      "today": "Aujourd'hui",
+      "upcoming": "À venir",
+      "clients": "Clients",
+      "services": "Services",
+      "staff": "Personnel"
+    },
+    "appointments": {
+      "title": "Rendez-vous",
+      "empty": "Aucun rendez-vous pour le moment."
+    },
+    "clients": {
+      "title": "Clients",
+      "empty": "Aucun client pour le moment."
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Bookedforreal — Réservation coiffeur & barbier",
+      "description": "Réservez votre coupe ou votre rasage en 3 clics. Trouvez un salon près de chez vous et réservez en quelques secondes."
+    }
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "validation": "Veuillez vérifier les champs en surbrillance.",
+    "notFound": "Introuvable.",
+    "unauthorized": "Vous devez être connecté.",
+    "forbidden": "Vous n'avez pas la permission de faire cela.",
+    "conflict": "Cela entre en conflit avec un enregistrement existant.",
+    "slotTaken": "Ce créneau n'est plus disponible.",
+    "invalidCredentials": "Email ou mot de passe invalide."
+  },
+  "emails": {
+    "confirmation": {
+      "subject": "Votre rendez-vous est confirmé",
+      "heading": "Rendez-vous confirmé",
+      "body": "À bientôt chez {salonName} le {date} à {time}."
+    },
+    "reminder": {
+      "subject": "Rappel : votre rendez-vous demain",
+      "heading": "Rappel de rendez-vous"
+    },
+    "cancellation": {
+      "subject": "Votre rendez-vous a été annulé",
+      "heading": "Rendez-vous annulé"
+    }
+  }
+}
