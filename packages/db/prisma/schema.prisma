@@ -67,6 +67,13 @@ enum SubscriptionStatus {
   UNPAID
 }
 
+enum JobStatus {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
+}
+
 // ---------------------------------------------------------------------------
 // Models
 // ---------------------------------------------------------------------------
@@ -312,4 +319,21 @@ model Translation {
   en  String?
 
   @@map("translations")
+}
+
+/// Async background job (notification delivery), processed by the worker cron.
+model Job {
+  id        String    @id @default(cuid())
+  /// Job type, e.g. "notification.confirmation".
+  type      String
+  payload   Json      @default("{}")
+  runAt     DateTime
+  status    JobStatus @default(PENDING)
+  attempts  Int       @default(0)
+  error     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([status, runAt])
+  @@map("jobs")
 }

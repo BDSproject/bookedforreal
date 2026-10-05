@@ -11,6 +11,7 @@ import { availabilityRoutes } from "./routes/availability";
 import { billingRoutes, webhookRoutes } from "./routes/billing";
 import { clientRoutes } from "./routes/clients";
 import { healthRoutes } from "./routes/health";
+import { notificationRoutes } from "./routes/notifications";
 import { publicRoutes } from "./routes/public";
 import { salonRoutes } from "./routes/salon";
 import { serviceRoutes } from "./routes/services";
@@ -51,6 +52,7 @@ export function buildApp(): FastifyInstance {
   void app.register(statsRoutes, { prefix: "/stats" });
   void app.register(billingRoutes, { prefix: "/billing" });
   void app.register(webhookRoutes, { prefix: "/webhooks" });
+  void app.register(notificationRoutes, { prefix: "/notifications" });
 
   return app;
 }
