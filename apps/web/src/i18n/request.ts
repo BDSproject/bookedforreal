@@ -1,6 +1,10 @@
 import { getRequestConfig } from "next-intl/server";
 
+import { en, fr } from "@bookedforreal/i18n";
+
 import { isLocale, routing } from "./routing";
+
+const messages = { en, fr };
 
 /**
  * Resolves the active locale and loads its messages for the request.
@@ -12,6 +16,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    messages: messages[locale],
   };
 });

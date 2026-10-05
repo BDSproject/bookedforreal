@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
-import { z } from "zod";
 
 import { prisma } from "@bookedforreal/db";
+import { createBookingSchema } from "@bookedforreal/types";
 
 /** Public fields exposed for a salon listing; never leaks internal data. */
 const publicSalonSelect = {
@@ -20,17 +20,6 @@ const publicSalonSelect = {
 interface SalonParams {
   slug: string;
 }
-
-/** Validated payload for creating a booking on behalf of a customer. */
-const createBookingSchema = z.object({
-  serviceId: z.string().min(1),
-  stylistId: z.string().min(1).optional(),
-  customerName: z.string().min(1).max(120),
-  customerEmail: z.string().email().max(254),
-  customerPhone: z.string().max(30).optional(),
-  startsAt: z.string().datetime(),
-  notes: z.string().max(2000).optional(),
-});
 
 export async function salonRoutes(app: FastifyInstance): Promise<void> {
   // GET /salons/:slug — public salon profile (tenant lookup by slug).

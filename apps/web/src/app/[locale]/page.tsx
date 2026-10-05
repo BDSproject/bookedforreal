@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@bookedforreal/ui";
 
 interface HomePageProps {
   params: { locale: string };

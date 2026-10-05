@@ -12,6 +12,7 @@ dist/
 out/
 .expo/
 build/
+.turbo/
 
 # Environment
 .env

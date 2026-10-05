@@ -1,11 +1,13 @@
 import { defineRouting } from "next-intl/routing";
 
+import { locales } from "@bookedforreal/i18n";
+
 /**
  * Locale routing configuration.
  * `as-needed` keeps the default locale (fr) without a URL prefix for clean SEO URLs.
  */
 export const routing = defineRouting({
-  locales: ["en", "fr"],
+  locales,
   defaultLocale: "fr",
   localePrefix: "as-needed",
 });

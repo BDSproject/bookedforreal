@@ -8,10 +8,11 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "pnpm --parallel --filter './apps/*' run dev",
-    "build": "pnpm --filter @bookedforreal/db run build && pnpm --filter '!@bookedforreal/db' -r --if-present run build",
-    "typecheck": "pnpm --filter @bookedforreal/db run build && pnpm --filter '!@bookedforreal/db' -r --if-present run typecheck",
-    "lint": "pnpm -r --if-present run lint",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "db:up": "docker compose up -d postgres",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.8"
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "turbo": "^2.3.0"
   }
 }

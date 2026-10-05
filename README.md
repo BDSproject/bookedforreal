@@ -11,14 +11,14 @@ multi-tenant dashboard.
 
 ## Stack
 
-| Layer      | Technology                                              |
-| ---------- | ------------------------------------------------------- |
-| Web        | Next.js 14 (App Router) · TypeScript strict · Tailwind · shadcn/ui |
-| API        | Fastify 5 · Zod                                          |
-| Data       | Prisma 6 · PostgreSQL 16                                 |
-| Mobile     | Expo (React Native)                                      |
-| i18n       | next-intl (FR/EN)                                        |
-| Tooling    | pnpm workspaces · Prettier                                |
+| Layer     | Technology                                                          |
+| --------- | ------------------------------------------------------------------- |
+| Web       | Next.js 14 (App Router) · TypeScript strict · Tailwind · shadcn/ui   |
+| API       | Fastify 5 · Zod                                                     |
+| Data      | Prisma 6 · PostgreSQL 16                                            |
+| Mobile    | Expo (React Native)                                                 |
+| i18n      | next-intl (FR/EN)                                                   |
+| Monorepo  | Turborepo · pnpm workspaces · Prettier                              |
 
 ## Monorepo layout
 
@@ -28,8 +28,11 @@ apps/
   api/      Fastify HTTP API
   mobile/   Expo mobile app
 packages/
+  ui/       Shared shadcn/ui React components (Button, cn, …)
   db/       Prisma schema + generated client
-  config/   Shared TypeScript / Prettier presets
+  config/   Shared tsconfig / Tailwind / ESLint / Prettier presets
+  i18n/     FR/EN translations + locale metadata
+  types/    Shared Zod schemas + inferred types
 ```
 
 ## Prerequisites
@@ -42,13 +45,6 @@ packages/
 
 ```bash
 npm install --prefix ./.tools pnpm@9.15.4 --no-save --cache ./.npm-cache
-./.tools/node_modules/.bin/pnpm --version
-```
-
-Then prefix every `pnpm` command with `./.tools/node_modules/.bin/`, or export it on
-your `PATH`:
-
-```bash
 export PATH="$PWD/.tools/node_modules/.bin:$PATH"
 ```
 
@@ -81,7 +77,13 @@ export PATH="$PWD/.tools/node_modules/.bin:$PATH"
    pnpm db:migrate -- --name init
    ```
 
-5. **Run the apps**
+5. **Build once** (compiles shared packages before starting the dev servers)
+
+   ```bash
+   pnpm build
+   ```
+
+6. **Run the apps**
 
    ```bash
    pnpm dev
@@ -91,25 +93,33 @@ export PATH="$PWD/.tools/node_modules/.bin:$PATH"
    - API: http://localhost:4000/health
    - Mobile: Expo dev server
 
-## Scripts
+## Scripts (Turborepo)
 
-| Command              | Description                                   |
-| -------------------- | --------------------------------------------- |
-| `pnpm dev`           | Run web + api + mobile in watch mode          |
-| `pnpm build`         | Build `db` first, then every other package    |
-| `pnpm typecheck`     | Typecheck the whole monorepo                  |
-| `pnpm lint`          | Lint every package                            |
-| `pnpm format`        | Format the codebase with Prettier             |
-| `pnpm db:up` / `db:down` | Start / stop the local PostgreSQL         |
-| `pnpm db:generate`   | Generate the Prisma client                    |
-| `pnpm db:migrate`    | Run a Prisma migration                        |
-| `pnpm db:studio`     | Open Prisma Studio                            |
+| Command              | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| `pnpm dev`           | Run `dev` tasks (apps + package watchers)                    |
+| `pnpm build`         | Build packages first (`^build`), then apps — turbo-cached    |
+| `pnpm typecheck`     | Typecheck every package/app — turbo-cached                   |
+| `pnpm lint`          | Lint every package/app — turbo-cached                        |
+| `pnpm clean`         | Remove build outputs (`dist`, `.next`, …)                    |
+| `pnpm format`        | Format the codebase with Prettier                            |
+| `pnpm db:up` / `db:down` | Start / stop the local PostgreSQL                        |
+| `pnpm db:generate`   | Generate the Prisma client                                   |
+| `pnpm db:migrate`    | Run a Prisma migration                                       |
+| `pnpm db:studio`     | Open Prisma Studio                                           |
+
+Turborepo caches task outputs in `node_modules/.cache/turbo`; re-running unchanged
+builds is near-instant.
 
 ## Architecture notes
 
 - **Multi-tenancy**: a `Salon` is the tenant boundary. Every tenant-scoped model
   (`User`, `Stylist`, `Service`, `Booking`, `Schedule`) references `salonId`, and
   public routes resolve the tenant by `slug` (e.g. `GET /salons/:slug`).
+- **Shared packages**: `@bookedforreal/ui` (shadcn components), `@bookedforreal/i18n`
+  (translations + locale list), `@bookedforreal/types` (Zod schemas) are compiled to
+  `dist` and consumed by the apps. `@bookedforreal/config` is referenced by path and
+  holds the tsconfig/Tailwind/ESLint/Prettier presets.
 - **i18n routing**: `localePrefix: "as-needed"` keeps the default locale (`fr`)
   prefix-free for clean URLs; `en` is served under `/en`.
 - **SEO**: `generateMetadata` is translated per locale, `sitemap.ts` and `robots.ts`

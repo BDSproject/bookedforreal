@@ -3,9 +3,10 @@
 import { useTransition } from "react";
 import { useLocale } from "next-intl";
 
+import { cn } from "@bookedforreal/ui";
+
 import { usePathname, useRouter } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
-import { cn } from "@/lib/utils";
 
 const LOCALES: AppLocale[] = ["en", "fr"];
 
