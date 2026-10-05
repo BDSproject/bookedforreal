@@ -1,151 +1,117 @@
 {
   "common": {
     "appName": "Bookedforreal",
-    "nav": {
-      "home": "Accueil",
-      "book": "Réserver",
-      "salons": "Salons",
-      "dashboard": "Tableau de bord",
-      "login": "Connexion",
-      "register": "Inscription"
-    },
-    "actions": {
-      "submit": "Envoyer",
-      "cancel": "Annuler",
-      "confirm": "Confirmer",
-      "save": "Enregistrer",
-      "delete": "Supprimer",
-      "back": "Retour",
-      "next": "Suivant",
-      "close": "Fermer",
-      "edit": "Modifier",
-      "seeMore": "Voir plus"
-    },
-    "languages": {
-      "fr": "Français",
-      "en": "English"
-    }
+    "nav": { "home": "Accueil", "book": "Réserver", "salons": "Salons", "dashboard": "Tableau de bord", "login": "Connexion", "register": "Inscription", "blog": "Blog" },
+    "actions": { "submit": "Envoyer", "cancel": "Annuler", "confirm": "Confirmer", "save": "Enregistrer", "delete": "Supprimer", "back": "Retour", "next": "Suivant", "close": "Fermer", "edit": "Modifier", "seeMore": "Voir plus" },
+    "languages": { "fr": "Français", "en": "English" }
   },
   "home": {
     "hero": {
-      "title": "Réservez votre coupe en 3 clics",
-      "subtitle": "Choisissez un salon, un service, un créneau. C'est fait.",
-      "cta": "Réserver",
-      "secondary": "Découvrir les salons"
+      "badge": "Nouveau · Essai gratuit 14 jours",
+      "title": "Votre salon en ligne en 5 minutes.",
+      "subtitle": "Mini-site, réservation en ligne, rappels WhatsApp/SMS. À partir de 5 €/mois.",
+      "cta": "Essai gratuit 14j",
+      "secondary": "Voir la démo"
     },
-    "steps": {
-      "1": {
-        "title": "Choisissez un salon",
-        "description": "Sélectionnez votre barbier ou coiffeur préféré près de chez vous."
-      },
-      "2": {
-        "title": "Sélectionnez un service",
-        "description": "Coupe, rasage, coloration — choisissez ce qu'il vous faut."
-      },
-      "3": {
-        "title": "Confirmez votre créneau",
-        "description": "Choisissez une heure et vous êtes réservé en quelques secondes."
+    "problem": {
+      "title": "Vos clients appellent, vous perdez du temps",
+      "description": "Entre deux coupes, vous décrochez pour noter un rendez-vous, répondre aux mêmes questions et relancer les absents. Bookedforreal automatise tout ça."
+    },
+    "solution": {
+      "title": "Comment ça marche",
+      "steps": {
+        "1": { "title": "Créez", "description": "Ouvrez votre mini-site avec vos services et horaires en 5 minutes." },
+        "2": { "title": "Partagez", "description": "Envoyez votre lien à vos clients ou mettez-le sur vos réseaux." },
+        "3": { "title": "Recevez", "description": "Les réservations arrivent dans votre agenda, avec rappels automatiques." }
+      }
+    },
+    "demo": { "title": "Voyez-le en action", "subtitle": "30 secondes pour comprendre." },
+    "features": {
+      "title": "Tout ce qu'il faut pour remplir votre agenda",
+      "items": {
+        "1": { "title": "Mini-site personnalisé", "description": "Votre page avec services, tarifs, avis et bouton Réserver." },
+        "2": { "title": "Réservation en ligne 24/7", "description": "Vos clients réservent en 3 clics, même quand vous dormez." },
+        "3": { "title": "Rappels WhatsApp & SMS", "description": "Réduisez les no-shows avec des rappels automatiques." },
+        "4": { "title": "Application mobile", "description": "Gérez votre agenda depuis votre téléphone, où que vous soyez." }
       }
     },
     "pricing": {
-      "title": "Tarifs simples",
-      "starter": "Starter",
-      "starterPrice": "5 €/mois",
-      "pro": "Pro",
-      "proPrice": "29 €/mois",
-      "cta": "Essai gratuit"
+      "title": "Un prix simple",
+      "subtitle": "Sans engagement. Annulez à tout moment.",
+      "monthly": "Mensuel",
+      "yearly": "Annuel",
+      "save": "-20 %",
+      "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "Pour démarrer", "features": { "1": "Mini-site", "2": "Réservation en ligne", "3": "30 RDV / mois", "4": "1 membre du personnel", "5": "Support email" } },
+      "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "Pour les salons actifs", "features": { "1": "Tout Starter", "2": "300 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (100 crédits)", "5": "Domaine personnalisé" } },
+      "cta": "Essai gratuit 14j"
     },
-    "demo": {
-      "title": "Essayez une démo en direct",
-      "subtitle": "Découvrez la réservation sur une vraie page de salon."
+    "testimonials": {
+      "title": "Ils ont rempli leur agenda",
+      "items": {
+        "1": { "quote": "Je ne décroche plus pour les réservations. Mon agenda se remplit tout seul.", "author": "Alex, barbier à Paris" },
+        "2": { "quote": "Les rappels SMS ont divisé mes absences par deux.", "author": "Camille, coiffeuse à Lyon" },
+        "3": { "quote": "Simple, rapide, mes clients adorent réserver en ligne.", "author": "Karim, barbier à Marseille" }
+      }
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "questions": {
+        "1": { "q": "Qu'est-ce que Bookedforreal ?", "a": "C'est un logiciel de réservation en ligne pour coiffeurs et barbiers : mini-site, agenda et rappels automatiques." },
+        "2": { "q": "Combien ça coûte ?", "a": "Le plan Starter est à 5 €/mois, le plan Pro à 29 €/mois. L'engagement annuel offre -20 %." },
+        "3": { "q": "Y a-t-il un essai gratuit ?", "a": "Oui, 14 jours gratuits sans carte bancaire." },
+        "4": { "q": "Comment mes clients réservent-ils ?", "a": "Ils choisissent un service, une date et une heure sur votre mini-site, en 3 clics." },
+        "5": { "q": "Puis-je personnaliser mon mini-site ?", "a": "Oui : nom, photos, services, tarifs, horaires et couleurs." },
+        "6": { "q": "Les rappels SMS/WhatsApp sont-ils inclus ?", "a": "Ils sont inclus dans le plan Pro (100 crédits/mois). Le plan Starter inclut les rappels email." },
+        "7": { "q": "Puis-je annuler à tout moment ?", "a": "Oui, sans engagement. Vous gardez vos données." },
+        "8": { "q": "Y a-t-il une application mobile ?", "a": "Oui, disponible sur iOS et Android pour gérer votre agenda." },
+        "9": { "q": "Mes données clients sont-elles protégées ?", "a": "Oui, conforme RGPD, avec consentement explicite des clients." },
+        "10": { "q": "Comment démarrer ?", "a": "Inscrivez-vous, créez votre salon en 5 minutes et partagez votre lien." }
+      }
+    },
+    "finalCta": {
+      "title": "Prêt à remplir votre agenda ?",
+      "subtitle": "Rejoignez les salons qui gagnent du temps chaque jour.",
+      "cta": "Essai gratuit 14j",
+      "demoTitle": "Demander une démo",
+      "demoSubtitle": "On vous rappelle pour vous montrer Bookedforreal."
+    },
+    "footer": {
+      "tagline": "Le logiciel de réservation pour coiffeurs et barbiers.",
+      "product": "Produit",
+      "company": "Entreprise",
+      "cities": "Villes",
+      "rights": "Tous droits réservés."
     }
   },
   "auth": {
-    "login": {
-      "title": "Connexion",
-      "email": "Email",
-      "password": "Mot de passe",
-      "submit": "Se connecter",
-      "noAccount": "Pas encore de compte ?",
-      "register": "S'inscrire"
-    },
-    "register": {
-      "title": "Créez votre salon",
-      "salonName": "Nom du salon",
-      "email": "Email",
-      "password": "Mot de passe",
-      "submit": "Créer mon salon",
-      "haveAccount": "Vous avez déjà un compte ?",
-      "login": "Se connecter"
-    },
+    "login": { "title": "Connexion", "email": "Email", "password": "Mot de passe", "submit": "Se connecter", "noAccount": "Pas encore de compte ?", "register": "S'inscrire" },
+    "register": { "title": "Créez votre salon", "salonName": "Nom du salon", "email": "Email", "password": "Mot de passe", "submit": "Créer mon salon", "haveAccount": "Vous avez déjà un compte ?", "login": "Se connecter" },
     "logout": "Se déconnecter"
   },
   "booking": {
     "title": "Réserver un rendez-vous",
-    "steps": {
-      "service": "Service",
-      "datetime": "Date & heure",
-      "contact": "Vos coordonnées"
-    },
-    "service": {
-      "label": "Choisissez un service",
-      "placeholder": "Sélectionnez un service"
-    },
-    "staff": {
-      "label": "Choisissez un membre du personnel",
-      "any": "Premier disponible"
-    },
+    "steps": { "service": "Service", "datetime": "Date & heure", "contact": "Vos coordonnées" },
+    "service": { "label": "Choisissez un service", "placeholder": "Sélectionnez un service" },
+    "staff": { "label": "Choisissez un membre du personnel", "any": "Premier disponible" },
     "date": "Date",
     "time": "Heure",
-    "contact": {
-      "name": "Nom complet",
-      "phone": "Téléphone",
-      "email": "Email",
-      "notes": "Remarques (facultatif)"
-    },
+    "contact": { "name": "Nom complet", "phone": "Téléphone", "email": "Email", "notes": "Remarques (facultatif)" },
     "confirm": "Confirmer le rendez-vous",
-    "confirmation": {
-      "title": "Rendez-vous confirmé !",
-      "subtitle": "Vous recevrez un email de confirmation dans quelques instants."
-    },
-    "status": {
-      "PENDING": "En attente",
-      "CONFIRMED": "Confirmé",
-      "CANCELLED": "Annulé",
-      "DONE": "Terminé",
-      "NO_SHOW": "Absent"
-    }
+    "confirmation": { "title": "Rendez-vous confirmé !", "subtitle": "Vous recevrez un email de confirmation dans quelques instants." },
+    "status": { "PENDING": "En attente", "CONFIRMED": "Confirmé", "CANCELLED": "Annulé", "DONE": "Terminé", "NO_SHOW": "Absent" }
   },
   "dashboard": {
-    "nav": {
-      "dashboard": "Tableau de bord",
-      "appointments": "Rendez-vous",
-      "clients": "Clients",
-      "services": "Services",
-      "staff": "Personnel",
-      "settings": "Paramètres"
-    },
-    "stats": {
-      "today": "Aujourd'hui",
-      "upcoming": "À venir",
-      "clients": "Clients",
-      "services": "Services",
-      "staff": "Personnel"
-    },
-    "appointments": {
-      "title": "Rendez-vous",
-      "empty": "Aucun rendez-vous pour le moment."
-    },
-    "clients": {
-      "title": "Clients",
-      "empty": "Aucun client pour le moment."
-    }
+    "nav": { "dashboard": "Tableau de bord", "appointments": "Rendez-vous", "clients": "Clients", "services": "Services", "staff": "Personnel", "settings": "Paramètres" },
+    "stats": { "today": "Aujourd'hui", "upcoming": "À venir", "clients": "Clients", "services": "Services", "staff": "Personnel" },
+    "appointments": { "title": "Rendez-vous", "empty": "Aucun rendez-vous pour le moment." },
+    "clients": { "title": "Clients", "empty": "Aucun client pour le moment." }
   },
   "seo": {
     "home": {
-      "title": "Bookedforreal — Réservation coiffeur & barbier",
-      "description": "Réservez votre coupe ou votre rasage en 3 clics. Trouvez un salon près de chez vous et réservez en quelques secondes."
-    }
+      "title": "Bookedforreal — Logiciel de réservation pour coiffeurs et barbiers",
+      "description": "Logiciel de réservation en ligne pour coiffeurs et barbiers. Mini-site, agenda, rappels WhatsApp/SMS, app mobile. Essai gratuit 14 jours."
+    },
+    "blog": { "title": "Blog — Conseils pour coiffeurs et barbiers", "description": "Guides et conseils pour remplir votre agenda : réservation en ligne, no-shows, marketing local." }
   },
   "errors": {
     "generic": "Une erreur est survenue. Veuillez réessayer.",
@@ -158,18 +124,8 @@
     "invalidCredentials": "Email ou mot de passe invalide."
   },
   "emails": {
-    "confirmation": {
-      "subject": "Votre rendez-vous est confirmé",
-      "heading": "Rendez-vous confirmé",
-      "body": "À bientôt chez {salonName} le {date} à {time}."
-    },
-    "reminder": {
-      "subject": "Rappel : votre rendez-vous demain",
-      "heading": "Rappel de rendez-vous"
-    },
-    "cancellation": {
-      "subject": "Votre rendez-vous a été annulé",
-      "heading": "Rendez-vous annulé"
-    }
+    "confirmation": { "subject": "Votre rendez-vous est confirmé", "heading": "Rendez-vous confirmé", "body": "À bientôt chez {salonName} le {date} à {time}." },
+    "reminder": { "subject": "Rappel : votre rendez-vous demain", "heading": "Rappel de rendez-vous" },
+    "cancellation": { "subject": "Votre rendez-vous a été annulé", "heading": "Rendez-vous annulé" }
   }
 }

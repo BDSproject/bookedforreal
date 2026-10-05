@@ -17,6 +17,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: messages[locale],
+    // The FR/EN catalogs are structurally identical; cast to collapse the union.
+    messages: messages[locale] as typeof en,
   };
 });

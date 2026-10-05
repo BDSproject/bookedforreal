@@ -1,151 +1,117 @@
 {
   "common": {
     "appName": "Bookedforreal",
-    "nav": {
-      "home": "Home",
-      "book": "Book",
-      "salons": "Salons",
-      "dashboard": "Dashboard",
-      "login": "Log in",
-      "register": "Sign up"
-    },
-    "actions": {
-      "submit": "Submit",
-      "cancel": "Cancel",
-      "confirm": "Confirm",
-      "save": "Save",
-      "delete": "Delete",
-      "back": "Back",
-      "next": "Next",
-      "close": "Close",
-      "edit": "Edit",
-      "seeMore": "See more"
-    },
-    "languages": {
-      "fr": "Français",
-      "en": "English"
-    }
+    "nav": { "home": "Home", "book": "Book", "salons": "Salons", "dashboard": "Dashboard", "login": "Log in", "register": "Sign up", "blog": "Blog" },
+    "actions": { "submit": "Submit", "cancel": "Cancel", "confirm": "Confirm", "save": "Save", "delete": "Delete", "back": "Back", "next": "Next", "close": "Close", "edit": "Edit", "seeMore": "See more" },
+    "languages": { "fr": "Français", "en": "English" }
   },
   "home": {
     "hero": {
-      "title": "Book your haircut in 3 clicks",
-      "subtitle": "Pick a salon, choose a service, confirm a time. That's it.",
-      "cta": "Book now",
-      "secondary": "Discover salons"
+      "badge": "New · 14-day free trial",
+      "title": "Your salon online in 5 minutes.",
+      "subtitle": "Mini-site, online booking, WhatsApp/SMS reminders. From €5/month.",
+      "cta": "Start 14-day trial",
+      "secondary": "Watch the demo"
     },
-    "steps": {
-      "1": {
-        "title": "Pick a salon",
-        "description": "Choose your favorite barbershop or hairdresser near you."
-      },
-      "2": {
-        "title": "Choose a service",
-        "description": "Cut, shave, color — select exactly what you need."
-      },
-      "3": {
-        "title": "Confirm your slot",
-        "description": "Pick a time and you're booked in seconds."
+    "problem": {
+      "title": "Your clients call, you lose time",
+      "description": "Between two haircuts, you answer the phone to take bookings, answer the same questions and chase no-shows. Bookedforreal automates all of it."
+    },
+    "solution": {
+      "title": "How it works",
+      "steps": {
+        "1": { "title": "Create", "description": "Set up your mini-site with your services and hours in 5 minutes." },
+        "2": { "title": "Share", "description": "Send your link to clients or post it on social media." },
+        "3": { "title": "Receive", "description": "Bookings land in your calendar, with automatic reminders." }
+      }
+    },
+    "demo": { "title": "See it in action", "subtitle": "30 seconds to understand." },
+    "features": {
+      "title": "Everything you need to fill your calendar",
+      "items": {
+        "1": { "title": "Custom mini-site", "description": "Your page with services, prices, reviews and a Book button." },
+        "2": { "title": "24/7 online booking", "description": "Clients book in 3 clicks, even while you sleep." },
+        "3": { "title": "WhatsApp & SMS reminders", "description": "Reduce no-shows with automatic reminders." },
+        "4": { "title": "Mobile app", "description": "Manage your calendar from your phone, wherever you are." }
       }
     },
     "pricing": {
       "title": "Simple pricing",
-      "starter": "Starter",
-      "starterPrice": "€5/mo",
-      "pro": "Pro",
-      "proPrice": "€29/mo",
-      "cta": "Start free trial"
+      "subtitle": "No commitment. Cancel anytime.",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "save": "-20%",
+      "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "To get started", "features": { "1": "Mini-site", "2": "Online booking", "3": "30 bookings / month", "4": "1 staff member", "5": "Email support" } },
+      "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "For busy salons", "features": { "1": "Everything in Starter", "2": "300 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (100 credits)", "5": "Custom domain" } },
+      "cta": "Start 14-day trial"
     },
-    "demo": {
-      "title": "Try a live demo",
-      "subtitle": "See how booking works on a real salon page."
+    "testimonials": {
+      "title": "They filled their calendar",
+      "items": {
+        "1": { "quote": "I no longer answer the phone for bookings. My calendar fills itself.", "author": "Alex, barber in Paris" },
+        "2": { "quote": "SMS reminders cut my no-shows in half.", "author": "Camille, hairdresser in Lyon" },
+        "3": { "quote": "Simple, fast, my clients love booking online.", "author": "Karim, barber in Marseille" }
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "questions": {
+        "1": { "q": "What is Bookedforreal?", "a": "It's an online booking software for hairdressers and barbers: mini-site, calendar and automatic reminders." },
+        "2": { "q": "How much does it cost?", "a": "The Starter plan is €5/month, the Pro plan €29/month. Yearly billing saves 20%." },
+        "3": { "q": "Is there a free trial?", "a": "Yes, 14 days free with no credit card required." },
+        "4": { "q": "How do clients book?", "a": "They pick a service, a date and a time on your mini-site, in 3 clicks." },
+        "5": { "q": "Can I customize my mini-site?", "a": "Yes: name, photos, services, prices, hours and colors." },
+        "6": { "q": "Are SMS/WhatsApp reminders included?", "a": "They're included in the Pro plan (100 credits/month). Starter includes email reminders." },
+        "7": { "q": "Can I cancel anytime?", "a": "Yes, no commitment. You keep your data." },
+        "8": { "q": "Is there a mobile app?", "a": "Yes, available on iOS and Android to manage your calendar." },
+        "9": { "q": "Is my client data protected?", "a": "Yes, GDPR compliant, with explicit client consent." },
+        "10": { "q": "How do I get started?", "a": "Sign up, create your salon in 5 minutes and share your link." }
+      }
+    },
+    "finalCta": {
+      "title": "Ready to fill your calendar?",
+      "subtitle": "Join the salons saving time every day.",
+      "cta": "Start 14-day trial",
+      "demoTitle": "Request a demo",
+      "demoSubtitle": "We'll call you back to show you Bookedforreal."
+    },
+    "footer": {
+      "tagline": "Booking software for hairdressers and barbers.",
+      "product": "Product",
+      "company": "Company",
+      "cities": "Cities",
+      "rights": "All rights reserved."
     }
   },
   "auth": {
-    "login": {
-      "title": "Log in",
-      "email": "Email",
-      "password": "Password",
-      "submit": "Log in",
-      "noAccount": "No account yet?",
-      "register": "Sign up"
-    },
-    "register": {
-      "title": "Create your salon",
-      "salonName": "Salon name",
-      "email": "Email",
-      "password": "Password",
-      "submit": "Create my salon",
-      "haveAccount": "Already have an account?",
-      "login": "Log in"
-    },
+    "login": { "title": "Log in", "email": "Email", "password": "Password", "submit": "Log in", "noAccount": "No account yet?", "register": "Sign up" },
+    "register": { "title": "Create your salon", "salonName": "Salon name", "email": "Email", "password": "Password", "submit": "Create my salon", "haveAccount": "Already have an account?", "login": "Log in" },
     "logout": "Log out"
   },
   "booking": {
     "title": "Book an appointment",
-    "steps": {
-      "service": "Service",
-      "datetime": "Date & time",
-      "contact": "Your details"
-    },
-    "service": {
-      "label": "Choose a service",
-      "placeholder": "Select a service"
-    },
-    "staff": {
-      "label": "Choose a staff member",
-      "any": "Any available"
-    },
+    "steps": { "service": "Service", "datetime": "Date & time", "contact": "Your details" },
+    "service": { "label": "Choose a service", "placeholder": "Select a service" },
+    "staff": { "label": "Choose a staff member", "any": "Any available" },
     "date": "Date",
     "time": "Time",
-    "contact": {
-      "name": "Full name",
-      "phone": "Phone",
-      "email": "Email",
-      "notes": "Notes (optional)"
-    },
+    "contact": { "name": "Full name", "phone": "Phone", "email": "Email", "notes": "Notes (optional)" },
     "confirm": "Confirm booking",
-    "confirmation": {
-      "title": "Booking confirmed!",
-      "subtitle": "You'll receive a confirmation email shortly."
-    },
-    "status": {
-      "PENDING": "Pending",
-      "CONFIRMED": "Confirmed",
-      "CANCELLED": "Cancelled",
-      "DONE": "Completed",
-      "NO_SHOW": "No-show"
-    }
+    "confirmation": { "title": "Booking confirmed!", "subtitle": "You'll receive a confirmation email shortly." },
+    "status": { "PENDING": "Pending", "CONFIRMED": "Confirmed", "CANCELLED": "Cancelled", "DONE": "Completed", "NO_SHOW": "No-show" }
   },
   "dashboard": {
-    "nav": {
-      "dashboard": "Dashboard",
-      "appointments": "Appointments",
-      "clients": "Clients",
-      "services": "Services",
-      "staff": "Staff",
-      "settings": "Settings"
-    },
-    "stats": {
-      "today": "Today",
-      "upcoming": "Upcoming",
-      "clients": "Clients",
-      "services": "Services",
-      "staff": "Staff"
-    },
-    "appointments": {
-      "title": "Appointments",
-      "empty": "No appointments yet."
-    },
-    "clients": {
-      "title": "Clients",
-      "empty": "No clients yet."
-    }
+    "nav": { "dashboard": "Dashboard", "appointments": "Appointments", "clients": "Clients", "services": "Services", "staff": "Staff", "settings": "Settings" },
+    "stats": { "today": "Today", "upcoming": "Upcoming", "clients": "Clients", "services": "Services", "staff": "Staff" },
+    "appointments": { "title": "Appointments", "empty": "No appointments yet." },
+    "clients": { "title": "Clients", "empty": "No clients yet." }
   },
   "seo": {
     "home": {
-      "title": "Bookedforreal — Hair & barber booking",
-      "description": "Book your haircut or shave in 3 clicks. Find a salon near you and reserve in seconds."
-    }
+      "title": "Bookedforreal — Booking software for hairdressers and barbers",
+      "description": "Online booking software for hairdressers and barbers. Mini-site, calendar, WhatsApp/SMS reminders, mobile app. 14-day free trial."
+    },
+    "blog": { "title": "Blog — Tips for hairdressers and barbers", "description": "Guides and tips to fill your calendar: online booking, no-shows, local marketing." }
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -158,18 +124,8 @@
     "invalidCredentials": "Invalid email or password."
   },
   "emails": {
-    "confirmation": {
-      "subject": "Your appointment is confirmed",
-      "heading": "Appointment confirmed",
-      "body": "See you soon at {salonName} on {date} at {time}."
-    },
-    "reminder": {
-      "subject": "Reminder: your appointment tomorrow",
-      "heading": "Appointment reminder"
-    },
-    "cancellation": {
-      "subject": "Your appointment has been cancelled",
-      "heading": "Appointment cancelled"
-    }
+    "confirmation": { "subject": "Your appointment is confirmed", "heading": "Appointment confirmed", "body": "See you soon at {salonName} on {date} at {time}." },
+    "reminder": { "subject": "Reminder: your appointment tomorrow", "heading": "Appointment reminder" },
+    "cancellation": { "subject": "Your appointment has been cancelled", "heading": "Appointment cancelled" }
   }
 }

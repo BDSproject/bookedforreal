@@ -116,6 +116,37 @@ export function faqJsonLd(questions: { question: string; answer: string }[]): Js
   });
 }
 
+/** SoftwareApplication (landing page) with Starter/Pro offers. */
+export function softwareApplicationJsonLd(url: string, offers: { name: string; price: string }[]): JsonLd {
+  return withContext({
+    "@type": "SoftwareApplication",
+    name: "Bookedforreal",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url,
+    aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: 120 },
+    offers: offers.map((offer) => ({
+      "@type": "Offer",
+      name: offer.name,
+      price: offer.price,
+      priceCurrency: "EUR",
+    })),
+  });
+}
+
+/** Article (blog post). */
+export function articleJsonLd(input: { title: string; description: string; url: string; datePublished: string }): JsonLd {
+  return withContext({
+    "@type": "Article",
+    headline: input.title,
+    description: input.description,
+    url: input.url,
+    datePublished: input.datePublished,
+    author: { "@type": "Organization", name: "Bookedforreal" },
+    publisher: { "@type": "Organization", name: "Bookedforreal" },
+  });
+}
+
 /** ItemList of salons, used on city/district landing pages. */
 export function salonItemListJsonLd(items: { name: string; url: string }[]): JsonLd {
   return withContext({
