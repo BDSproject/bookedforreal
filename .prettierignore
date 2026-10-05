@@ -1,0 +1,10 @@
+node_modules
+.next
+dist
+build
+.pnpm-store
+.pnpm-cache
+.npm-cache
+.tools
+pnpm-lock.yaml
+*.md

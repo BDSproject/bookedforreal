@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# pnpm
+.pnpm-store/
+.pnpm-cache/
+.npm-cache/
+
+# Build outputs
+dist/
+.next/
+out/
+.expo/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Misc
+.DS_Store
+coverage/
+.tools/
+*.tsbuildinfo
+next-env.d.ts

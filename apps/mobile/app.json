@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Bookedforreal",
+    "slug": "bookedforreal",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "bookedforreal",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bookedforreal.app"
+    },
+    "android": {
+      "package": "com.bookedforreal.app"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

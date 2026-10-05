@@ -1,0 +1,155 @@
+// Bookedforreal — multi-tenant database schema.
+// A `Salon` is the tenant boundary: every tenant-scoped model references it.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  STYLIST
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+/// A salon is the tenant: users, stylists, services and bookings belong to one salon.
+model Salon {
+  id          String   @id @default(cuid())
+  /// URL-friendly unique identifier used in public routes (e.g. /salons/<slug>).
+  slug        String   @unique
+  name        String
+  description String?
+  phone       String?
+  email       String?
+  address     String?
+  city        String?
+  postalCode  String?
+  country     String   @default("FR")
+  timezone    String   @default("Europe/Paris")
+  logoUrl     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users     User[]
+  stylists  Stylist[]
+  services  Service[]
+  bookings  Booking[]
+  schedules Schedule[]
+
+  @@map("salons")
+}
+
+/// A staff member account scoped to a salon.
+model User {
+  id        String   @id @default(cuid())
+  salonId   String
+  email     String   @unique
+  name      String?
+  role      UserRole @default(STYLIST)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  salon Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
+
+  @@index([salonId])
+  @@map("users")
+}
+
+/// A barber or hairdresser who can deliver services.
+model Stylist {
+  id        String   @id @default(cuid())
+  salonId   String
+  name      String
+  bio       String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  salon     Salon      @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  services  Service[]
+  bookings  Booking[]
+  schedules Schedule[]
+
+  @@index([salonId])
+  @@map("stylists")
+}
+
+/// A bookable service (e.g. "Haircut", "Beard trim").
+model Service {
+  id              String   @id @default(cuid())
+  salonId         String
+  name            String
+  description     String?
+  /// Duration in minutes used to compute the booking end time.
+  durationMinutes Int
+  /// Price in cents (avoids floating-point rounding).
+  priceCents      Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  salon    Salon     @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  stylists Stylist[]
+  bookings Booking[]
+
+  @@index([salonId])
+  @@map("services")
+}
+
+/// A customer booking for a specific service (and optionally stylist).
+model Booking {
+  id            String        @id @default(cuid())
+  salonId       String
+  stylistId     String?
+  serviceId     String
+  customerName  String
+  customerEmail String
+  customerPhone String?
+  startsAt      DateTime
+  endsAt        DateTime
+  status        BookingStatus @default(PENDING)
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  salon   Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  stylist Stylist? @relation(fields: [stylistId], references: [id], onDelete: SetNull)
+  service Service  @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+
+  @@index([salonId, startsAt])
+  @@index([stylistId])
+  @@map("bookings")
+}
+
+/// Recurring weekly opening hours for a stylist (0 = Sunday … 6 = Saturday).
+model Schedule {
+  id        String   @id @default(cuid())
+  salonId   String
+  stylistId String
+  dayOfWeek Int
+  /// "HH:mm" 24-hour format.
+  opensAt   String
+  /// "HH:mm" 24-hour format.
+  closesAt  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  salon   Salon   @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  stylist Stylist @relation(fields: [stylistId], references: [id], onDelete: Cascade)
+
+  @@index([salonId, stylistId])
+  @@map("schedules")
+}

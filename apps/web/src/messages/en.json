@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "title": "Bookedforreal — Hair & barber booking",
+    "description": "Book your haircut or shave in 3 clicks. Find a salon near you and reserve in seconds."
+  },
+  "nav": {
+    "home": "Home"
+  },
+  "home": {
+    "title": "Book your haircut in 3 clicks",
+    "subtitle": "Pick a salon, choose a service, confirm a time. That's it.",
+    "cta": "Book now",
+    "steps": {
+      "1": {
+        "title": "Pick a salon",
+        "description": "Choose your favorite barbershop or hairdresser near you."
+      },
+      "2": {
+        "title": "Choose a service",
+        "description": "Cut, shave, color — select exactly what you need."
+      },
+      "3": {
+        "title": "Confirm your slot",
+        "description": "Pick a time and you're booked in seconds."
+      }
+    }
+  }
+}
