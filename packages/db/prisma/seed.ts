@@ -10,6 +10,8 @@ const DEMO_SALONS = [
   {
     slug: "paris-marais",
     name: "Barber Shop Marais",
+    type: "BARBER_SHOP",
+    district: "Le Marais",
     city: "Paris",
     postalCode: "75004",
     ownerEmail: "owner-paris@demo.local",
@@ -26,6 +28,8 @@ const DEMO_SALONS = [
   {
     slug: "lyon-brotteaux",
     name: "Studio Coiffure Brotteaux",
+    type: "HAIR_SALON",
+    district: "Brotteaux",
     city: "Lyon",
     postalCode: "69006",
     ownerEmail: "owner-lyon@demo.local",
@@ -38,6 +42,8 @@ const DEMO_SALONS = [
   {
     slug: "marseille-vieux-port",
     name: "Barber du Vieux-Port",
+    type: "BARBER_SHOP",
+    district: "Vieux-Port",
     city: "Marseille",
     postalCode: "13002",
     ownerEmail: "owner-marseille@demo.local",
@@ -66,11 +72,13 @@ async function main() {
 
     const createdSalon = await prisma.salon.upsert({
       where: { slug: salon.slug },
-      update: { name: salon.name },
+      update: { name: salon.name, type: salon.type, district: salon.district },
       create: {
         slug: salon.slug,
         ownerId: owner.id,
         name: salon.name,
+        type: salon.type,
+        district: salon.district,
         description: `${salon.name} — demo salon in ${salon.city}.`,
         city: salon.city,
         postalCode: salon.postalCode,

@@ -25,6 +25,12 @@ enum Plan {
   PRO
 }
 
+/// Business category, used for SEO pages and Schema.org type.
+enum SalonType {
+  HAIR_SALON
+  BARBER_SHOP
+}
+
 enum AppointmentStatus {
   PENDING
   CONFIRMED
@@ -89,6 +95,10 @@ model Salon {
   /// Unique public tenant identifier — the unique constraint also provides the lookup index.
   slug             String    @unique
   name             String
+  /// Business category (coiffeur vs barbier) for SEO landing pages.
+  type             SalonType @default(HAIR_SALON)
+  /// Neighborhood/district for local SEO landing pages.
+  district         String?
   address          String?
   city             String?
   postalCode       String?

@@ -12,8 +12,10 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
+    "@bookedforreal/db": "workspace:*",
     "@bookedforreal/i18n": "workspace:*",
     "@bookedforreal/ui": "workspace:*",
+    "@vercel/og": "^0.6.2",
     "next": "^14.2.5",
     "next-intl": "^3.26.3",
     "react": "^18.3.1",

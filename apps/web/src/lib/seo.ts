@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 
 import { routing, type AppLocale } from "@/i18n/routing";
 
-/**
- * Builds hreflang + x-default + canonical `alternates` for a page.
- * `pathname` is relative WITHOUT a leading slash (e.g. "" for the home page,
- * "salons/my-salon" for a salon page).
- */
+const SITE_NAME = "Bookedforreal";
+
+export function siteUrl(): string {
+  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+}
+
+/** Builds hreflang + x-default + canonical `alternates` for a page. */
 export function hreflangAlternates(locale: AppLocale, pathname = ""): Metadata["alternates"] {
   const base = (l: string): string => `/${l}${pathname ? `/${pathname}` : ""}`;
 
@@ -17,4 +19,40 @@ export function hreflangAlternates(locale: AppLocale, pathname = ""): Metadata["
   languages["x-default"] = base(routing.defaultLocale);
 
   return { canonical: base(locale), languages };
+}
+
+export interface BuildMetadataInput {
+  locale: AppLocale;
+  title: string;
+  description: string;
+  /** Relative path WITHOUT leading slash, e.g. "s/paris-marais". */
+  path: string;
+  image?: string;
+}
+
+/** Builds full page metadata: title, description, OpenGraph, Twitter, canonical + hreflang. */
+export function buildMetadata(input: BuildMetadataInput): Metadata {
+  const url = `${siteUrl()}/${input.locale}/${input.path}`;
+  const ogImage = input.image ? { images: [{ url: input.image }] } : undefined;
+
+  return {
+    title: input.title,
+    description: input.description,
+    alternates: hreflangAlternates(input.locale, input.path),
+    openGraph: {
+      title: input.title,
+      description: input.description,
+      url,
+      siteName: SITE_NAME,
+      type: "website",
+      locale: input.locale === "fr" ? "fr_FR" : "en_US",
+      ...ogImage,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: input.title,
+      description: input.description,
+      ...ogImage,
+    },
+  };
 }

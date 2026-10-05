@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
@@ -13,6 +14,9 @@ interface LocaleLayoutProps {
   children: ReactNode;
   params: { locale: string };
 }
+
+/** Inter with latin subsetting (Core Web Vitals: fewer bytes, preconnected). */
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 /** Pre-render every supported locale at build time (SSG). */
 export function generateStaticParams() {
@@ -48,7 +52,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <html lang={locale}>
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+      <body className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <header className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
             <Link href="/" className="text-xl font-extrabold tracking-tight text-primary">
