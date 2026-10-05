@@ -1,93 +1,78 @@
 {
   "common": {
     "appName": "Bookedforreal",
-    "nav": { "home": "Accueil", "book": "Réserver", "salons": "Salons", "dashboard": "Tableau de bord", "login": "Connexion", "register": "Inscription", "blog": "Blog", "features": "Fonctionnalités", "pricing": "Tarifs", "testimonials": "Témoignages", "faq": "FAQ", "startFree": "Essai gratuit" },
+    "nav": { "home": "Accueil", "book": "Réserver", "salons": "Salons", "dashboard": "Tableau de bord", "login": "Se connecter", "register": "Inscription", "blog": "Blog", "features": "Le produit", "pricing": "Les tarifs", "testimonials": "Les avis", "faq": "Vos questions", "startFree": "Créer mon salon" },
     "actions": { "submit": "Envoyer", "cancel": "Annuler", "confirm": "Confirmer", "save": "Enregistrer", "delete": "Supprimer", "back": "Retour", "next": "Suivant", "close": "Fermer", "edit": "Modifier", "seeMore": "Voir plus" },
     "languages": { "fr": "Français", "en": "English" }
   },
   "home": {
     "hero": {
-      "badge": "Logiciel de réservation pour coiffeurs & barbiers",
-      "title": "Remplissez votre agenda,",
-      "titleHighlight": "sans perdre de temps",
-      "subtitle": "Mini-site, réservation en ligne 24/7 et rappels WhatsApp/SMS. Vos clients réservent en 3 clics — vous gagnez du temps.",
-      "cta": "Essai gratuit 14j",
-      "secondary": "Voir la démo",
+      "title": "Vos clients réservent.",
+      "titleHighlight": "Vous coupez tranquille.",
+      "subtitle": "Bookedforreal, c'est le mini-site et l'agenda en ligne de votre salon. Vos clients réservent quand ils veulent, vous recevez tout sur votre téléphone, et les rappels partent tout seuls.",
+      "cta": "Créer mon salon",
+      "secondary": "Voir comment ça marche",
       "points": {
-        "1": "Réservation en ligne 24/7, même quand vous dormez",
-        "2": "Rappels automatiques WhatsApp & SMS anti no-show",
-        "3": "Mini-site personnalisé : services, tarifs et photos",
-        "4": "Sans engagement — annulez à tout moment"
+        "1": "Votre page à votre nom, prête en 5 minutes",
+        "2": "Des réservations jour et nuit, sans un seul appel",
+        "3": "Un rappel WhatsApp la veille : fini les lapins",
+        "4": "Vos prix, vos horaires, vos règles"
       },
-      "rating": "4,9/5 — plus de 500 salons nous font confiance",
       "trust": {
-        "1": "Conforme RGPD",
-        "2": "Essai gratuit 14 jours",
-        "3": "Sans carte bancaire",
-        "4": "Support en français"
+        "1": "Sans engagement",
+        "2": "Données hébergées en France",
+        "3": "On vous répond en français",
+        "4": "14 jours pour essayer"
       }
+    },
+    "quoteBand": {
+      "text": "Avant, je notais les rendez-vous sur un carnet. Maintenant, tout est dans mon téléphone et je ne perds plus une ligne.",
+      "author": "Karim, barbier à Marseille"
     },
     "problem": {
-      "title": "Vos clients appellent, vous perdez du temps",
-      "description": "Entre deux coupes, vous décrochez pour noter un rendez-vous, répondre aux mêmes questions et relancer les absents. Bookedforreal automatise tout ça."
+      "title": "Marre de décrocher entre deux coupes ?",
+      "description": "Le téléphone sonne en plein brushing. Vous notez un rendez-vous sur un coin de nappe. Et le client qui ne vient pas, personne ne le rappelle. C'est exactement pour ça qu'on a créé Bookedforreal."
     },
     "solution": {
-      "title": "Comment ça marche",
+      "title": "Trois petites choses, et c'est réglé",
       "steps": {
-        "1": { "title": "Créez", "description": "Ouvrez votre mini-site avec vos services et horaires en 5 minutes." },
-        "2": { "title": "Partagez", "description": "Envoyez votre lien à vos clients ou mettez-le sur vos réseaux." },
-        "3": { "title": "Recevez", "description": "Les réservations arrivent dans votre agenda, avec rappels automatiques." }
+        "1": { "title": "Vous créez votre page", "description": "Vos services, vos horaires, vos prix. Le temps d'un café, c'est en ligne." },
+        "2": { "title": "Vous partagez le lien", "description": "Sur Instagram, sur Google ou par SMS à vos habitués. Une fois, et c'est fait." },
+        "3": { "title": "Vous coupez", "description": "Les réservations tombent dans votre agenda. Vous avez juste à regarder votre journée." }
       }
     },
-    "demo": { "title": "Voyez-le en action", "subtitle": "30 secondes pour comprendre." },
-    "stats": {
-      "items": {
-        "1": { "value": "500+", "label": "Salons actifs" },
-        "2": { "value": "120k+", "label": "Rendez-vous gérés" },
-        "3": { "value": "-40%", "label": "de no-shows" },
-        "4": { "value": "4,9/5", "label": "Note moyenne" }
-      }
-    },
-    "mockup": {
-      "services": {
-        "1": "Coupe & coiffage",
-        "2": "Brushing",
-        "3": "Coloration"
-      },
-      "next": "Prochain créneau",
-      "reminder": "Rappel WhatsApp"
-    },
+    "demo": { "title": "Voyez-le en action", "subtitle": "Le temps d'une coupe, vous avez compris." },
     "features": {
-      "title": "Tout ce qu'il faut pour remplir votre agenda",
-      "subtitle": "Tout est pensé pour vous faire gagner du temps, entre deux clients.",
+      "title": "Ce qu'il y a dans la boîte",
+      "subtitle": "Pas de menu à rallonge. Juste ce qui vous sert vraiment, tous les jours.",
       "items": {
-        "1": { "title": "Mini-site personnalisé", "description": "Votre page avec services, tarifs, avis et bouton Réserver." },
-        "2": { "title": "Réservation en ligne 24/7", "description": "Vos clients réservent en 3 clics, même quand vous dormez." },
-        "3": { "title": "Rappels WhatsApp & SMS", "description": "Réduisez les no-shows avec des rappels automatiques." },
-        "4": { "title": "Application mobile", "description": "Gérez votre agenda depuis votre téléphone, où que vous soyez." }
+        "1": { "title": "Votre mini-site", "description": "Votre page avec vos services, vos tarifs et vos photos. Prête en 5 minutes, sans développeur." },
+        "2": { "title": "La réservation en ligne", "description": "Vos clients choisissent un créneau quand ça les arrange — même à 23 h, même le dimanche." },
+        "3": { "title": "Les rappels automatiques", "description": "Un petit message WhatsApp ou SMS la veille. C'est ce qui fait revenir les clients." },
+        "4": { "title": "L'appli mobile", "description": "Votre agenda dans la poche. Vous voyez votre journée d'un coup d'œil, où que vous soyez." }
       }
     },
     "pricing": {
-      "title": "Un prix simple",
-      "subtitle": "Sans engagement. Annulez à tout moment.",
+      "title": "Un tarif clair, sans surprise",
+      "subtitle": "Pas d'engagement, pas de frais cachés. Vous arrêtez quand vous voulez.",
       "monthly": "Mensuel",
       "yearly": "Annuel",
       "save": "-20 %",
+      "popular": "Le plus choisi",
       "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "Pour démarrer", "features": { "1": "Mini-site", "2": "Réservation en ligne", "3": "30 RDV / mois", "4": "1 membre du personnel", "5": "Support email" } },
       "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "Pour les salons actifs", "features": { "1": "Tout Starter", "2": "300 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (100 crédits)", "5": "Domaine personnalisé" } },
-      "cta": "Essai gratuit 14j",
-      "popular": "Populaire"
+      "cta": "Commencer l'essai"
     },
     "testimonials": {
-      "title": "Ils ont rempli leur agenda",
+      "title": "Ce qu'en disent les salons",
       "items": {
-        "1": { "quote": "Je ne décroche plus pour les réservations. Mon agenda se remplit tout seul.", "author": "Alex, barbier à Paris" },
-        "2": { "quote": "Les rappels SMS ont divisé mes absences par deux.", "author": "Camille, coiffeuse à Lyon" },
-        "3": { "quote": "Simple, rapide, mes clients adorent réserver en ligne.", "author": "Karim, barbier à Marseille" }
+        "1": { "quote": "Je ne réponds plus au téléphone pendant les coupes. Rien que ça, ça change la journée.", "author": "Alex, barbier à Paris" },
+        "2": { "quote": "Les rappels ont divisé mes lapins par deux. Rien que pour ça, ça vaut le coup.", "author": "Camille, coiffeuse à Lyon" },
+        "3": { "quote": "Mes clients trouvent ça plus simple qu'appeler. Et moi aussi, franchement.", "author": "Karim, barbier à Marseille" }
       }
     },
     "faq": {
-      "title": "Questions fréquentes",
+      "title": "Vos questions",
       "questions": {
         "1": { "q": "Qu'est-ce que Bookedforreal ?", "a": "C'est un logiciel de réservation en ligne pour coiffeurs et barbiers : mini-site, agenda et rappels automatiques." },
         "2": { "q": "Combien ça coûte ?", "a": "Le plan Starter est à 5 €/mois, le plan Pro à 29 €/mois. L'engagement annuel offre -20 %." },
@@ -102,22 +87,28 @@
       }
     },
     "finalCta": {
-      "title": "Prêt à remplir votre agenda ?",
-      "subtitle": "Rejoignez les salons qui gagnent du temps chaque jour.",
-      "cta": "Essai gratuit 14j",
-      "demoTitle": "Demander une démo",
-      "demoSubtitle": "On vous rappelle pour vous montrer Bookedforreal.",
+      "title": "On vous montre en 15 minutes ?",
+      "subtitle": "Laissez votre numéro : un vrai humain vous rappelle et vous fait visiter. Sans engagement.",
+      "cta": "Créer mon salon",
+      "demoTitle": "Demander un rappel",
+      "demoSubtitle": "Un vrai humain vous rappelle, promis.",
       "demoCta": "Être rappelé",
       "demoSent": "Merci ! On vous rappelle très vite.",
-      "name": "Nom",
-      "phone": "Téléphone"
+      "name": "Votre nom",
+      "phone": "Votre numéro"
     },
     "footer": {
-      "tagline": "Le logiciel de réservation pour coiffeurs et barbiers.",
+      "tagline": "L'agenda en ligne des coiffeurs et des barbiers.",
       "product": "Produit",
       "company": "Entreprise",
       "cities": "Villes",
       "rights": "Tous droits réservés."
+    },
+    "mockup": {
+      "salonName": "Salon Camille",
+      "address": "12 rue des Capucins, Lyon",
+      "services": { "1": "Coupe femme", "2": "Brushing", "3": "Coloration" },
+      "next": "Prochain créneau"
     }
   },
   "auth": {

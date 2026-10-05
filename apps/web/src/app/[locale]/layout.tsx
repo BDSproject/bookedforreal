@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Poppins } from "next/font/google";
+import { Fraunces, Poppins } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import Script from "next/script";
 
+import { ScissorsIcon } from "@/components/icons";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Link } from "@/i18n/navigation";
 import { isLocale, routing, type AppLocale } from "@/i18n/routing";
@@ -16,11 +17,20 @@ interface LocaleLayoutProps {
   params: { locale: string };
 }
 
-/** Poppins (brand font, Phonilab-inspired) with latin subsetting for fast loading. */
+/** Body font: Poppins, exposed as `font-sans`. */
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
+  variable: "--font-sans",
+});
+
+/** Headline font: Fraunces, a warm serif that gives the brand a human, editorial voice. */
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  display: "swap",
+  variable: "--font-display",
 });
 
 /** Pre-render every supported locale at build time (SSG). */
@@ -66,40 +76,44 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <html lang={locale}>
-      <body className={`${poppins.className} min-h-screen bg-background text-foreground antialiased`}>
+      <body
+        className={`${poppins.variable} ${fraunces.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
+      >
         <NextIntlClientProvider messages={messages}>
-          <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
-            <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-              <Link href="/" className="flex items-center gap-2 text-lg font-extrabold tracking-tight">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-sm font-bold text-white">
-                  B
+          <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
+            <div className="mx-auto flex h-[70px] max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+              <Link href="/" className="flex items-center gap-2.5">
+                <span className="flex h-9 w-9 items-center justify-center rounded-[0.7rem] bg-primary text-white shadow-sm shadow-primary/25">
+                  <ScissorsIcon className="h-[18px] w-[18px]" />
                 </span>
-                <span className="text-foreground">Bookedforreal</span>
+                <span className="font-display text-[1.3rem] font-semibold leading-none tracking-tight">
+                  Bookedforreal
+                </span>
               </Link>
 
-              <nav className="hidden items-center gap-1 lg:flex">
+              <nav className="hidden items-center gap-7 lg:flex">
                 {NAV_LINKS.map((link) => (
                   <a
                     key={link.key}
                     href={link.href}
-                    className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                    className="relative py-1 text-sm font-medium text-muted-foreground transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-primary after:transition-all after:duration-200 hover:text-foreground hover:after:w-full"
                   >
                     {t(link.key)}
                   </a>
                 ))}
               </nav>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <LocaleSwitcher />
                 <Link
                   href="/login"
-                  className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:text-primary sm:inline-flex"
+                  className="hidden text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
                 >
                   {t("nav.login")}
                 </Link>
                 <Link
                   href="/register"
-                  className="rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-primary/20 transition-colors hover:bg-primary/90"
+                  className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-primary/20 transition-colors hover:bg-primary/90"
                 >
                   {t("nav.startFree")}
                 </Link>
