@@ -51,6 +51,9 @@ export const preset: Partial<Config> = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        navy: {
+          DEFAULT: "#0C2C43",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

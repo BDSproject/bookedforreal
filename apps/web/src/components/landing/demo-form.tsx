@@ -18,28 +18,35 @@ export function DemoForm() {
   }
 
   if (sent) {
-    return <p className="text-center text-primary">✓</p>;
+    return (
+      <div className="flex flex-col items-center justify-center rounded-3xl border bg-card p-12 text-center">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/15 text-2xl text-primary">
+          ✓
+        </span>
+        <p className="mt-4 font-semibold">{t("demoSent")}</p>
+      </div>
+    );
   }
 
   return (
-    <div className="rounded-2xl border bg-card p-8">
+    <div className="rounded-3xl border bg-card p-8 shadow-sm">
       <h3 className="text-xl font-bold">{t("demoTitle")}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{t("demoSubtitle")}</p>
       <div className="mt-6 space-y-4">
         <input
-          className="h-12 w-full rounded-xl border border-input bg-background px-4"
-          placeholder="Nom"
+          className="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+          placeholder={t("name")}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
-          className="h-12 w-full rounded-xl border border-input bg-background px-4"
-          placeholder="Téléphone"
+          className="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+          placeholder={t("phone")}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
         <Button size="xl" className="w-full" onClick={submit} disabled={!name || !phone}>
-          {t("demoTitle")}
+          {t("demoCta")}
         </Button>
       </div>
     </div>

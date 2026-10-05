@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
@@ -16,8 +16,12 @@ interface LocaleLayoutProps {
   params: { locale: string };
 }
 
-/** Inter with latin subsetting (Core Web Vitals: fewer bytes, preconnected). */
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+/** Poppins (brand font, Phonilab-inspired) with latin subsetting for fast loading. */
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
 
 /** Pre-render every supported locale at build time (SSG). */
 export function generateStaticParams() {
@@ -38,6 +42,14 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   };
 }
 
+/** Anchor links in the public navbar (same-page sections). */
+const NAV_LINKS = [
+  { href: "#features", key: "nav.features" },
+  { href: "#pricing", key: "nav.pricing" },
+  { href: "#testimonials", key: "nav.testimonials" },
+  { href: "#faq", key: "nav.faq" },
+] as const;
+
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const { locale } = params;
 
@@ -50,16 +62,49 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   // Make messages available to client components (e.g. the locale switcher).
   const messages = await getMessages();
+  const t = await getTranslations("common");
 
   return (
     <html lang={locale}>
-      <body className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}>
+      <body className={`${poppins.className} min-h-screen bg-background text-foreground antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <header className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-            <Link href="/" className="text-xl font-extrabold tracking-tight text-primary">
-              Bookedforreal
-            </Link>
-            <LocaleSwitcher />
+          <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
+            <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
+              <Link href="/" className="flex items-center gap-2 text-lg font-extrabold tracking-tight">
+                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-sm font-bold text-white">
+                  B
+                </span>
+                <span className="text-foreground">Bookedforreal</span>
+              </Link>
+
+              <nav className="hidden items-center gap-1 lg:flex">
+                {NAV_LINKS.map((link) => (
+                  <a
+                    key={link.key}
+                    href={link.href}
+                    className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {t(link.key)}
+                  </a>
+                ))}
+              </nav>
+
+              <div className="flex items-center gap-2">
+                <LocaleSwitcher />
+                <Link
+                  href="/login"
+                  className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-foreground transition-colors hover:text-primary sm:inline-flex"
+                >
+                  {t("nav.login")}
+                </Link>
+                <Link
+                  href="/register"
+                  className="rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-primary/20 transition-colors hover:bg-primary/90"
+                >
+                  {t("nav.startFree")}
+                </Link>
+              </div>
+            </div>
           </header>
           {children}
         </NextIntlClientProvider>

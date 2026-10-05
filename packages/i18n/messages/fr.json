@@ -1,17 +1,31 @@
 {
   "common": {
     "appName": "Bookedforreal",
-    "nav": { "home": "Accueil", "book": "Réserver", "salons": "Salons", "dashboard": "Tableau de bord", "login": "Connexion", "register": "Inscription", "blog": "Blog" },
+    "nav": { "home": "Accueil", "book": "Réserver", "salons": "Salons", "dashboard": "Tableau de bord", "login": "Connexion", "register": "Inscription", "blog": "Blog", "features": "Fonctionnalités", "pricing": "Tarifs", "testimonials": "Témoignages", "faq": "FAQ", "startFree": "Essai gratuit" },
     "actions": { "submit": "Envoyer", "cancel": "Annuler", "confirm": "Confirmer", "save": "Enregistrer", "delete": "Supprimer", "back": "Retour", "next": "Suivant", "close": "Fermer", "edit": "Modifier", "seeMore": "Voir plus" },
     "languages": { "fr": "Français", "en": "English" }
   },
   "home": {
     "hero": {
-      "badge": "Nouveau · Essai gratuit 14 jours",
-      "title": "Votre salon en ligne en 5 minutes.",
-      "subtitle": "Mini-site, réservation en ligne, rappels WhatsApp/SMS. À partir de 5 €/mois.",
+      "badge": "Logiciel de réservation pour coiffeurs & barbiers",
+      "title": "Remplissez votre agenda,",
+      "titleHighlight": "sans perdre de temps",
+      "subtitle": "Mini-site, réservation en ligne 24/7 et rappels WhatsApp/SMS. Vos clients réservent en 3 clics — vous gagnez du temps.",
       "cta": "Essai gratuit 14j",
-      "secondary": "Voir la démo"
+      "secondary": "Voir la démo",
+      "points": {
+        "1": "Réservation en ligne 24/7, même quand vous dormez",
+        "2": "Rappels automatiques WhatsApp & SMS anti no-show",
+        "3": "Mini-site personnalisé : services, tarifs et photos",
+        "4": "Sans engagement — annulez à tout moment"
+      },
+      "rating": "4,9/5 — plus de 500 salons nous font confiance",
+      "trust": {
+        "1": "Conforme RGPD",
+        "2": "Essai gratuit 14 jours",
+        "3": "Sans carte bancaire",
+        "4": "Support en français"
+      }
     },
     "problem": {
       "title": "Vos clients appellent, vous perdez du temps",
@@ -26,8 +40,26 @@
       }
     },
     "demo": { "title": "Voyez-le en action", "subtitle": "30 secondes pour comprendre." },
+    "stats": {
+      "items": {
+        "1": { "value": "500+", "label": "Salons actifs" },
+        "2": { "value": "120k+", "label": "Rendez-vous gérés" },
+        "3": { "value": "-40%", "label": "de no-shows" },
+        "4": { "value": "4,9/5", "label": "Note moyenne" }
+      }
+    },
+    "mockup": {
+      "services": {
+        "1": "Coupe & coiffage",
+        "2": "Brushing",
+        "3": "Coloration"
+      },
+      "next": "Prochain créneau",
+      "reminder": "Rappel WhatsApp"
+    },
     "features": {
       "title": "Tout ce qu'il faut pour remplir votre agenda",
+      "subtitle": "Tout est pensé pour vous faire gagner du temps, entre deux clients.",
       "items": {
         "1": { "title": "Mini-site personnalisé", "description": "Votre page avec services, tarifs, avis et bouton Réserver." },
         "2": { "title": "Réservation en ligne 24/7", "description": "Vos clients réservent en 3 clics, même quand vous dormez." },
@@ -43,7 +75,8 @@
       "save": "-20 %",
       "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "Pour démarrer", "features": { "1": "Mini-site", "2": "Réservation en ligne", "3": "30 RDV / mois", "4": "1 membre du personnel", "5": "Support email" } },
       "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "Pour les salons actifs", "features": { "1": "Tout Starter", "2": "300 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (100 crédits)", "5": "Domaine personnalisé" } },
-      "cta": "Essai gratuit 14j"
+      "cta": "Essai gratuit 14j",
+      "popular": "Populaire"
     },
     "testimonials": {
       "title": "Ils ont rempli leur agenda",
@@ -73,7 +106,11 @@
       "subtitle": "Rejoignez les salons qui gagnent du temps chaque jour.",
       "cta": "Essai gratuit 14j",
       "demoTitle": "Demander une démo",
-      "demoSubtitle": "On vous rappelle pour vous montrer Bookedforreal."
+      "demoSubtitle": "On vous rappelle pour vous montrer Bookedforreal.",
+      "demoCta": "Être rappelé",
+      "demoSent": "Merci ! On vous rappelle très vite.",
+      "name": "Nom",
+      "phone": "Téléphone"
     },
     "footer": {
       "tagline": "Le logiciel de réservation pour coiffeurs et barbiers.",

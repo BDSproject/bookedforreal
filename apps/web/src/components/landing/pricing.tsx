@@ -18,20 +18,36 @@ function PlanCard({ planKey, yearly, highlight }: PlanCardProps) {
   const price = yearly ? t(`${planKey}.priceYearly`) : t(`${planKey}.priceMonthly`);
 
   return (
-    <div className={`rounded-2xl border p-8 ${highlight ? "border-primary shadow-lg shadow-primary/10" : "border-border"}`}>
+    <div
+      className={`relative rounded-3xl border p-8 ${
+        highlight ? "border-primary bg-primary/5 shadow-xl shadow-primary/10" : "border-border bg-card"
+      }`}
+    >
+      {highlight ? (
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-bold text-white shadow-md">
+          {t("popular")}
+        </span>
+      ) : null}
+
       <h3 className="text-xl font-bold">{t(`${planKey}.name`)}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{t(`${planKey}.description`)}</p>
-      <div className="mt-4 flex items-baseline gap-1">
+
+      <div className="mt-5 flex items-baseline gap-1">
         <span className="text-5xl font-extrabold text-primary">{price} €</span>
         <span className="text-muted-foreground">/ {t("monthly").toLowerCase()}</span>
       </div>
-      <ul className="mt-6 space-y-2">
+
+      <ul className="mt-6 space-y-2.5">
         {FEATURES.map((feature) => (
-          <li key={feature} className="flex items-center gap-2 text-sm">
-            <span className="text-primary">✓</span> {t(`${planKey}.features.${feature}`)}
+          <li key={feature} className="flex items-center gap-2.5 text-sm">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary">
+              ✓
+            </span>
+            {t(`${planKey}.features.${feature}`)}
           </li>
         ))}
       </ul>
+
       <Button size="xl" className="mt-8 w-full" variant={highlight ? "default" : "outline"}>
         {t("cta")}
       </Button>
@@ -45,28 +61,34 @@ export function Pricing() {
   const [yearly, setYearly] = useState(false);
 
   return (
-    <section className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
-      <h2 className="text-center text-3xl font-extrabold tracking-tight">{t("title")}</h2>
-      <p className="mt-2 text-center text-muted-foreground">{t("subtitle")}</p>
+    <section id="pricing" className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
+      <h2 className="text-center text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
+        {t("title")}
+      </h2>
+      <p className="mt-3 text-center text-muted-foreground">{t("subtitle")}</p>
 
-      <div className="mt-8 flex items-center justify-center gap-3">
+      <div className="mt-8 flex items-center justify-center gap-2 rounded-full border bg-card p-1">
         <button
           type="button"
           onClick={() => setYearly(false)}
-          className={`rounded-full px-4 py-2 text-sm font-semibold ${!yearly ? "bg-primary text-white" : "text-muted-foreground"}`}
+          className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+            !yearly ? "bg-primary text-white" : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           {t("monthly")}
         </button>
         <button
           type="button"
           onClick={() => setYearly(true)}
-          className={`rounded-full px-4 py-2 text-sm font-semibold ${yearly ? "bg-primary text-white" : "text-muted-foreground"}`}
+          className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+            yearly ? "bg-primary text-white" : "text-muted-foreground hover:text-foreground"
+          }`}
         >
           {t("yearly")} <span className="text-xs opacity-80">{t("save")}</span>
         </button>
       </div>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
+      <div className="mt-12 grid gap-6 md:grid-cols-2">
         <PlanCard planKey="starter" yearly={yearly} highlight={false} />
         <PlanCard planKey="pro" yearly={yearly} highlight />
       </div>

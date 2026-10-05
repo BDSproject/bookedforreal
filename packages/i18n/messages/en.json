@@ -1,17 +1,31 @@
 {
   "common": {
     "appName": "Bookedforreal",
-    "nav": { "home": "Home", "book": "Book", "salons": "Salons", "dashboard": "Dashboard", "login": "Log in", "register": "Sign up", "blog": "Blog" },
+    "nav": { "home": "Home", "book": "Book", "salons": "Salons", "dashboard": "Dashboard", "login": "Log in", "register": "Sign up", "blog": "Blog", "features": "Features", "pricing": "Pricing", "testimonials": "Testimonials", "faq": "FAQ", "startFree": "Free trial" },
     "actions": { "submit": "Submit", "cancel": "Cancel", "confirm": "Confirm", "save": "Save", "delete": "Delete", "back": "Back", "next": "Next", "close": "Close", "edit": "Edit", "seeMore": "See more" },
     "languages": { "fr": "Français", "en": "English" }
   },
   "home": {
     "hero": {
-      "badge": "New · 14-day free trial",
-      "title": "Your salon online in 5 minutes.",
-      "subtitle": "Mini-site, online booking, WhatsApp/SMS reminders. From €5/month.",
+      "badge": "Booking software for hairdressers & barbers",
+      "title": "Fill your calendar,",
+      "titleHighlight": "without wasting time",
+      "subtitle": "Mini-site, 24/7 online booking and WhatsApp/SMS reminders. Clients book in 3 clicks — you save time.",
       "cta": "Start 14-day trial",
-      "secondary": "Watch the demo"
+      "secondary": "Watch the demo",
+      "points": {
+        "1": "24/7 online booking, even while you sleep",
+        "2": "Automatic WhatsApp & SMS reminders against no-shows",
+        "3": "Custom mini-site: services, prices and photos",
+        "4": "No commitment — cancel anytime"
+      },
+      "rating": "4.9/5 — trusted by 500+ salons",
+      "trust": {
+        "1": "GDPR compliant",
+        "2": "14-day free trial",
+        "3": "No credit card required",
+        "4": "French-speaking support"
+      }
     },
     "problem": {
       "title": "Your clients call, you lose time",
@@ -26,8 +40,26 @@
       }
     },
     "demo": { "title": "See it in action", "subtitle": "30 seconds to understand." },
+    "stats": {
+      "items": {
+        "1": { "value": "500+", "label": "Active salons" },
+        "2": { "value": "120k+", "label": "Bookings handled" },
+        "3": { "value": "-40%", "label": "fewer no-shows" },
+        "4": { "value": "4.9/5", "label": "Average rating" }
+      }
+    },
+    "mockup": {
+      "services": {
+        "1": "Cut & styling",
+        "2": "Blow-dry",
+        "3": "Coloring"
+      },
+      "next": "Next slot",
+      "reminder": "WhatsApp reminder"
+    },
     "features": {
       "title": "Everything you need to fill your calendar",
+      "subtitle": "Everything is designed to save you time between two clients.",
       "items": {
         "1": { "title": "Custom mini-site", "description": "Your page with services, prices, reviews and a Book button." },
         "2": { "title": "24/7 online booking", "description": "Clients book in 3 clicks, even while you sleep." },
@@ -43,7 +75,8 @@
       "save": "-20%",
       "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "To get started", "features": { "1": "Mini-site", "2": "Online booking", "3": "30 bookings / month", "4": "1 staff member", "5": "Email support" } },
       "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "For busy salons", "features": { "1": "Everything in Starter", "2": "300 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (100 credits)", "5": "Custom domain" } },
-      "cta": "Start 14-day trial"
+      "cta": "Start 14-day trial",
+      "popular": "Most popular"
     },
     "testimonials": {
       "title": "They filled their calendar",
@@ -73,7 +106,11 @@
       "subtitle": "Join the salons saving time every day.",
       "cta": "Start 14-day trial",
       "demoTitle": "Request a demo",
-      "demoSubtitle": "We'll call you back to show you Bookedforreal."
+      "demoSubtitle": "We'll call you back to show you Bookedforreal.",
+      "demoCta": "Get a call back",
+      "demoSent": "Thanks! We'll call you back soon.",
+      "name": "Name",
+      "phone": "Phone"
     },
     "footer": {
       "tagline": "Booking software for hairdressers and barbers.",
