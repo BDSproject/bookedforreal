@@ -5,6 +5,8 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Self-hosting (O2switch) produces a minimal standalone server.
+  output: "standalone",
   images: {
     // Serve AVIF/WebP with a fallback for older clients.
     formats: ["image/avif", "image/webp"],
