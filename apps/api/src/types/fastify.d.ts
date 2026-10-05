@@ -13,5 +13,7 @@ declare module "fastify" {
       id: string;
       slug: string;
     };
+    /** Raw request body (fastify-raw-body), used for Stripe webhook signatures. */
+    rawBody?: Buffer | string;
   }
 }

@@ -3,10 +3,12 @@ import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import Fastify, { type FastifyInstance } from "fastify";
+import rawBody from "fastify-raw-body";
 
 import { appointmentRoutes } from "./routes/appointments";
 import { authRoutes } from "./routes/auth";
 import { availabilityRoutes } from "./routes/availability";
+import { billingRoutes, webhookRoutes } from "./routes/billing";
 import { clientRoutes } from "./routes/clients";
 import { healthRoutes } from "./routes/health";
 import { publicRoutes } from "./routes/public";
@@ -33,6 +35,7 @@ export function buildApp(): FastifyInstance {
   void app.register(cors, { origin: allowedOrigins, credentials: true });
   void app.register(helmet);
   void app.register(cookie);
+  void app.register(rawBody);
   // Rate limiting is opt-in per route via `config.rateLimit` (auth endpoints).
   void app.register(rateLimit, { global: false });
 
@@ -46,6 +49,8 @@ export function buildApp(): FastifyInstance {
   void app.register(appointmentRoutes, { prefix: "/appointments" });
   void app.register(clientRoutes, { prefix: "/clients" });
   void app.register(statsRoutes, { prefix: "/stats" });
+  void app.register(billingRoutes, { prefix: "/billing" });
+  void app.register(webhookRoutes, { prefix: "/webhooks" });
 
   return app;
 }

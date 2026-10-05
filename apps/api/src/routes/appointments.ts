@@ -6,6 +6,7 @@ import { createManualAppointmentSchema, listAppointmentsQuerySchema, updateAppoi
 import { requireAuth } from "../middleware/auth";
 import { requireSalon } from "../middleware/salon";
 import { createAppointment } from "../services/appointments";
+import { isQuotaExceeded } from "../services/billing";
 
 export async function appointmentRoutes(app: FastifyInstance): Promise<void> {
   const guard = { preHandler: [requireAuth, requireSalon] };
@@ -52,6 +53,10 @@ export async function appointmentRoutes(app: FastifyInstance): Promise<void> {
     }
 
     const salonId = request.salon!.id;
+    if (await isQuotaExceeded(salonId)) {
+      return reply.code(403).send({ error: "Quota exceeded — upgrade your plan" });
+    }
+
     const service = await prisma.service.findFirst({ where: { id: parsed.data.serviceId, salonId, active: true } });
     if (!service) {
       return reply.code(400).send({ error: "Service not available" });

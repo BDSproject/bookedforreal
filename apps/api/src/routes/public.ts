@@ -4,6 +4,7 @@ import { AppointmentStatus, prisma } from "@bookedforreal/db";
 import { availabilityQuerySchema, createAppointmentSchema, listSalonsQuerySchema } from "@bookedforreal/types";
 
 import { createAppointment } from "../services/appointments";
+import { isQuotaExceeded } from "../services/billing";
 import { dayRangeUtc, generateSlots, weekdayOfDate, type Slot } from "../services/slots";
 
 /** Public fields exposed for a salon; never leaks ownerId/Stripe/trial data. */
@@ -154,6 +155,10 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
     const salon = await prisma.salon.findUnique({ where: { slug: request.params.slug } });
     if (!salon) {
       return reply.code(404).send({ error: "Salon not found" });
+    }
+
+    if (await isQuotaExceeded(salon.id)) {
+      return reply.code(403).send({ error: "Quota exceeded — upgrade your plan" });
     }
 
     const service = await prisma.service.findFirst({
