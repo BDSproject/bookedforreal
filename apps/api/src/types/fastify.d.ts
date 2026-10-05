@@ -8,5 +8,10 @@ declare module "fastify" {
       email: string;
       role: UserRole;
     };
+    /** Salon owned by the authenticated user, attached by `requireSalon`. */
+    salon?: {
+      id: string;
+      slug: string;
+    };
   }
 }

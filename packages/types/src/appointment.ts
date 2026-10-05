@@ -1,23 +1,50 @@
 import { z } from "zod";
 
-/** Customer identity used to find or create a Client within a salon. */
-export const createClientSchema = z.object({
+export const APPOINTMENT_STATUSES = ["PENDING", "CONFIRMED", "CANCELLED", "DONE", "NO_SHOW"] as const;
+export const APPOINTMENT_SOURCES = ["WEB", "MOBILE", "MANUAL"] as const;
+
+/** Public appointment creation: the client is found or created from name/phone/email. */
+export const createAppointmentSchema = z.object({
+  serviceId: z.string().min(1),
+  staffId: z.string().min(1),
   name: z.string().min(1).max(120),
   phone: z.string().max(30).optional(),
   email: z.string().email().max(254).optional(),
-  locale: z.string().max(5).optional(),
-  consentRgpd: z.boolean().default(false),
-});
-
-/** Validated payload for creating an appointment on behalf of a customer. */
-export const createAppointmentSchema = z.object({
-  staffId: z.string().min(1),
-  serviceId: z.string().min(1),
-  client: createClientSchema,
   startAt: z.string().datetime(),
   notes: z.string().max(2000).optional(),
-  source: z.enum(["WEB", "MOBILE", "MANUAL"]).default("WEB"),
+  source: z.enum(APPOINTMENT_SOURCES).default("WEB"),
 });
 
-export type CreateClientInput = z.infer<typeof createClientSchema>;
+/** Manual (back-office) appointment creation against an existing client. */
+export const createManualAppointmentSchema = z.object({
+  clientId: z.string().min(1),
+  staffId: z.string().min(1),
+  serviceId: z.string().min(1),
+  startAt: z.string().datetime(),
+  notes: z.string().max(2000).optional(),
+  source: z.enum(APPOINTMENT_SOURCES).default("MANUAL"),
+});
+
+/** Status transition for an appointment (confirm, cancel, complete, no-show). */
+export const updateAppointmentStatusSchema = z.object({
+  status: z.enum(APPOINTMENT_STATUSES),
+});
+
+/** Query filters for listing appointments. */
+export const listAppointmentsQuerySchema = z.object({
+  from: z.string().datetime().optional(),
+  to: z.string().datetime().optional(),
+  status: z.enum(APPOINTMENT_STATUSES).optional(),
+});
+
+/** Availability query params (date + optional service/staff filters). */
+export const availabilityQuerySchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  serviceId: z.string().min(1).optional(),
+  staffId: z.string().min(1).optional(),
+});
+
 export type CreateAppointmentInput = z.infer<typeof createAppointmentSchema>;
+export type CreateManualAppointmentInput = z.infer<typeof createManualAppointmentSchema>;
+export type UpdateAppointmentStatusInput = z.infer<typeof updateAppointmentStatusSchema>;
+export type AvailabilityQuery = z.infer<typeof availabilityQuerySchema>;

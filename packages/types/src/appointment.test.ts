@@ -1,17 +1,14 @@
 import { describe, expect, it } from "vitest";
 
-import { createAppointmentSchema } from "./appointment";
+import { availabilityQuerySchema, createAppointmentSchema, updateAppointmentStatusSchema } from "./appointment";
 
 const validPayload = {
   staffId: "staff_1",
   serviceId: "svc_1",
-  client: {
-    name: "Jane Doe",
-    email: "jane@example.com",
-    phone: "+33612345678",
-    consentRgpd: true,
-  },
-  startAt: "2025-01-01T10:00:00Z",
+  name: "Jane Doe",
+  phone: "+33612345678",
+  email: "jane@example.com",
+  startAt: "2026-01-05T09:00:00.000Z",
 };
 
 describe("createAppointmentSchema", () => {
@@ -20,16 +17,35 @@ describe("createAppointmentSchema", () => {
   });
 
   it("defaults the source to WEB", () => {
-    const result = createAppointmentSchema.parse(validPayload);
-    expect(result.source).toBe("WEB");
+    expect(createAppointmentSchema.parse(validPayload).source).toBe("WEB");
   });
 
-  it("rejects an invalid client email", () => {
-    const result = createAppointmentSchema.safeParse({
-      ...validPayload,
-      client: { ...validPayload.client, email: "not-an-email" },
-    });
-
+  it("rejects an invalid email", () => {
+    const result = createAppointmentSchema.safeParse({ ...validPayload, email: "not-an-email" });
     expect(result.success).toBe(false);
+  });
+
+  it("rejects a missing startAt", () => {
+    expect(createAppointmentSchema.safeParse({ ...validPayload, startAt: undefined }).success).toBe(false);
+  });
+});
+
+describe("updateAppointmentStatusSchema", () => {
+  it("accepts a valid status", () => {
+    expect(updateAppointmentStatusSchema.safeParse({ status: "CONFIRMED" }).success).toBe(true);
+  });
+
+  it("rejects an unknown status", () => {
+    expect(updateAppointmentStatusSchema.safeParse({ status: "BOGUS" }).success).toBe(false);
+  });
+});
+
+describe("availabilityQuerySchema", () => {
+  it("accepts a valid date", () => {
+    expect(availabilityQuerySchema.safeParse({ date: "2026-01-05" }).success).toBe(true);
+  });
+
+  it("rejects a malformed date", () => {
+    expect(availabilityQuerySchema.safeParse({ date: "05/01/2026" }).success).toBe(false);
   });
 });

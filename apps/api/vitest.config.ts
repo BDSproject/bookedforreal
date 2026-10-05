@@ -15,5 +15,9 @@ export default defineConfig({
       JWT_ACCESS_SECRET: "test-access-secret",
       JWT_REFRESH_SECRET: "test-refresh-secret",
     },
+    coverage: {
+      provider: "v8",
+      exclude: ["src/server.ts", "dist/**", "src/**/*.test.ts", "vitest.config.ts", "**/*.d.ts"],
+    },
   },
 });
