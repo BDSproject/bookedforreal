@@ -117,8 +117,9 @@ builds is near-instant.
 ## Architecture notes
 
 - **Multi-tenancy**: a `Salon` is the tenant boundary. Every tenant-scoped model
-  (`User`, `Stylist`, `Service`, `Booking`, `Schedule`) references `salonId`, and
-  public routes resolve the tenant by `slug` (e.g. `GET /salons/:slug`).
+  (`Staff`, `Service`, `Availability`, `Client`, `Appointment`, `Review`, `Page`,
+  `Subscription`) references `salonId`, and public routes resolve the tenant by
+  `slug` (e.g. `GET /salons/:slug`). `User` is platform-wide (auth/ownership).
 - **Shared packages**: `@bookedforreal/ui` (shadcn components), `@bookedforreal/i18n`
   (translations + locale list), `@bookedforreal/types` (Zod schemas) are compiled to
   `dist` and consumed by the apps. `@bookedforreal/config` is referenced by path and

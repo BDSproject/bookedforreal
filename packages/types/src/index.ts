@@ -1,2 +1,2 @@
-export * from "./booking";
+export * from "./appointment";
 export * from "./salon";

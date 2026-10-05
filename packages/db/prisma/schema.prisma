@@ -1,5 +1,4 @@
-// Bookedforreal — multi-tenant database schema.
-// A `Salon` is the tenant boundary: every tenant-scoped model references it.
+// Bookedforreal — PostgreSQL schema (multi-tenant by Salon).
 
 generator client {
   provider = "prisma-client-js"
@@ -10,146 +9,296 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+/// Account role. Note: `STAFF` here is a login role, distinct from the `Staff` model.
 enum UserRole {
   OWNER
+  STAFF
   ADMIN
-  STYLIST
 }
 
-enum BookingStatus {
+enum Plan {
+  STARTER
+  PRO
+}
+
+enum AppointmentStatus {
   PENDING
   CONFIRMED
   CANCELLED
-  COMPLETED
+  DONE
   NO_SHOW
 }
 
-/// A salon is the tenant: users, stylists, services and bookings belong to one salon.
-model Salon {
-  id          String   @id @default(cuid())
-  /// URL-friendly unique identifier used in public routes (e.g. /salons/<slug>).
-  slug        String   @unique
-  name        String
-  description String?
-  phone       String?
-  email       String?
-  address     String?
-  city        String?
-  postalCode  String?
-  country     String   @default("FR")
-  timezone    String   @default("Europe/Paris")
-  logoUrl     String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+enum AppointmentSource {
+  WEB
+  MOBILE
+  MANUAL
+}
 
-  users     User[]
-  stylists  Stylist[]
-  services  Service[]
-  bookings  Booking[]
-  schedules Schedule[]
+enum NotificationChannel {
+  EMAIL
+  SMS
+  WHATSAPP
+  PUSH
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  INCOMPLETE
+  UNPAID
+}
+
+// ---------------------------------------------------------------------------
+// Models
+// ---------------------------------------------------------------------------
+
+/// Authentication account. Platform-wide (not tenant-scoped): an OWNER owns a
+/// Salon; STAFF/ADMIN accounts can log in to manage.
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(STAFF)
+  locale       String   @default("fr")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  salon Salon?
+
+  @@map("users")
+}
+
+/// A salon is the tenant boundary: staff, services, clients and appointments
+/// belong to one salon.
+model Salon {
+  id               String    @id @default(cuid())
+  ownerId          String    @unique
+  slug             String    @unique
+  name             String
+  address          String?
+  city             String?
+  postalCode       String?
+  country          String    @default("FR")
+  phone            String?
+  email            String?
+  logoUrl          String?
+  primaryColor     String    @default("#7C3AED")
+  description      String?
+  timezone         String    @default("Europe/Paris")
+  plan             Plan      @default(STARTER)
+  /// Stripe customer id (stable, one per salon).
+  stripeCustomerId String?   @unique
+  /// Denormalized id of the active Stripe subscription (see Subscription).
+  stripeSubId      String?
+  trialEndsAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  owner          User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  staff          Staff[]
+  services       Service[]
+  availabilities Availability[]
+  clients        Client[]
+  appointments   Appointment[]
+  subscription   Subscription?
+  reviews        Review[]
+  pages          Page[]
 
   @@map("salons")
 }
 
-/// A staff member account scoped to a salon.
-model User {
-  id        String   @id @default(cuid())
-  salonId   String
-  email     String   @unique
-  name      String?
-  role      UserRole @default(STYLIST)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+/// A salon employee (barber/hairdresser) who can be booked. Not a login account.
+model Staff {
+  id       String  @id @default(cuid())
+  salonId  String
+  name     String
+  photoUrl String?
+  active   Boolean @default(true)
+  /// Display order within the salon's staff list.
+  order    Int     @default(0)
 
-  salon Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
-
-  @@index([salonId])
-  @@map("users")
-}
-
-/// A barber or hairdresser who can deliver services.
-model Stylist {
-  id        String   @id @default(cuid())
-  salonId   String
-  name      String
-  bio       String?
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  salon     Salon      @relation(fields: [salonId], references: [id], onDelete: Cascade)
-  services  Service[]
-  bookings  Booking[]
-  schedules Schedule[]
+  salon          Salon          @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  availabilities Availability[]
+  appointments   Appointment[]
 
   @@index([salonId])
-  @@map("stylists")
+  @@map("staff")
 }
 
 /// A bookable service (e.g. "Haircut", "Beard trim").
 model Service {
-  id              String   @id @default(cuid())
-  salonId         String
-  name            String
-  description     String?
-  /// Duration in minutes used to compute the booking end time.
-  durationMinutes Int
+  id          String  @id @default(cuid())
+  salonId     String
+  nameFr      String
+  nameEn      String
+  /// Duration in minutes used to compute the appointment end time.
+  durationMin Int
   /// Price in cents (avoids floating-point rounding).
-  priceCents      Int      @default(0)
-  isActive        Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  priceCents  Int     @default(0)
+  /// Buffer minutes added after the service before the next slot.
+  bufferMin   Int     @default(0)
+  active      Boolean @default(true)
 
-  salon    Salon     @relation(fields: [salonId], references: [id], onDelete: Cascade)
-  stylists Stylist[]
-  bookings Booking[]
+  salon        Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
 
   @@index([salonId])
   @@map("services")
 }
 
-/// A customer booking for a specific service (and optionally stylist).
-model Booking {
-  id            String        @id @default(cuid())
-  salonId       String
-  stylistId     String?
-  serviceId     String
-  customerName  String
-  customerEmail String
-  customerPhone String?
-  startsAt      DateTime
-  endsAt        DateTime
-  status        BookingStatus @default(PENDING)
-  notes         String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+/// Recurring weekly availability for a staff member.
+model Availability {
+  id         String  @id @default(cuid())
+  salonId    String
+  staffId    String
+  /// 0 = Sunday … 6 = Saturday.
+  weekday    Int     @db.SmallInt
+  /// "HH:mm" 24-hour format.
+  startTime  String
+  /// "HH:mm" 24-hour format.
+  endTime    String
+  /// Optional break window start, "HH:mm".
+  breakStart String?
+  /// Optional break window end, "HH:mm".
+  breakEnd   String?
 
-  salon   Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
-  stylist Stylist? @relation(fields: [stylistId], references: [id], onDelete: SetNull)
-  service Service  @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  salon Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  staff Staff @relation(fields: [staffId], references: [id], onDelete: Cascade)
 
-  @@index([salonId, startsAt])
-  @@index([stylistId])
-  @@map("bookings")
+  @@index([salonId, staffId, weekday])
+  @@map("availabilities")
 }
 
-/// Recurring weekly opening hours for a stylist (0 = Sunday … 6 = Saturday).
-model Schedule {
+/// An end customer, scoped to a salon.
+model Client {
+  id          String   @id @default(cuid())
+  salonId     String
+  phone       String?
+  email       String?
+  name        String
+  locale      String   @default("fr")
+  consentRgpd Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  salon        Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+  reviews      Review[]
+
+  @@index([salonId, phone])
+  @@index([salonId, email])
+  @@map("clients")
+}
+
+/// A booked appointment for a staff member and service.
+model Appointment {
+  id        String            @id @default(cuid())
+  salonId   String
+  staffId   String
+  serviceId String
+  clientId  String
+  startAt   DateTime
+  endAt     DateTime
+  status    AppointmentStatus @default(PENDING)
+  source    AppointmentSource @default(WEB)
+  notes     String?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  salon         Salon          @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  staff         Staff          @relation(fields: [staffId], references: [id], onDelete: Restrict)
+  service       Service        @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  client        Client         @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  notifications Notification[]
+
+  @@index([salonId, startAt])
+  @@index([staffId, startAt])
+  @@index([clientId])
+  @@map("appointments")
+}
+
+/// A notification sent (or to be sent) for an appointment.
+model Notification {
+  id            String              @id @default(cuid())
+  appointmentId String
+  channel       NotificationChannel
+  status        NotificationStatus  @default(PENDING)
+  sentAt        DateTime?
+  error         String?
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+
+  @@index([appointmentId])
+  @@map("notifications")
+}
+
+/// The canonical Stripe subscription record for a salon (one per salon).
+model Subscription {
+  id               String             @id @default(cuid())
+  salonId          String             @unique
+  plan             Plan
+  status           SubscriptionStatus @default(TRIALING)
+  currentPeriodEnd DateTime?
+  stripeSubId      String?            @unique
+
+  salon Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+/// A customer review for a salon.
+model Review {
   id        String   @id @default(cuid())
   salonId   String
-  stylistId String
-  dayOfWeek Int
-  /// "HH:mm" 24-hour format.
-  opensAt   String
-  /// "HH:mm" 24-hour format.
-  closesAt  String
+  clientId  String
+  /// 1–5 stars.
+  rating    Int      @db.SmallInt
+  comment   String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  salon   Salon   @relation(fields: [salonId], references: [id], onDelete: Cascade)
-  stylist Stylist @relation(fields: [stylistId], references: [id], onDelete: Cascade)
+  salon  Salon  @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
-  @@index([salonId, stylistId])
-  @@map("schedules")
+  @@index([salonId])
+  @@index([clientId])
+  @@map("reviews")
+}
+
+/// A localized CMS page for a salon.
+model Page {
+  id          String  @id @default(cuid())
+  salonId     String
+  locale      String  @default("fr")
+  title       String
+  description String?
+  contentJson Json    @default("{}") @db.JsonB
+
+  salon Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
+
+  @@unique([salonId, locale])
+  @@map("pages")
+}
+
+/// Static UI translation keyed by a stable `key` (fr is the source locale).
+model Translation {
+  id  String  @id @default(cuid())
+  key String  @unique
+  fr  String
+  /// Optional until the key is translated to English.
+  en  String?
+
+  @@map("translations")
 }
