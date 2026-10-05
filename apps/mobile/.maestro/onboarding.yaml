@@ -1,0 +1,17 @@
+# Maestro critical-path flow: onboarding → search → salon → book.
+# Run with: cd apps/mobile && maestro test .maestro/onboarding.yaml
+appId: com.bookedforreal.app
+---
+- launchApp
+- assertVisible: "Réservez en 3 clics"
+- tapOn: "Suivant"
+- tapOn: "Suivant"
+- tapOn: "Commencer"
+- assertVisible: "Trouver un salon"
+- tapOn: "Rechercher par ville"
+- inputText: "Paris"
+- assertVisible: "Barber Shop Marais"
+- tapOn: "Barber Shop Marais"
+- assertVisible: "Réserver"
+- tapOn: "Réserver"
+- assertVisible: "Réserver un rendez-vous"

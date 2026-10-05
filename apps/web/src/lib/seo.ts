@@ -9,7 +9,7 @@ export function siteUrl(): string {
 }
 
 /** Builds hreflang + x-default + canonical `alternates` for a page. */
-export function hreflangAlternates(locale: AppLocale, pathname = ""): Metadata["alternates"] {
+export function hreflangAlternates(locale: AppLocale, pathname = ""): NonNullable<Metadata["alternates"]> {
   const base = (l: string): string => `/${l}${pathname ? `/${pathname}` : ""}`;
 
   const languages: Record<string, string> = {};

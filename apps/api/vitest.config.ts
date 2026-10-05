@@ -1,7 +1,7 @@
 import { defineConfig } from "vitest/config";
 
 /**
- * Test environment defaults. The auth integration tests require a running
+ * Test environment defaults. The auth/booking integration tests require a running
  * PostgreSQL (see `pnpm db:up`); the connection string defaults to the local
  * Docker container published on port 5433.
  */
@@ -18,6 +18,13 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       exclude: ["src/server.ts", "dist/**", "src/**/*.test.ts", "vitest.config.ts", "**/*.d.ts"],
+      // Coverage minimum for the API (business logic + routes).
+      thresholds: {
+        lines: 80,
+        statements: 80,
+        functions: 80,
+        branches: 70,
+      },
     },
   },
 });
