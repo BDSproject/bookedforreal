@@ -5,6 +5,7 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./*"],
       "@bookedforreal/*": ["../../packages/*"]
     }
   },

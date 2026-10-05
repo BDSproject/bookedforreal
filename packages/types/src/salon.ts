@@ -6,3 +6,11 @@ export const salonSlugSchema = z.object({
 });
 
 export type SalonSlug = z.infer<typeof salonSlugSchema>;
+
+/** Query filters for listing/searching salons. */
+export const listSalonsQuerySchema = z.object({
+  city: z.string().max(100).optional(),
+  type: z.enum(["HAIR_SALON", "BARBER_SHOP"]).optional(),
+});
+
+export type ListSalonsQuery = z.infer<typeof listSalonsQuerySchema>;

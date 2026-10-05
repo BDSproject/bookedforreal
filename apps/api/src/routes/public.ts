@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 
 import { AppointmentStatus, prisma } from "@bookedforreal/db";
-import { availabilityQuerySchema, createAppointmentSchema } from "@bookedforreal/types";
+import { availabilityQuerySchema, createAppointmentSchema, listSalonsQuerySchema } from "@bookedforreal/types";
 
 import { createAppointment } from "../services/appointments";
 import { dayRangeUtc, generateSlots, weekdayOfDate, type Slot } from "../services/slots";
@@ -27,6 +27,36 @@ const publicSalonSelect = {
 } as const;
 
 export async function publicRoutes(app: FastifyInstance): Promise<void> {
+  // GET /public/salons — list/search salons (optional city + type filter).
+  app.get("/salons", async (request, reply) => {
+    const query = listSalonsQuerySchema.safeParse(request.query);
+
+    if (!query.success) {
+      return reply.code(400).send({ error: "Invalid query", details: query.error.issues });
+    }
+
+    const salons = await prisma.salon.findMany({
+      where: {
+        ...(query.data.city ? { city: { equals: query.data.city, mode: "insensitive" } } : {}),
+        ...(query.data.type ? { type: query.data.type } : {}),
+      },
+      select: {
+        id: true,
+        slug: true,
+        name: true,
+        type: true,
+        city: true,
+        district: true,
+        description: true,
+        logoUrl: true,
+        primaryColor: true,
+      },
+      orderBy: { name: "asc" },
+    });
+
+    return salons;
+  });
+
   // GET /public/salons/:slug — salon info + services + staff + weekly hours.
   app.get<{ Params: { slug: string } }>("/salons/:slug", async (request, reply) => {
     const salon = await prisma.salon.findUnique({
