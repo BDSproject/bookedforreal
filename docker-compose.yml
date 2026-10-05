@@ -8,7 +8,8 @@ services:
       POSTGRES_PASSWORD: bookedforreal
       POSTGRES_DB: bookedforreal
     ports:
-      - "5432:5432"
+      # Host port 5433 avoids clashing with a locally-installed PostgreSQL on 5432.
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

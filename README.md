@@ -56,7 +56,7 @@ export PATH="$PWD/.tools/node_modules/.bin:$PATH"
    pnpm install
    ```
 
-2. **Start PostgreSQL** (matches `docker-compose.yml` defaults)
+2. **Start PostgreSQL** (published on host port `5433` to avoid clashing with a local install)
 
    ```bash
    pnpm db:up
@@ -70,11 +70,12 @@ export PATH="$PWD/.tools/node_modules/.bin:$PATH"
    cp .env.example apps/web/.env.local
    ```
 
-4. **Generate the Prisma client and run the first migration**
+4. **Generate the Prisma client, run the first migration and seed demo data**
 
    ```bash
    pnpm db:generate
-   pnpm db:migrate -- --name init
+   pnpm db:migrate        # prompts for a migration name (e.g. "init")
+   pnpm db:seed
    ```
 
 5. **Build once** (compiles shared packages before starting the dev servers)
@@ -100,12 +101,14 @@ export PATH="$PWD/.tools/node_modules/.bin:$PATH"
 | `pnpm dev`           | Run `dev` tasks (apps + package watchers)                    |
 | `pnpm build`         | Build packages first (`^build`), then apps — turbo-cached    |
 | `pnpm typecheck`     | Typecheck every package/app — turbo-cached                   |
+| `pnpm test`          | Run tests (Vitest) — turbo-cached                            |
 | `pnpm lint`          | Lint every package/app — turbo-cached                        |
 | `pnpm clean`         | Remove build outputs (`dist`, `.next`, …)                    |
 | `pnpm format`        | Format the codebase with Prettier                            |
 | `pnpm db:up` / `db:down` | Start / stop the local PostgreSQL                        |
 | `pnpm db:generate`   | Generate the Prisma client                                   |
 | `pnpm db:migrate`    | Run a Prisma migration                                       |
+| `pnpm db:seed`       | Seed the database with a demo salon                          |
 | `pnpm db:studio`     | Open Prisma Studio                                           |
 
 Turborepo caches task outputs in `node_modules/.cache/turbo`; re-running unchanged
@@ -120,6 +123,8 @@ builds is near-instant.
   (translations + locale list), `@bookedforreal/types` (Zod schemas) are compiled to
   `dist` and consumed by the apps. `@bookedforreal/config` is referenced by path and
   holds the tsconfig/Tailwind/ESLint/Prettier presets.
+- **Package alias**: every app's `tsconfig.json` maps the `@bookedforreal/*` scope to
+  `packages/*` via `paths`, so imports resolve consistently across web, api and mobile.
 - **i18n routing**: `localePrefix: "as-needed"` keeps the default locale (`fr`)
   prefix-free for clean URLs; `en` is served under `/en`.
 - **SEO**: `generateMetadata` is translated per locale, `sitemap.ts` and `robots.ts`

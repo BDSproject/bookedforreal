@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "sourceMap": true
+    "sourceMap": true,
+    "paths": {
+      "@bookedforreal/*": ["../../packages/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

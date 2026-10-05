@@ -2,7 +2,11 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@bookedforreal/*": ["../../packages/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx", "expo-env.d.ts"]
 }
