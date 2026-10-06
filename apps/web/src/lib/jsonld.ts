@@ -81,6 +81,19 @@ export function salonJsonLd(salon: SalonSeo, url: string): JsonLd {
     priceRange: "€€",
     ...(makesOffer.length > 0 ? { makesOffer } : {}),
     ...(salon.reviews.length > 0 ? { aggregateRating: aggregateRating(salon.reviews) } : {}),
+    // Exposes the booking action so search/agents know where a reservation happens.
+    potentialAction: {
+      "@type": "ReserveAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${url}/book`,
+        actionPlatform: [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform",
+        ],
+      },
+      result: { "@type": "Reservation", name: salon.name },
+    },
   });
 }
 

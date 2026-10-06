@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -59,6 +60,7 @@ export default async function SalonPage({ params }: SalonPageProps) {
   }
 
   const t = await getTranslations({ locale, namespace: "booking" });
+  const tc = await getTranslations({ locale, namespace: "common" });
   const url = `${siteUrl()}/${locale}/s/${salon.slug}`;
   const categorySlug = salon.type === "BARBER_SHOP" ? "barber" : "coiffeur";
 
@@ -82,23 +84,31 @@ export default async function SalonPage({ params }: SalonPageProps) {
         </p>
       ) : null}
 
-      <h2 className="mt-10 text-xl font-semibold">{t("service.label")}</h2>
-      <ul className="mt-4 space-y-3">
-        {salon.services.map((service) => (
-          <li key={service.id} className="flex items-center justify-between rounded-xl border p-4">
-            <span className="font-medium">{locale === "fr" ? service.nameFr : service.nameEn}</span>
-            <span className="text-sm text-muted-foreground">
-              {service.durationMin} min · {(service.priceCents / 100).toFixed(2)} €
-            </span>
-          </li>
-        ))}
-      </ul>
+      <section className="mt-10" aria-labelledby="services-heading">
+        <h2 id="services-heading" className="text-xl font-semibold">
+          {t("service.label")}
+        </h2>
+        <ul className="mt-4 space-y-3">
+          {salon.services.map((service) => (
+            <li key={service.id} className="flex items-center justify-between rounded-xl border p-4">
+              <span className="font-medium">{locale === "fr" ? service.nameFr : service.nameEn}</span>
+              <span className="text-sm text-muted-foreground">
+                {service.durationMin} min · {(service.priceCents / 100).toFixed(2)} €
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <h2 className="mt-10 text-xl font-semibold">{t("staff.label")}</h2>
-      <p className="mt-2 text-muted-foreground">{salon.staff.map((s) => s.name).join(", ")}</p>
+      <section className="mt-10" aria-labelledby="staff-heading">
+        <h2 id="staff-heading" className="text-xl font-semibold">
+          {t("staff.label")}
+        </h2>
+        <p className="mt-2 text-muted-foreground">{salon.staff.map((s) => s.name).join(", ")}</p>
+      </section>
 
-      <Button size="xl" className="mt-10 px-12">
-        {t("confirm")}
+      <Button asChild size="xl" className="mt-10 rounded-full px-10">
+        <Link href={`/${locale}/s/${salon.slug}/book`}>{tc("nav.book")}</Link>
       </Button>
     </main>
   );

@@ -78,19 +78,24 @@ export default function BookPage() {
       {step === "service" ? (
         <div className="mt-6 space-y-3">
           {salon?.services?.map((item) => (
-            <Card key={item.id} className="cursor-pointer">
-              <CardContent
-                onClick={() => {
-                  setService(item);
-                  setStep("datetime");
-                }}
-                className="flex items-center justify-between"
-              >
-                <div>
-                  <p className="font-semibold">{item.nameFr}</p>
-                  <p className="text-sm text-muted-foreground">{item.durationMin} min</p>
-                </div>
-                <p className="font-semibold text-primary">{(item.priceCents / 100).toFixed(2)} €</p>
+            <Card key={item.id} className="transition-colors hover:border-primary">
+              <CardContent className="p-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setService(item);
+                    setStep("datetime");
+                  }}
+                  className="flex w-full items-center justify-between gap-4 p-6 text-left"
+                >
+                  <span>
+                    <span className="block font-semibold">{item.nameFr}</span>
+                    <span className="block text-sm text-muted-foreground">{item.durationMin} min</span>
+                  </span>
+                  <span className="font-semibold text-primary">
+                    {(item.priceCents / 100).toFixed(2)} €
+                  </span>
+                </button>
               </CardContent>
             </Card>
           ))}
@@ -100,8 +105,9 @@ export default function BookPage() {
       {step === "datetime" ? (
         <div className="mt-6 space-y-4">
           <div className="space-y-2">
-            <Label>{t("date")}</Label>
+            <Label htmlFor="booking-date">{t("date")}</Label>
             <Input
+              id="booking-date"
               type="date"
               value={date}
               onChange={(e) => {
@@ -110,43 +116,59 @@ export default function BookPage() {
               }}
             />
           </div>
-          <div className="flex flex-wrap gap-2">
-            {slots.map((item) => (
-              <button
-                key={item.startAt}
-                type="button"
-                onClick={() => {
-                  setSlot(item);
-                  setStep("contact");
-                }}
-                className={`rounded-lg px-4 py-2 text-sm ${slot?.startAt === item.startAt ? "bg-primary text-white" : "border"}`}
-              >
-                {item.time}
-              </button>
-            ))}
-          </div>
+          <fieldset className="space-y-2">
+            <legend className="text-sm font-medium">{t("time")}</legend>
+            <div className="flex flex-wrap gap-2">
+              {slots.map((item) => (
+                <button
+                  key={item.startAt}
+                  type="button"
+                  aria-pressed={slot?.startAt === item.startAt}
+                  onClick={() => {
+                    setSlot(item);
+                    setStep("contact");
+                  }}
+                  className={`rounded-lg px-4 py-2 text-sm ${
+                    slot?.startAt === item.startAt ? "bg-primary text-white" : "border"
+                  }`}
+                >
+                  {item.time}
+                </button>
+              ))}
+            </div>
+          </fieldset>
         </div>
       ) : null}
 
       {step === "contact" ? (
-        <div className="mt-6 space-y-4">
+        <form
+          className="mt-6 space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void confirm();
+          }}
+        >
           <div className="space-y-2">
-            <Label>{t("contact.name")}</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
+            <Label htmlFor="booking-name">{t("contact.name")}</Label>
+            <Input id="booking-name" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} required />
           </div>
           <div className="space-y-2">
-            <Label>{t("contact.phone")}</Label>
-            <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <Label htmlFor="booking-phone">{t("contact.phone")}</Label>
+            <Input id="booking-phone" type="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label>{t("contact.email")}</Label>
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Label htmlFor="booking-email">{t("contact.email")}</Label>
+            <Input id="booking-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
-          {error ? <p className="text-sm text-destructive">{te("slotTaken")}</p> : null}
-          <Button size="xl" className="w-full" onClick={confirm} disabled={!name}>
+          {error ? (
+            <p className="text-sm text-destructive" role="alert">
+              {te("slotTaken")}
+            </p>
+          ) : null}
+          <Button type="submit" size="xl" className="w-full" disabled={!name}>
             {t("confirm")}
           </Button>
-        </div>
+        </form>
       ) : null}
     </main>
   );
