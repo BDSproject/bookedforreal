@@ -1,9 +1,37 @@
 {
   "common": {
     "appName": "Bookedforreal",
-    "nav": { "home": "Home", "book": "Book", "salons": "Salons", "dashboard": "Dashboard", "login": "Log in", "register": "Sign up", "blog": "Blog", "features": "The product", "pricing": "Pricing", "testimonials": "Reviews", "faq": "Your questions", "startFree": "Create my salon", "menu": "Menu" },
-    "actions": { "submit": "Submit", "cancel": "Cancel", "confirm": "Confirm", "save": "Save", "delete": "Delete", "back": "Back", "next": "Next", "close": "Close", "edit": "Edit", "seeMore": "See more" },
-    "languages": { "fr": "Français", "en": "English" }
+    "nav": {
+      "home": "Home",
+      "book": "Book",
+      "salons": "Salons",
+      "dashboard": "Dashboard",
+      "login": "Log in",
+      "register": "Sign up",
+      "blog": "Blog",
+      "features": "The product",
+      "pricing": "Pricing",
+      "testimonials": "Reviews",
+      "faq": "Your questions",
+      "startFree": "Create my salon",
+      "menu": "Menu"
+    },
+    "actions": {
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "save": "Save",
+      "delete": "Delete",
+      "back": "Back",
+      "next": "Next",
+      "close": "Close",
+      "edit": "Edit",
+      "seeMore": "See more"
+    },
+    "languages": {
+      "fr": "Français",
+      "en": "English"
+    }
   },
   "home": {
     "hero": {
@@ -36,20 +64,44 @@
     "solution": {
       "title": "Three small things, and you're set",
       "steps": {
-        "1": { "title": "You build your page", "description": "Your services, your hours, your prices: done in the time it takes to drink a coffee" },
-        "2": { "title": "You share the link", "description": "On Instagram, on Google, or by text to your regulars: once, and it's done" },
-        "3": { "title": "You get back to cutting", "description": "Bookings drop into your calendar, all you have to do is look at your day" }
+        "1": {
+          "title": "You build your page",
+          "description": "Your services, your hours, your prices: done in the time it takes to drink a coffee"
+        },
+        "2": {
+          "title": "You share the link",
+          "description": "On Instagram, on Google, or by text to your regulars: once, and it's done"
+        },
+        "3": {
+          "title": "You get back to cutting",
+          "description": "Bookings drop into your calendar, all you have to do is look at your day"
+        }
       }
     },
-    "demo": { "title": "See it in action", "subtitle": "One haircut's worth of time and you'll get it" },
+    "demo": {
+      "title": "See it in action",
+      "subtitle": "One haircut's worth of time and you'll get it"
+    },
     "features": {
       "title": "What's in the box",
       "subtitle": "No endless menu: just what actually helps you, every single day",
       "items": {
-        "1": { "title": "Your mini-site", "description": "Your page with your services, prices and photos: ready in 5 minutes, no developer needed" },
-        "2": { "title": "Online booking", "description": "Clients pick a slot whenever it suits them, even at 11pm, even on a Sunday" },
-        "3": { "title": "Automatic reminders", "description": "A quick WhatsApp or SMS the day before: that's what brings clients back" },
-        "4": { "title": "The mobile app", "description": "Your calendar in your pocket, see your whole day at a glance, wherever you are" }
+        "1": {
+          "title": "Your mini-site",
+          "description": "Your page with your services, prices and photos: ready in 5 minutes, no developer needed"
+        },
+        "2": {
+          "title": "Online booking",
+          "description": "Clients pick a slot whenever it suits them, even at 11pm, even on a Sunday"
+        },
+        "3": {
+          "title": "Automatic reminders",
+          "description": "A quick WhatsApp or SMS the day before: that's what brings clients back"
+        },
+        "4": {
+          "title": "The mobile app",
+          "description": "Your calendar in your pocket, see your whole day at a glance, wherever you are"
+        }
       }
     },
     "pricing": {
@@ -59,12 +111,59 @@
       "yearly": "Yearly",
       "save": "-20%",
       "popular": "Most chosen",
-      "vatNote": "Prices exclude VAT (20% added at checkout). No commitment, cancel anytime",
-      "starter": { "name": "Starter", "priceMonthly": "19", "priceYearly": "15", "pricePublicMonthly": "29", "pricePublicYearly": "23", "description": "For solo professionals", "features": { "1": "Custom mini-site", "2": "24/7 online booking", "3": "80 bookings / month", "4": "1 staff member", "5": "Email reminders", "6": "No commitment, cancel anytime" } },
-      "pro": { "name": "Pro", "priceMonthly": "39", "priceYearly": "31", "pricePublicMonthly": "59", "pricePublicYearly": "47", "description": "For salons with a team", "features": { "1": "Everything in Starter", "2": "400 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (50 credits)", "5": "Custom domain + mobile app", "6": "No commitment, cancel anytime" } },
+      "vatNote": "Prices exclude VAT (20% added at checkout), no commitment, cancel anytime",
+      "usage": {
+        "badge": "No subscription",
+        "name": "Pay as you go",
+        "description": "To try without a subscription",
+        "price": "0",
+        "perMonth": "/ month",
+        "priceNote": "then 0,50 € per booking made online",
+        "features": {
+          "1": "Custom mini-site",
+          "2": "24/7 online booking",
+          "3": "No fixed subscription",
+          "4": "0,50 € per online booking",
+          "5": "Email reminders",
+          "6": "No commitment, cancel anytime"
+        },
+        "cta": "Create my account"
+      },
+      "solo": {
+        "name": "Solo",
+        "priceMonthly": "19",
+        "priceYearly": "15",
+        "pricePublicMonthly": "29",
+        "pricePublicYearly": "23",
+        "description": "For solo professionals",
+        "features": {
+          "1": "Custom mini-site",
+          "2": "24/7 online booking",
+          "3": "80 bookings / month",
+          "4": "1 staff member",
+          "5": "Email reminders",
+          "6": "No commitment, cancel anytime"
+        }
+      },
+      "salon": {
+        "name": "Salon",
+        "priceMonthly": "39",
+        "priceYearly": "31",
+        "pricePublicMonthly": "59",
+        "pricePublicYearly": "47",
+        "description": "For salons with a team",
+        "features": {
+          "1": "Everything in Solo",
+          "2": "400 bookings / month",
+          "3": "5 staff members",
+          "4": "WhatsApp/SMS reminders (50 credits)",
+          "5": "Custom domain + mobile app",
+          "6": "No commitment, cancel anytime"
+        }
+      },
       "custom": {
         "badge": "Premium",
-        "name": "Multi-shop",
+        "name": "Group",
         "description": "For groups, franchises and premium needs",
         "price": "Custom",
         "priceNote": "Pricing tailored to your organization",
@@ -83,24 +182,63 @@
     "testimonials": {
       "title": "What salons say",
       "items": {
-        "1": { "quote": "I don't answer the phone during haircuts anymore: that alone changes your day", "author": "Alex, barber in Paris" },
-        "2": { "quote": "Reminders cut my no-shows in half: for that alone, it's worth it", "author": "Camille, hairdresser in Lyon" },
-        "3": { "quote": "My clients find it easier than calling, and honestly, so do I", "author": "Karim, barber in Marseille" }
+        "1": {
+          "quote": "I don't answer the phone during haircuts anymore: that alone changes your day",
+          "author": "Alex, barber in Paris"
+        },
+        "2": {
+          "quote": "Reminders cut my no-shows in half: for that alone, it's worth it",
+          "author": "Camille, hairdresser in Lyon"
+        },
+        "3": {
+          "quote": "My clients find it easier than calling, and honestly, so do I",
+          "author": "Karim, barber in Marseille"
+        }
       }
     },
     "faq": {
       "title": "Your questions",
       "questions": {
-        "1": { "q": "What is Bookedforreal?", "a": "It's an online booking software for hairdressers and barbers: mini-site, calendar and automatic reminders" },
-        "2": { "q": "How much does it cost?", "a": "The Starter plan is €19/month ex VAT and Pro €39/month ex VAT (founding rate for the first 50 salons). Yearly billing saves 20%" },
-        "3": { "q": "Is there a free trial?", "a": "Yes, 7 days free on every plan, no credit card required: you can stop before the end" },
-        "4": { "q": "How do clients book?", "a": "They pick a service, a date and a time on your mini-site, in 3 clicks" },
-        "5": { "q": "Can I customize my mini-site?", "a": "Yes: name, photos, services, prices, hours and colors" },
-        "6": { "q": "Are SMS/WhatsApp reminders included?", "a": "They're included in the Pro plan (50 credits/month), Starter includes email reminders" },
-        "7": { "q": "Can I cancel anytime?", "a": "Yes, no commitment: cancel anytime, even during the trial, and you keep your data" },
-        "8": { "q": "Is there a mobile app?", "a": "Yes, available on iOS and Android to manage your calendar" },
-        "9": { "q": "Is my client data protected?", "a": "Yes, GDPR compliant, with explicit client consent" },
-        "10": { "q": "How do I get started?", "a": "Sign up, create your salon in 5 minutes and share your link" }
+        "1": {
+          "q": "What is Bookedforreal?",
+          "a": "It's an online booking software for hairdressers and barbers: mini-site, calendar and automatic reminders"
+        },
+        "2": {
+          "q": "How much does it cost?",
+          "a": "The Starter plan is €19/month ex VAT and Pro €39/month ex VAT (founding rate for the first 50 salons). Yearly billing saves 20%"
+        },
+        "3": {
+          "q": "Is there a free trial?",
+          "a": "Yes, 7 days free on every plan, no credit card required: you can stop before the end"
+        },
+        "4": {
+          "q": "How do clients book?",
+          "a": "They pick a service, a date and a time on your mini-site, in 3 clicks"
+        },
+        "5": {
+          "q": "Can I customize my mini-site?",
+          "a": "Yes: name, photos, services, prices, hours and colors"
+        },
+        "6": {
+          "q": "Are SMS/WhatsApp reminders included?",
+          "a": "They're included in the Pro plan (50 credits/month), Starter includes email reminders"
+        },
+        "7": {
+          "q": "Can I cancel anytime?",
+          "a": "Yes, no commitment: cancel anytime, even during the trial, and you keep your data"
+        },
+        "8": {
+          "q": "Is there a mobile app?",
+          "a": "Yes, available on iOS and Android to manage your calendar"
+        },
+        "9": {
+          "q": "Is my client data protected?",
+          "a": "Yes, GDPR compliant, with explicit client consent"
+        },
+        "10": {
+          "q": "How do I get started?",
+          "a": "Sign up, create your salon in 5 minutes and share your link"
+        }
       }
     },
     "finalCta": {
@@ -131,7 +269,11 @@
     "mockup": {
       "salonName": "Camille's Salon",
       "address": "12 Capucins Street, Lyon",
-      "services": { "1": "Women's cut", "2": "Blow-dry", "3": "Coloring" },
+      "services": {
+        "1": "Women's cut",
+        "2": "Blow-dry",
+        "3": "Coloring"
+      },
       "next": "Next slot"
     }
   },
@@ -142,29 +284,87 @@
     "otherCities": "{label} in other cities"
   },
   "auth": {
-    "login": { "title": "Log in", "email": "Email", "password": "Password", "submit": "Log in", "noAccount": "No account yet?", "register": "Sign up" },
-    "register": { "title": "Create your salon", "salonName": "Salon name", "email": "Email", "password": "Password", "submit": "Create my salon", "haveAccount": "Already have an account?", "login": "Log in" },
+    "login": {
+      "title": "Log in",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "noAccount": "No account yet?",
+      "register": "Sign up"
+    },
+    "register": {
+      "title": "Create your salon",
+      "salonName": "Salon name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create my salon",
+      "haveAccount": "Already have an account?",
+      "login": "Log in"
+    },
     "logout": "Log out"
   },
   "booking": {
     "title": "Book an appointment",
-    "steps": { "service": "Service", "datetime": "Date & time", "contact": "Your details" },
-    "service": { "label": "Choose a service", "placeholder": "Select a service" },
-    "staff": { "label": "Choose a staff member", "any": "Any available" },
+    "steps": {
+      "service": "Service",
+      "datetime": "Date & time",
+      "contact": "Your details"
+    },
+    "service": {
+      "label": "Choose a service",
+      "placeholder": "Select a service"
+    },
+    "staff": {
+      "label": "Choose a staff member",
+      "any": "Any available"
+    },
     "date": "Date",
     "time": "Time",
-    "contact": { "name": "Full name", "phone": "Phone", "email": "Email", "notes": "Notes (optional)" },
+    "contact": {
+      "name": "Full name",
+      "phone": "Phone",
+      "email": "Email",
+      "notes": "Notes (optional)"
+    },
     "confirm": "Confirm booking",
-    "confirmation": { "title": "Booking confirmed!", "subtitle": "You'll receive a confirmation email shortly" },
+    "confirmation": {
+      "title": "Booking confirmed!",
+      "subtitle": "You'll receive a confirmation email shortly"
+    },
     "unavailable": "Online booking is temporarily closed for this salon",
     "unavailableHint": "Please contact the salon directly",
-    "status": { "PENDING": "Pending", "CONFIRMED": "Confirmed", "CANCELLED": "Cancelled", "DONE": "Completed", "NO_SHOW": "No-show" }
+    "status": {
+      "PENDING": "Pending",
+      "CONFIRMED": "Confirmed",
+      "CANCELLED": "Cancelled",
+      "DONE": "Completed",
+      "NO_SHOW": "No-show"
+    }
   },
   "dashboard": {
-    "nav": { "dashboard": "Dashboard", "appointments": "Appointments", "clients": "Clients", "services": "Services", "staff": "Staff", "settings": "Settings" },
-    "stats": { "today": "Today", "upcoming": "Upcoming", "clients": "Clients", "services": "Services", "staff": "Staff" },
-    "appointments": { "title": "Appointments", "empty": "No appointments yet" },
-    "clients": { "title": "Clients", "empty": "No clients yet" },
+    "nav": {
+      "dashboard": "Dashboard",
+      "appointments": "Appointments",
+      "clients": "Clients",
+      "services": "Services",
+      "staff": "Staff",
+      "settings": "Settings"
+    },
+    "stats": {
+      "today": "Today",
+      "upcoming": "Upcoming",
+      "clients": "Clients",
+      "services": "Services",
+      "staff": "Staff"
+    },
+    "appointments": {
+      "title": "Appointments",
+      "empty": "No appointments yet"
+    },
+    "clients": {
+      "title": "Clients",
+      "empty": "No clients yet"
+    },
     "trial": {
       "daysLeft": "Free trial: {days} days left",
       "expiredTitle": "Your free trial has ended",
@@ -179,7 +379,12 @@
       "subscribe": "Subscribe",
       "manage": "Manage subscription",
       "redirecting": "Redirecting to Stripe…",
-      "error": "Could not open checkout, please retry"
+      "error": "Could not open checkout, please retry",
+      "plans": {
+        "usage": "Pay as you go",
+        "solo": "Solo",
+        "salon": "Salon"
+      }
     }
   },
   "seo": {
@@ -187,7 +392,10 @@
       "title": "Bookedforreal — Online booking for hairdressers and barbers",
       "description": "Online booking for hairdressers and barbers: mini-site, calendar, WhatsApp/SMS reminders, mobile app. 7-day free trial."
     },
-    "blog": { "title": "Blog — Tips for hairdressers and barbers", "description": "Guides and tips to fill your calendar: online booking, no-shows, local marketing." }
+    "blog": {
+      "title": "Blog — Tips for hairdressers and barbers",
+      "description": "Guides and tips to fill your calendar: online booking, no-shows, local marketing."
+    }
   },
   "errors": {
     "generic": "Something went wrong, please try again",
@@ -200,8 +408,18 @@
     "invalidCredentials": "Invalid email or password"
   },
   "emails": {
-    "confirmation": { "subject": "Your appointment is confirmed", "heading": "Appointment confirmed", "body": "See you soon at {salonName} on {date} at {time}." },
-    "reminder": { "subject": "Reminder: your appointment tomorrow", "heading": "Appointment reminder" },
-    "cancellation": { "subject": "Your appointment has been cancelled", "heading": "Appointment cancelled" }
+    "confirmation": {
+      "subject": "Your appointment is confirmed",
+      "heading": "Appointment confirmed",
+      "body": "See you soon at {salonName} on {date} at {time}."
+    },
+    "reminder": {
+      "subject": "Reminder: your appointment tomorrow",
+      "heading": "Appointment reminder"
+    },
+    "cancellation": {
+      "subject": "Your appointment has been cancelled",
+      "heading": "Appointment cancelled"
+    }
   }
 }

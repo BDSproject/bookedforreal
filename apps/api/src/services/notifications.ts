@@ -12,7 +12,7 @@ export interface NotificationPayload {
   channels: Channel[];
 }
 
-/** Restricts channels to the plan quota (STARTER: email only). */
+/** Restricts channels to the plan quota (USAGE and SOLO are email only). */
 export async function allowedChannels(salonId: string, requested: Channel[]): Promise<Channel[]> {
   const salon = await prisma.salon.findUnique({ where: { id: salonId }, select: { plan: true } });
   if (!salon) return [];
@@ -24,7 +24,11 @@ export async function allowedChannels(salonId: string, requested: Channel[]): Pr
 }
 
 /** Enqueues a notification job for the worker. */
-export async function enqueueNotification(params: { type: string; runAt: Date; payload: NotificationPayload }) {
+export async function enqueueNotification(params: {
+  type: string;
+  runAt: Date;
+  payload: NotificationPayload;
+}) {
   const channels = await allowedChannels(params.payload.salonId, params.payload.channels);
   if (channels.length === 0) {
     return null;
@@ -58,7 +62,12 @@ export async function processDueJobs(): Promise<number> {
 
       if (payload.appointmentId) {
         await prisma.notification.create({
-          data: { appointmentId: payload.appointmentId, channel, status: "SENT", sentAt: new Date() },
+          data: {
+            appointmentId: payload.appointmentId,
+            channel,
+            status: "SENT",
+            sentAt: new Date(),
+          },
         });
       }
 

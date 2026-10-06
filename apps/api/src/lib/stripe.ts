@@ -38,12 +38,20 @@ export function remainingTrialDays(
  * charged once the 7-day trial is over — and can cancel from the portal before that.
  */
 export async function createCheckoutSession(params: CheckoutParams): Promise<string> {
-  const trialDays = remainingTrialDays(params.trialEndsAt);
+  // The pay-as-you-go plan is metered: nothing is billed per period, so there is no
+  // trial to forward and no quantity to send (Stripe rejects a quantity on metered prices).
+  const isMetered = params.plan === "USAGE";
+  const trialDays = isMetered ? 0 : remainingTrialDays(params.trialEndsAt);
+
+  const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
+    price: priceIdFor(params.plan, params.interval),
+    ...(isMetered ? {} : { quantity: 1 }),
+  };
 
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer_email: params.customerEmail,
-    line_items: [{ price: priceIdFor(params.plan, params.interval), quantity: 1 }],
+    line_items: [lineItem],
     success_url: `${params.baseUrl}/dashboard?checkout=success`,
     cancel_url: `${params.baseUrl}/settings?checkout=cancelled`,
     metadata: { salonId: params.salonId, plan: params.plan },

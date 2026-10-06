@@ -89,7 +89,7 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
         ownerId: user.id,
         slug: await uniqueSalonSlug(salonName),
         name: salonName,
-        plan: "STARTER",
+        plan: "SOLO",
         trialEndsAt: trialEndDate(),
         country: "FR",
         timezone: "Europe/Paris",

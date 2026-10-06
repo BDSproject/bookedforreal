@@ -8,8 +8,8 @@ multi-tenant dashboard — on web and mobile.
 - **i18n**: French (default) and English.
 - **SEO-first**: SSR/SSG, translated metadata, structured data (JSON-LD), `sitemap.xml`,
   `robots.txt` and a 48-city local-SEO directory.
-- **Billing**: Stripe subscriptions with a 7-day trial, a Starter / Pro plan and a
-  quote-based tier for multi-shop groups.
+- **Billing**: Stripe subscriptions with a 7-day trial, a pay-as-you-go plan, two
+  subscription tiers (Solo / Salon) and a quote-based tier for multi-shop groups.
 - **Notifications**: email (Brevo), SMS & WhatsApp (Twilio / Meta), with a fallback chain.
 - **Brand**: primary `#7C3AED` (violet), secondary `#FFFFFF` (white).
 
@@ -125,7 +125,7 @@ Copy `.env.example` to the relevant package(s). Grouped below by concern.
 | `JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET` | `api` | JWT signing keys (access 15 min / refresh 30 d) |
 | `STRIPE_SECRET_KEY` | `api` | Stripe secret key (`sk_test_…` / `sk_live_…`) |
 | `STRIPE_WEBHOOK_SECRET` | `api` | Webhook signing secret (`whsec_…`) |
-| `STRIPE_PRICE_STARTER` / `STRIPE_PRICE_PRO` | `api` | Stripe price IDs per plan |
+| `STRIPE_PRICE_USAGE` / `STRIPE_PRICE_SOLO` / `STRIPE_PRICE_SALON` / `STRIPE_PRICE_GROUP` | `api` | Stripe price IDs per plan (`USAGE` is metered) |
 | `BREVO_API_KEY` / `BREVO_SENDER_EMAIL` | `api` | Email notifications (Brevo) |
 | `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` / `TWILIO_PHONE_NUMBER` | `api` | SMS / WhatsApp (Twilio) |
 | `META_WHATSAPP_TOKEN` | `api` | WhatsApp via Meta (optional channel) |
@@ -204,17 +204,18 @@ Login/register are rate-limited (5 attempts / 15 min). `requireAuth` / `requireR
 
 ## Billing (Stripe)
 
-- `POST /billing/checkout` — starts a Checkout session for a plan (Starter / Pro).
+- `POST /billing/checkout` — starts a Checkout session for a plan (Usage / Solo / Salon).
 - `POST /billing/portal` — opens the Customer Portal (cancel / update payment).
 - `POST /webhooks/stripe` — syncs subscription state from
   `checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`,
   `customer.subscription.deleted`.
 
-Plans (see `apps/api/src/lib/plans.ts`). Public prices are **Starter €29/mo ex VAT** and
-**Pro €59/mo ex VAT**; the first 50 salons get a **founding rate locked for life** at
-**€19 / €39**. Starter = 80 bookings/mo + 1 staff; Pro = 400 bookings/mo, 5 staff,
-50 SMS/WhatsApp credits, custom domain and mobile app. Every plan starts with a 7-day
-free trial.
+Plans (see `apps/api/src/lib/plans.ts`). Public prices are **Solo €29/mo ex VAT** and
+**Salon €59/mo ex VAT**; the first 50 salons get a **founding rate locked for life** at
+**€19 / €39**. **Usage** = no subscription, **€0,50 per booking made online**, 1 staff.
+Solo = 80 bookings/mo + 1 staff; Salon = 400 bookings/mo, 5 staff, 50 SMS/WhatsApp
+credits, custom domain and mobile app. Group = unlimited shops, quote-based. Every plan
+starts with a 7-day free trial, no credit card required.
 
 ## Notifications
 

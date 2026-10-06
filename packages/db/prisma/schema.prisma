@@ -21,8 +21,14 @@ enum UserRole {
 }
 
 enum Plan {
-  STARTER
-  PRO
+  /// Pay-as-you-go: 0 €/month + a flat fee per booking.
+  USAGE
+  /// Solo professional — one chair.
+  SOLO
+  /// Salon with a team.
+  SALON
+  /// Multi-shop group (sales-led, quoted).
+  GROUP
 }
 
 /// Business category, used for SEO pages and Schema.org type.
@@ -116,7 +122,7 @@ model Salon {
   primaryColor     String    @default("#7C3AED")
   description      String?
   timezone         String    @default("Europe/Paris")
-  plan             Plan      @default(STARTER)
+  plan             Plan      @default(SOLO)
   /// Stripe customer id (stable, one per salon).
   stripeCustomerId String?   @unique
   /// Denormalized id of the active Stripe subscription (see Subscription).

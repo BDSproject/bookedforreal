@@ -26,9 +26,30 @@ const DEMO_SALONS = [
       { id: "paris-staff-2", name: "Sam Dubois" },
     ],
     services: [
-      { id: "paris-haircut", nameFr: "Coupe", nameEn: "Haircut", durationMin: 30, priceCents: 2500, bufferMin: 5 },
-      { id: "paris-beard", nameFr: "Barbe", nameEn: "Beard trim", durationMin: 20, priceCents: 1800, bufferMin: 5 },
-      { id: "paris-color", nameFr: "Coloration", nameEn: "Coloring", durationMin: 60, priceCents: 6000, bufferMin: 10 },
+      {
+        id: "paris-haircut",
+        nameFr: "Coupe",
+        nameEn: "Haircut",
+        durationMin: 30,
+        priceCents: 2500,
+        bufferMin: 5,
+      },
+      {
+        id: "paris-beard",
+        nameFr: "Barbe",
+        nameEn: "Beard trim",
+        durationMin: 20,
+        priceCents: 1800,
+        bufferMin: 5,
+      },
+      {
+        id: "paris-color",
+        nameFr: "Coloration",
+        nameEn: "Coloring",
+        durationMin: 60,
+        priceCents: 6000,
+        bufferMin: 10,
+      },
     ],
   },
   {
@@ -41,8 +62,22 @@ const DEMO_SALONS = [
     ownerEmail: "owner-lyon@demo.local",
     staff: [{ id: "lyon-staff-1", name: "Camille Bernard" }],
     services: [
-      { id: "lyon-haircut", nameFr: "Coupe femme", nameEn: "Women's cut", durationMin: 45, priceCents: 3800, bufferMin: 5 },
-      { id: "lyon-brushing", nameFr: "Brushing", nameEn: "Blow-dry", durationMin: 30, priceCents: 3000, bufferMin: 5 },
+      {
+        id: "lyon-haircut",
+        nameFr: "Coupe femme",
+        nameEn: "Women's cut",
+        durationMin: 45,
+        priceCents: 3800,
+        bufferMin: 5,
+      },
+      {
+        id: "lyon-brushing",
+        nameFr: "Brushing",
+        nameEn: "Blow-dry",
+        durationMin: 30,
+        priceCents: 3000,
+        bufferMin: 5,
+      },
     ],
   },
   {
@@ -55,8 +90,22 @@ const DEMO_SALONS = [
     ownerEmail: "owner-marseille@demo.local",
     staff: [{ id: "marseille-staff-1", name: "Karim Haddad" }],
     services: [
-      { id: "marseille-haircut", nameFr: "Coupe + barbe", nameEn: "Cut + beard", durationMin: 40, priceCents: 3200, bufferMin: 5 },
-      { id: "marseille-shave", nameFr: "Rasage traditionnel", nameEn: "Traditional shave", durationMin: 25, priceCents: 2200, bufferMin: 5 },
+      {
+        id: "marseille-haircut",
+        nameFr: "Coupe + barbe",
+        nameEn: "Cut + beard",
+        durationMin: 40,
+        priceCents: 3200,
+        bufferMin: 5,
+      },
+      {
+        id: "marseille-shave",
+        nameFr: "Rasage traditionnel",
+        nameEn: "Traditional shave",
+        durationMin: 25,
+        priceCents: 2200,
+        bufferMin: 5,
+      },
     ],
   },
 ];
@@ -95,7 +144,7 @@ async function main() {
         postalCode: salon.postalCode,
         country: "FR",
         timezone: "Europe/Paris",
-        plan: "STARTER",
+        plan: "SOLO",
         trialEndsAt: DEMO_TRIAL_END,
       },
     });

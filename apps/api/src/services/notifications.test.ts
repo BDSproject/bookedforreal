@@ -13,7 +13,7 @@ beforeAll(async () => {
     data: { email: `notif-${unique}@test.local`, passwordHash: "x", role: "OWNER" },
   });
   const salon = await prisma.salon.create({
-    data: { slug: `notif-${unique}`, ownerId: owner.id, name: "Notif", plan: "STARTER" },
+    data: { slug: `notif-${unique}`, ownerId: owner.id, name: "Notif", plan: "SOLO" },
   });
   salonId = salon.id;
 });
@@ -25,7 +25,7 @@ afterAll(async () => {
 });
 
 describe("notifications", () => {
-  it("restricts STARTER to email only", async () => {
+  it("restricts SOLO to email only", async () => {
     expect(await allowedChannels(salonId, ["WHATSAPP", "SMS", "EMAIL"])).toEqual(["EMAIL"]);
   });
 

@@ -13,7 +13,7 @@ beforeAll(async () => {
     data: { email: `billing-${unique}@test.local`, passwordHash: "x", role: "OWNER" },
   });
   const salon = await prisma.salon.create({
-    data: { slug: `billing-${unique}`, ownerId: owner.id, name: "Billing", plan: "STARTER" },
+    data: { slug: `billing-${unique}`, ownerId: owner.id, name: "Billing", plan: "SOLO" },
   });
   salonId = salon.id;
 });
@@ -29,14 +29,16 @@ describe("billing quota", () => {
     expect(await isQuotaExceeded(salonId)).toBe(false);
   });
 
-  it("activates PRO on checkout.session.completed", async () => {
+  it("activates SALON on checkout.session.completed", async () => {
     await syncSubscriptionFromEvent({
       type: "checkout.session.completed",
-      data: { object: { metadata: { salonId, plan: "PRO" }, subscription: "sub_1", customer: "cus_1" } },
+      data: {
+        object: { metadata: { salonId, plan: "SALON" }, subscription: "sub_1", customer: "cus_1" },
+      },
     } as never);
 
     const salon = await prisma.salon.findUnique({ where: { id: salonId } });
-    expect(salon?.plan).toBe("PRO");
+    expect(salon?.plan).toBe("SALON");
     expect(salon?.stripeCustomerId).toBe("cus_1");
     expect(salon?.trialEndsAt).toBeNull();
   });
@@ -48,6 +50,6 @@ describe("billing quota", () => {
     } as never);
 
     const salon = await prisma.salon.findUnique({ where: { id: salonId } });
-    expect(salon?.plan).toBe("STARTER");
+    expect(salon?.plan).toBe("SOLO");
   });
 });

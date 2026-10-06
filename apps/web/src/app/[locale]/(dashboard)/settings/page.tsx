@@ -9,8 +9,18 @@ import { useApiData } from "@/hooks/use-api";
 import { apiFetch } from "@/lib/api-client";
 import type { Salon } from "@/lib/api-types";
 
-type PlanKey = "STARTER" | "PRO";
+type PlanKey = "USAGE" | "SOLO" | "SALON";
 type Interval = "monthly" | "yearly";
+
+/**
+ * Self-serve plans offered on this page.
+ * The pay-as-you-go plan has no yearly commitment, hence a single interval.
+ */
+const SELF_SERVE_PLANS = [
+  { key: "USAGE", labelKey: "plans.usage", intervals: ["monthly"] },
+  { key: "SOLO", labelKey: "plans.solo", intervals: ["monthly", "yearly"] },
+  { key: "SALON", labelKey: "plans.salon", intervals: ["monthly", "yearly"] },
+] as const;
 
 export default function SettingsPage() {
   const t = useTranslations("dashboard.billing");
@@ -73,7 +83,7 @@ export default function SettingsPage() {
             <Label htmlFor="name">Nom</Label>
             <Input id="name" defaultValue={salon.name} onChange={(e) => setName(e.target.value)} />
           </div>
-          <p className="text-sm text-muted-foreground">Slug : {salon.slug}</p>
+          <p className="text-muted-foreground text-sm">Slug : {salon.slug}</p>
           <Button onClick={save} disabled={!name}>
             Save
           </Button>
@@ -86,23 +96,23 @@ export default function SettingsPage() {
           <CardTitle>{t("title")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
+          <p className="text-muted-foreground text-sm">{t("subtitle")}</p>
 
           <div className="space-y-3">
-            {(["STARTER", "PRO"] as const).map((plan) => (
+            {SELF_SERVE_PLANS.map((plan) => (
               <div
-                key={plan}
+                key={plan.key}
                 className="flex flex-wrap items-center justify-between gap-3 rounded-xl border p-4"
               >
-                <span className="font-semibold">{plan === "PRO" ? "Pro" : "Starter"}</span>
+                <span className="font-semibold">{t(plan.labelKey)}</span>
                 <div className="flex gap-2">
-                  {(["monthly", "yearly"] as const).map((interval) => (
+                  {plan.intervals.map((interval) => (
                     <Button
                       key={interval}
                       size="sm"
-                      variant={plan === "PRO" ? "default" : "outline"}
+                      variant={plan.key === "SALON" ? "default" : "outline"}
                       disabled={busy !== null}
-                      onClick={() => subscribe(plan, interval)}
+                      onClick={() => subscribe(plan.key, interval)}
                     >
                       {t(interval)}
                     </Button>
@@ -116,8 +126,8 @@ export default function SettingsPage() {
             {t("manage")}
           </Button>
 
-          {busy ? <p className="text-sm text-muted-foreground">{t("redirecting")}</p> : null}
-          {error ? <p className="text-sm text-destructive">{t("error")}</p> : null}
+          {busy ? <p className="text-muted-foreground text-sm">{t("redirecting")}</p> : null}
+          {error ? <p className="text-destructive text-sm">{t("error")}</p> : null}
         </CardContent>
       </Card>
     </div>

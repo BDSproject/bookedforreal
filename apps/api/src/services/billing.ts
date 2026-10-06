@@ -1,7 +1,8 @@
-import { AppointmentStatus, prisma } from "@bookedforreal/db";
+import { AppointmentSource, AppointmentStatus, prisma, type Plan } from "@bookedforreal/db";
 import type Stripe from "stripe";
 
-import { PLANS } from "../lib/plans";
+import { PLANS, USAGE_FEE_CENTS } from "../lib/plans";
+import { stripe } from "../lib/stripe";
 
 /** True when the salon has reached its monthly appointment quota. */
 export async function isQuotaExceeded(salonId: string): Promise<boolean> {
@@ -34,7 +35,7 @@ export async function syncSubscriptionFromEvent(event: Stripe.Event): Promise<vo
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
       const salonId = session.metadata?.salonId;
-      const plan = (session.metadata?.plan as "STARTER" | "PRO") ?? "STARTER";
+      const plan = (session.metadata?.plan as Plan) ?? "SOLO";
       const subId = typeof session.subscription === "string" ? session.subscription : null;
       const customerId = typeof session.customer === "string" ? session.customer : null;
       if (!salonId) {
@@ -85,15 +86,77 @@ export async function syncSubscriptionFromEvent(event: Stripe.Event): Promise<vo
       // Stripe's dunning cancels after ~7 days of failed payments → downgrade.
       const subscription = event.data.object as Stripe.Subscription;
       const subId = subscription.id;
-      await prisma.subscription.updateMany({ where: { stripeSubId: subId }, data: { status: "CANCELED" } });
+      await prisma.subscription.updateMany({
+        where: { stripeSubId: subId },
+        data: { status: "CANCELED" },
+      });
       const record = await prisma.subscription.findUnique({ where: { stripeSubId: subId } });
       if (record) {
         await prisma.salon.update({
           where: { id: record.salonId },
-          data: { plan: "STARTER", stripeSubId: null },
+          data: { plan: "SOLO", stripeSubId: null },
         });
       }
       break;
     }
+  }
+}
+
+/**
+ * Billable bookings for the current month (pay-as-you-go metering).
+ *
+ * Only bookings made online by clients (WEB / MOBILE) are billable: appointments
+ * keyed in manually by the salon itself are free.
+ */
+export async function getMonthlyUsage(salonId: string): Promise<number> {
+  const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  return prisma.appointment.count({
+    where: {
+      salonId,
+      source: { in: [AppointmentSource.WEB, AppointmentSource.MOBILE] },
+      status: { notIn: [AppointmentStatus.CANCELLED] },
+      createdAt: { gte: startOfMonth },
+    },
+  });
+}
+
+/** Estimated amount owed this month on the USAGE plan, in cents. */
+export async function getMonthlyUsageCents(salonId: string): Promise<number> {
+  return (await getMonthlyUsage(salonId)) * USAGE_FEE_CENTS;
+}
+
+/**
+ * Reports one billable booking to Stripe for pay-as-you-go salons.
+ *
+ * Fire-and-forget: metering must never make a booking fail. It no-ops silently
+ * when the salon is not on USAGE, has no Stripe subscription, or the metered
+ * price is not configured yet.
+ */
+export async function reportBookingUsage(salonId: string): Promise<void> {
+  const meteredPriceId = process.env.STRIPE_PRICE_USAGE;
+  if (!meteredPriceId) {
+    return;
+  }
+
+  const salon = await prisma.salon.findUnique({
+    where: { id: salonId },
+    select: { plan: true, stripeSubId: true },
+  });
+  if (!salon || salon.plan !== "USAGE" || !salon.stripeSubId) {
+    return;
+  }
+
+  try {
+    const items = await stripe.subscriptionItems.list({ subscription: salon.stripeSubId });
+    const meteredItem = items.data.find((item) => item.price.id === meteredPriceId);
+    if (!meteredItem) {
+      return;
+    }
+    await stripe.subscriptionItems.createUsageRecord(meteredItem.id, {
+      quantity: 1,
+      action: "increment",
+    });
+  } catch {
+    // Metering is best-effort: a Stripe hiccup must not block the booking.
   }
 }

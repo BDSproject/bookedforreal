@@ -1,10 +1,14 @@
 import type { FastifyInstance } from "fastify";
 
 import { AppointmentStatus, prisma } from "@bookedforreal/db";
-import { availabilityQuerySchema, createAppointmentSchema, listSalonsQuerySchema } from "@bookedforreal/types";
+import {
+  availabilityQuerySchema,
+  createAppointmentSchema,
+  listSalonsQuerySchema,
+} from "@bookedforreal/types";
 
 import { createAppointment } from "../services/appointments";
-import { isQuotaExceeded } from "../services/billing";
+import { isQuotaExceeded, reportBookingUsage } from "../services/billing";
 import { dayRangeUtc, generateSlots, weekdayOfDate, type Slot } from "../services/slots";
 import { hasAccess } from "../lib/trial";
 
@@ -23,9 +27,29 @@ const publicSalonSelect = {
   logoUrl: true,
   primaryColor: true,
   timezone: true,
-  services: { where: { active: true }, select: { id: true, nameFr: true, nameEn: true, durationMin: true, priceCents: true, bufferMin: true } },
+  services: {
+    where: { active: true },
+    select: {
+      id: true,
+      nameFr: true,
+      nameEn: true,
+      durationMin: true,
+      priceCents: true,
+      bufferMin: true,
+    },
+  },
   staff: { where: { active: true }, select: { id: true, name: true, photoUrl: true, order: true } },
-  availabilities: { select: { id: true, staffId: true, weekday: true, startTime: true, endTime: true, breakStart: true, breakEnd: true } },
+  availabilities: {
+    select: {
+      id: true,
+      staffId: true,
+      weekday: true,
+      startTime: true,
+      endTime: true,
+      breakStart: true,
+      breakEnd: true,
+    },
+  },
 } as const;
 
 export async function publicRoutes(app: FastifyInstance): Promise<void> {
@@ -63,7 +87,11 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
   app.get<{ Params: { slug: string } }>("/salons/:slug", async (request, reply) => {
     const salon = await prisma.salon.findUnique({
       where: { slug: request.params.slug },
-      select: { ...publicSalonSelect, trialEndsAt: true, subscription: { select: { status: true } } },
+      select: {
+        ...publicSalonSelect,
+        trialEndsAt: true,
+        subscription: { select: { status: true } },
+      },
     });
 
     if (!salon) {
@@ -105,7 +133,9 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
     }
 
     const staffList = query.data.staffId
-      ? await prisma.staff.findMany({ where: { id: query.data.staffId, salonId: salon.id, active: true } })
+      ? await prisma.staff.findMany({
+          where: { id: query.data.staffId, salonId: salon.id, active: true },
+        })
       : await prisma.staff.findMany({ where: { salonId: salon.id, active: true } });
 
     const { start: dayStart, end: dayEnd } = dayRangeUtc(query.data.date, salon.timezone);
@@ -198,7 +228,12 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "Staff not available" });
     }
 
-    const client = await findOrCreateClient(salon.id, parsed.data.name, parsed.data.phone, parsed.data.email);
+    const client = await findOrCreateClient(
+      salon.id,
+      parsed.data.name,
+      parsed.data.phone,
+      parsed.data.email,
+    );
 
     const appointment = await createAppointment({
       salonId: salon.id,
@@ -215,22 +250,28 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(409).send({ error: "Slot already taken" });
     }
 
+    // Pay-as-you-go metering: fire-and-forget so Stripe never blocks a booking.
+    void reportBookingUsage(salon.id);
+
     return reply.code(201).send(appointment);
   });
 
   // GET /public/salons/:slug/appointments/:id — appointment status.
-  app.get<{ Params: { slug: string; id: string } }>("/salons/:slug/appointments/:id", async (request, reply) => {
-    const appointment = await prisma.appointment.findFirst({
-      where: { id: request.params.id, salon: { slug: request.params.slug } },
-      select: { id: true, status: true, startAt: true, endAt: true },
-    });
+  app.get<{ Params: { slug: string; id: string } }>(
+    "/salons/:slug/appointments/:id",
+    async (request, reply) => {
+      const appointment = await prisma.appointment.findFirst({
+        where: { id: request.params.id, salon: { slug: request.params.slug } },
+        select: { id: true, status: true, startAt: true, endAt: true },
+      });
 
-    if (!appointment) {
-      return reply.code(404).send({ error: "Appointment not found" });
-    }
+      if (!appointment) {
+        return reply.code(404).send({ error: "Appointment not found" });
+      }
 
-    return appointment;
-  });
+      return appointment;
+    },
+  );
 }
 
 /** Finds a client by email (then phone) within the salon, or creates a new one. */
