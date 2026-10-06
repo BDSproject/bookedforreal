@@ -127,7 +127,7 @@ export const blogArticles: BlogArticle[] = [
         "Entre 10 et 30 % des rendez-vous sont manqués sans rappel. Un SMS change tout.",
         "WhatsApp est le canal préféré de vos clients : ouvert, lu, efficace.",
         "Automatisez un rappel 24h avant et une confirmation immédiate.",
-        "Le plan Pro de Bookedforreal inclut 100 crédits SMS/WhatsApp par mois.",
+        "Le plan Pro de Bookedforreal inclut 50 crédits SMS/WhatsApp par mois.",
       ],
     },
     en: {
@@ -137,7 +137,7 @@ export const blogArticles: BlogArticle[] = [
         "Between 10 and 30% of appointments are missed without a reminder. An SMS changes everything.",
         "WhatsApp is your clients' favorite channel: opened, read, effective.",
         "Automate a reminder 24h before and an instant confirmation.",
-        "Bookedforreal's Pro plan includes 100 SMS/WhatsApp credits per month.",
+        "Bookedforreal's Pro plan includes 50 SMS/WhatsApp credits per month.",
       ],
     },
   },
