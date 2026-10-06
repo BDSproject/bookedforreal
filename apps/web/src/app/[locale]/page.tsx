@@ -292,7 +292,7 @@ export default async function HomePage({ params }: HomePageProps) {
       </section>
 
       {/* 10. Final CTA + callback form */}
-      <section className="border-t border-border/60 bg-[#FAF8F5]">
+      <section id="contact" className="border-t border-border/60 bg-[#FAF8F5]">
         <div className="mx-auto grid max-w-5xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center">
           <div>
             <h2 className="font-display text-3xl font-semibold tracking-tight text-navy sm:text-4xl">

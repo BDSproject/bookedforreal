@@ -61,6 +61,22 @@
       "popular": "Le plus choisi",
       "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "Pour démarrer", "features": { "1": "Mini-site", "2": "Réservation en ligne", "3": "30 RDV / mois", "4": "1 membre du personnel", "5": "Support email", "6": "Sans engagement, résiliable à tout moment" } },
       "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "Pour les salons actifs", "features": { "1": "Tout Starter", "2": "300 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (100 crédits)", "5": "Domaine personnalisé", "6": "Sans engagement, résiliable à tout moment" } },
+      "custom": {
+        "badge": "Premium",
+        "name": "Multi-boutiques",
+        "description": "Pour les groupes, franchises et besoins premium",
+        "price": "Sur devis",
+        "priceNote": "Tarif adapté à votre organisation",
+        "features": {
+          "1": "Plusieurs boutiques et équipes",
+          "2": "Réservations et personnel illimités",
+          "3": "Gestion centralisée multi-sites",
+          "4": "Accompagnement et onboarding dédiés",
+          "5": "Intégrations sur mesure",
+          "6": "Facturation personnalisée"
+        },
+        "cta": "Demander un devis"
+      },
       "cta": "Commencer l'essai"
     },
     "testimonials": {

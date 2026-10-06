@@ -55,13 +55,49 @@ function PlanCard({ planKey, yearly, highlight }: PlanCardProps) {
   );
 }
 
-/** Pricing section with a monthly/yearly toggle (-20%). */
+/** Third tier: no fixed price — a sales-led quote for multi-shop / premium clients. */
+function CustomCard() {
+  const t = useTranslations("home.pricing.custom");
+
+  return (
+    <div className="relative flex flex-col rounded-3xl border border-border bg-card p-8">
+      <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-primary/30 bg-primary/10 px-4 py-1 text-xs font-bold text-primary">
+        {t("badge")}
+      </span>
+
+      <h3 className="mt-1 text-xl font-bold">{t("name")}</h3>
+      <p className="mt-1 text-sm text-muted-foreground">{t("description")}</p>
+
+      <div className="mt-5">
+        <span className="text-4xl font-extrabold text-navy">{t("price")}</span>
+      </div>
+      <p className="mt-1 text-sm text-muted-foreground">{t("priceNote")}</p>
+
+      <ul className="mt-6 flex-1 space-y-2.5">
+        {FEATURES.map((feature) => (
+          <li key={feature} className="flex items-center gap-2.5 text-sm">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary">
+              ✓
+            </span>
+            {t(`features.${feature}`)}
+          </li>
+        ))}
+      </ul>
+
+      <Button size="xl" variant="outline" className="mt-8 w-full" asChild>
+        <a href="#contact">{t("cta")}</a>
+      </Button>
+    </div>
+  );
+}
+
+/** Pricing section with a monthly/yearly toggle (-20%) and a quote-based third tier. */
 export function Pricing() {
   const t = useTranslations("home.pricing");
   const [yearly, setYearly] = useState(false);
 
   return (
-    <section id="pricing" className="mx-auto max-w-5xl px-4 py-20 sm:px-6">
+    <section id="pricing" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <h2 className="text-center text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
         {t("title")}
       </h2>
@@ -88,9 +124,10 @@ export function Pricing() {
         </button>
       </div>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
+      <div className="mt-12 grid gap-6 lg:grid-cols-3">
         <PlanCard planKey="starter" yearly={yearly} highlight={false} />
         <PlanCard planKey="pro" yearly={yearly} highlight />
+        <CustomCard />
       </div>
     </section>
   );

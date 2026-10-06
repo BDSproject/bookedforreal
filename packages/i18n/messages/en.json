@@ -61,6 +61,22 @@
       "popular": "Most chosen",
       "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "To get started", "features": { "1": "Mini-site", "2": "Online booking", "3": "30 bookings / month", "4": "1 staff member", "5": "Email support", "6": "No commitment, cancel anytime" } },
       "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "For busy salons", "features": { "1": "Everything in Starter", "2": "300 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (100 credits)", "5": "Custom domain", "6": "No commitment, cancel anytime" } },
+      "custom": {
+        "badge": "Premium",
+        "name": "Multi-shop",
+        "description": "For groups, franchises and premium needs",
+        "price": "Custom",
+        "priceNote": "Pricing tailored to your organization",
+        "features": {
+          "1": "Multiple shops and teams",
+          "2": "Unlimited bookings and staff",
+          "3": "Centralized multi-site management",
+          "4": "Dedicated onboarding and support",
+          "5": "Custom integrations",
+          "6": "Tailored billing"
+        },
+        "cta": "Request a quote"
+      },
       "cta": "Start the trial"
     },
     "testimonials": {
