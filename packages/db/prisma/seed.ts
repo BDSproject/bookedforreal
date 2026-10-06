@@ -5,6 +5,12 @@ const prisma = new PrismaClient();
 /** Weekday schedule: Monday (1) to Saturday (6), 09:00–18:00, 12:00–13:00 break. */
 const WEEKDAYS = [1, 2, 3, 4, 5, 6];
 
+/**
+ * Demo salons are never locked by the paywall — they exist so the booking flow
+ * can be exercised. Real salons get a 7-day trial at registration.
+ */
+const DEMO_TRIAL_END = new Date("2099-12-31T23:59:59.000Z");
+
 /** Demo salons used to exercise the booking flow (one per city). */
 const DEMO_SALONS = [
   {
@@ -72,7 +78,12 @@ async function main() {
 
     const createdSalon = await prisma.salon.upsert({
       where: { slug: salon.slug },
-      update: { name: salon.name, type: salon.type, district: salon.district },
+      update: {
+        name: salon.name,
+        type: salon.type,
+        district: salon.district,
+        trialEndsAt: DEMO_TRIAL_END,
+      },
       create: {
         slug: salon.slug,
         ownerId: owner.id,
@@ -85,6 +96,7 @@ async function main() {
         country: "FR",
         timezone: "Europe/Paris",
         plan: "STARTER",
+        trialEndsAt: DEMO_TRIAL_END,
       },
     });
 

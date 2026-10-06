@@ -71,6 +71,19 @@ export default function BookPage() {
     );
   }
 
+  // The salon's trial ended without a subscription: booking is closed.
+  if (salon && salon.bookingEnabled === false) {
+    return (
+      <main className="mx-auto max-w-md px-4 py-16 text-center">
+        <p className="text-3xl" aria-hidden>
+          🔒
+        </p>
+        <h1 className="mt-4 text-2xl font-bold">{t("unavailable")}</h1>
+        <p className="mt-2 text-muted-foreground">{t("unavailableHint")}</p>
+      </main>
+    );
+  }
+
   return (
     <main className="mx-auto max-w-md px-4 py-16 sm:px-6">
       <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>

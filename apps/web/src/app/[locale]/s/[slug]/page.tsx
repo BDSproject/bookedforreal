@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/json-ld";
 import { isLocale, type AppLocale } from "@/i18n/routing";
 import { breadcrumbJsonLd, salonJsonLd } from "@/lib/jsonld";
 import { buildMetadata, siteUrl } from "@/lib/seo";
+import { hasAccess } from "@/lib/trial";
 
 interface SalonPageProps {
   params: { locale: string; slug: string };
@@ -53,18 +54,25 @@ export default async function SalonPage({ params }: SalonPageProps) {
       staff: { where: { active: true } },
       availabilities: true,
       reviews: true,
+      subscription: { select: { status: true } },
     },
   });
   if (!salon) {
     notFound();
   }
 
+  // Trial over and no subscription → the salon's booking flow is closed.
+  const bookingEnabled = hasAccess({
+    trialEndsAt: salon.trialEndsAt,
+    subscriptionStatus: salon.subscription?.status ?? null,
+  });
+
   const t = await getTranslations({ locale, namespace: "booking" });
   const tc = await getTranslations({ locale, namespace: "common" });
   const url = `${siteUrl()}/${locale}/s/${salon.slug}`;
   const categorySlug = salon.type === "BARBER_SHOP" ? "barber" : "coiffeur";
 
-  const jsonLd = salonJsonLd(salon, url);
+  const jsonLd = salonJsonLd(salon, url, { bookingEnabled });
   const breadcrumb = breadcrumbJsonLd([
     { name: "Bookedforreal", url: `${siteUrl()}/${locale}` },
     { name: salon.city ?? "", url: `${siteUrl()}/${locale}/${categorySlug}/${salon.city?.toLowerCase()}` },
@@ -107,9 +115,16 @@ export default async function SalonPage({ params }: SalonPageProps) {
         <p className="mt-2 text-muted-foreground">{salon.staff.map((s) => s.name).join(", ")}</p>
       </section>
 
-      <Button asChild size="xl" className="mt-10 rounded-full px-10">
-        <Link href={`/${locale}/s/${salon.slug}/book`}>{tc("nav.book")}</Link>
-      </Button>
+      {bookingEnabled ? (
+        <Button asChild size="xl" className="mt-10 rounded-full px-10">
+          <Link href={`/${locale}/s/${salon.slug}/book`}>{tc("nav.book")}</Link>
+        </Button>
+      ) : (
+        <div className="mt-10 rounded-2xl border bg-card p-6">
+          <p className="font-semibold">{t("unavailable")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("unavailableHint")}</p>
+        </div>
+      )}
     </main>
   );
 }

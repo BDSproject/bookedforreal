@@ -5,11 +5,12 @@ import { createManualAppointmentSchema, listAppointmentsQuerySchema, updateAppoi
 
 import { requireAuth } from "../middleware/auth";
 import { requireSalon } from "../middleware/salon";
+import { requireActiveSubscription } from "../middleware/subscription";
 import { createAppointment } from "../services/appointments";
 import { isQuotaExceeded } from "../services/billing";
 
 export async function appointmentRoutes(app: FastifyInstance): Promise<void> {
-  const guard = { preHandler: [requireAuth, requireSalon] };
+  const guard = { preHandler: [requireAuth, requireSalon, requireActiveSubscription] };
 
   // GET /appointments?from=&to=&status= — list appointments (tenant-scoped).
   app.get("/", guard, async (request, reply) => {

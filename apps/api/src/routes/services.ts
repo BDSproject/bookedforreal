@@ -5,9 +5,10 @@ import { createServiceSchema, updateServiceSchema } from "@bookedforreal/types";
 
 import { requireAuth } from "../middleware/auth";
 import { requireSalon } from "../middleware/salon";
+import { requireActiveSubscription } from "../middleware/subscription";
 
 export async function serviceRoutes(app: FastifyInstance): Promise<void> {
-  const guard = { preHandler: [requireAuth, requireSalon] };
+  const guard = { preHandler: [requireAuth, requireSalon, requireActiveSubscription] };
 
   app.get("/", guard, async (request) => {
     return prisma.service.findMany({

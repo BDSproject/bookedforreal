@@ -5,13 +5,11 @@ import { loginSchema, registerSchema } from "@bookedforreal/types";
 
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../lib/jwt";
 import { hashPassword, verifyPassword } from "../lib/password";
+import { trialEndDate } from "../lib/trial";
 import { requireAuth } from "../middleware/auth";
 
 const ACCESS_COOKIE = "access_token";
 const REFRESH_COOKIE = "refresh_token";
-
-/** Free trial applied to every plan: 7 days, cancellable at any time before it ends. */
-const TRIAL_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
 
 /** Rate limit applied to credential endpoints: 5 attempts / 15 minutes. */
 const AUTH_RATE_LIMIT = { max: 5, timeWindow: "15 minutes" };
@@ -92,7 +90,7 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
         slug: await uniqueSalonSlug(salonName),
         name: salonName,
         plan: "STARTER",
-        trialEndsAt: new Date(Date.now() + TRIAL_DURATION_MS),
+        trialEndsAt: trialEndDate(),
         country: "FR",
         timezone: "Europe/Paris",
       },

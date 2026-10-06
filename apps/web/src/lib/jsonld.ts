@@ -49,7 +49,11 @@ export function openingHoursSpecification(
 }
 
 /** HairSalon / BarberShop (subtypes of LocalBusiness). */
-export function salonJsonLd(salon: SalonSeo, url: string): JsonLd {
+export function salonJsonLd(
+  salon: SalonSeo,
+  url: string,
+  options: { bookingEnabled?: boolean } = {},
+): JsonLd {
   const salonType = salon.type === "BARBER_SHOP" ? "BarberShop" : "HairSalon";
 
   const makesOffer = salon.services.map((s) => ({
@@ -81,19 +85,24 @@ export function salonJsonLd(salon: SalonSeo, url: string): JsonLd {
     priceRange: "€€",
     ...(makesOffer.length > 0 ? { makesOffer } : {}),
     ...(salon.reviews.length > 0 ? { aggregateRating: aggregateRating(salon.reviews) } : {}),
-    // Exposes the booking action so search/agents know where a reservation happens.
-    potentialAction: {
-      "@type": "ReserveAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${url}/book`,
-        actionPlatform: [
-          "http://schema.org/DesktopWebPlatform",
-          "http://schema.org/MobileWebPlatform",
-        ],
-      },
-      result: { "@type": "Reservation", name: salon.name },
-    },
+    // Exposes the booking action so search/agents know where a reservation
+    // happens — only while the salon's booking flow is actually open.
+    ...(options.bookingEnabled === false
+      ? {}
+      : {
+          potentialAction: {
+            "@type": "ReserveAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: `${url}/book`,
+              actionPlatform: [
+                "http://schema.org/DesktopWebPlatform",
+                "http://schema.org/MobileWebPlatform",
+              ],
+            },
+            result: { "@type": "Reservation", name: salon.name },
+          },
+        }),
   });
 }
 

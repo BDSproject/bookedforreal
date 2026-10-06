@@ -156,6 +156,8 @@
     "contact": { "name": "Full name", "phone": "Phone", "email": "Email", "notes": "Notes (optional)" },
     "confirm": "Confirm booking",
     "confirmation": { "title": "Booking confirmed!", "subtitle": "You'll receive a confirmation email shortly" },
+    "unavailable": "Online booking is temporarily closed for this salon",
+    "unavailableHint": "Please contact the salon directly",
     "status": { "PENDING": "Pending", "CONFIRMED": "Confirmed", "CANCELLED": "Cancelled", "DONE": "Completed", "NO_SHOW": "No-show" }
   },
   "dashboard": {
@@ -163,6 +165,12 @@
     "stats": { "today": "Today", "upcoming": "Upcoming", "clients": "Clients", "services": "Services", "staff": "Staff" },
     "appointments": { "title": "Appointments", "empty": "No appointments yet" },
     "clients": { "title": "Clients", "empty": "No clients yet" },
+    "trial": {
+      "daysLeft": "Free trial: {days} days left",
+      "expiredTitle": "Your free trial has ended",
+      "expiredBody": "Your 7-day trial is over. Subscribe to get your calendar back and keep receiving bookings — your data is safe.",
+      "cta": "See plans and subscribe"
+    },
     "billing": {
       "title": "Subscription",
       "subtitle": "Pick your plan — free trial, no commitment",

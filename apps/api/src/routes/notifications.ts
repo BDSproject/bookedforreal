@@ -5,10 +5,11 @@ import { notificationPreferencesSchema, notificationQuerySchema } from "@bookedf
 
 import { requireAuth } from "../middleware/auth";
 import { requireSalon } from "../middleware/salon";
+import { requireActiveSubscription } from "../middleware/subscription";
 import { enqueueNotification } from "../services/notifications";
 
 export async function notificationRoutes(app: FastifyInstance): Promise<void> {
-  const guard = { preHandler: [requireAuth, requireSalon] };
+  const guard = { preHandler: [requireAuth, requireSalon, requireActiveSubscription] };
 
   // POST /notifications/test — enqueues a test email notification.
   app.post("/test", guard, async (request, reply) => {

@@ -6,6 +6,7 @@ import { availabilityQuerySchema, createAppointmentSchema, listSalonsQuerySchema
 import { createAppointment } from "../services/appointments";
 import { isQuotaExceeded } from "../services/billing";
 import { dayRangeUtc, generateSlots, weekdayOfDate, type Slot } from "../services/slots";
+import { hasAccess } from "../lib/trial";
 
 /** Public fields exposed for a salon; never leaks ownerId/Stripe/trial data. */
 const publicSalonSelect = {
@@ -62,14 +63,23 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
   app.get<{ Params: { slug: string } }>("/salons/:slug", async (request, reply) => {
     const salon = await prisma.salon.findUnique({
       where: { slug: request.params.slug },
-      select: publicSalonSelect,
+      select: { ...publicSalonSelect, trialEndsAt: true, subscription: { select: { status: true } } },
     });
 
     if (!salon) {
       return reply.code(404).send({ error: "Salon not found" });
     }
 
-    return salon;
+    // The trial/subscription data itself is never exposed — only the resulting
+    // `bookingEnabled` flag, which the mini-site uses to close the booking flow.
+    const { trialEndsAt, subscription, ...publicSalon } = salon;
+    return {
+      ...publicSalon,
+      bookingEnabled: hasAccess({
+        trialEndsAt,
+        subscriptionStatus: subscription?.status ?? null,
+      }),
+    };
   });
 
   // GET /public/salons/:slug/availability — free slots for a date (+ optional staff).
@@ -152,9 +162,22 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "Invalid input", details: parsed.error.issues });
     }
 
-    const salon = await prisma.salon.findUnique({ where: { slug: request.params.slug } });
+    const salon = await prisma.salon.findUnique({
+      where: { slug: request.params.slug },
+      include: { subscription: { select: { status: true } } },
+    });
     if (!salon) {
       return reply.code(404).send({ error: "Salon not found" });
+    }
+
+    // Trial over and no subscription: the salon's booking flow is closed.
+    if (
+      !hasAccess({
+        trialEndsAt: salon.trialEndsAt,
+        subscriptionStatus: salon.subscription?.status ?? null,
+      })
+    ) {
+      return reply.code(403).send({ error: "BOOKING_UNAVAILABLE" });
     }
 
     if (await isQuotaExceeded(salon.id)) {

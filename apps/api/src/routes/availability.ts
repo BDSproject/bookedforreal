@@ -5,9 +5,10 @@ import { createAvailabilitySchema, updateAvailabilitySchema } from "@bookedforre
 
 import { requireAuth } from "../middleware/auth";
 import { requireSalon } from "../middleware/salon";
+import { requireActiveSubscription } from "../middleware/subscription";
 
 export async function availabilityRoutes(app: FastifyInstance): Promise<void> {
-  const guard = { preHandler: [requireAuth, requireSalon] };
+  const guard = { preHandler: [requireAuth, requireSalon, requireActiveSubscription] };
 
   app.get("/", guard, async (request) => {
     return prisma.availability.findMany({

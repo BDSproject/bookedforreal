@@ -156,6 +156,8 @@
     "contact": { "name": "Nom complet", "phone": "Téléphone", "email": "Email", "notes": "Remarques (facultatif)" },
     "confirm": "Confirmer le rendez-vous",
     "confirmation": { "title": "Rendez-vous confirmé !", "subtitle": "Vous recevrez un email de confirmation dans quelques instants" },
+    "unavailable": "Les réservations en ligne sont momentanément fermées pour ce salon",
+    "unavailableHint": "Merci de contacter le salon directement",
     "status": { "PENDING": "En attente", "CONFIRMED": "Confirmé", "CANCELLED": "Annulé", "DONE": "Terminé", "NO_SHOW": "Absent" }
   },
   "dashboard": {
@@ -163,6 +165,12 @@
     "stats": { "today": "Aujourd'hui", "upcoming": "À venir", "clients": "Clients", "services": "Services", "staff": "Personnel" },
     "appointments": { "title": "Rendez-vous", "empty": "Aucun rendez-vous pour le moment" },
     "clients": { "title": "Clients", "empty": "Aucun client pour le moment" },
+    "trial": {
+      "daysLeft": "Essai gratuit : il vous reste {days} jours",
+      "expiredTitle": "Votre essai gratuit est terminé",
+      "expiredBody": "Vos 7 jours d'essai sont écoulés. Abonnez-vous pour retrouver votre agenda et continuer à recevoir des réservations — vos données sont conservées.",
+      "cta": "Voir les tarifs et m'abonner"
+    },
     "billing": {
       "title": "Abonnement",
       "subtitle": "Choisissez votre plan — essai gratuit, sans engagement",

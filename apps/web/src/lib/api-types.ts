@@ -41,6 +41,8 @@ export interface Salon {
   description: string | null;
   services?: Service[];
   staff?: Staff[];
+  /** False once the salon's trial ended without a subscription (public booking closed). */
+  bookingEnabled?: boolean;
 }
 
 export interface DashboardStats {

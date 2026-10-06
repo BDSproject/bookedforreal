@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 
+import { Button } from "@bookedforreal/ui";
+
 import { Link, useRouter } from "@/i18n/navigation";
-import { getToken } from "@/lib/api-client";
+import { apiFetch, getToken } from "@/lib/api-client";
 
 const NAV_ITEMS = [
   { href: "/dashboard", key: "dashboard" },
@@ -15,15 +17,31 @@ const NAV_ITEMS = [
   { href: "/settings", key: "settings" },
 ] as const;
 
-/** Authenticated shell: guards the session and renders the sidebar. */
+interface TrialStatus {
+  daysLeft: number;
+  expired: boolean;
+}
+
+/**
+ * Authenticated shell: guards the session, shows how many trial days are left
+ * and locks the app (keeping Settings reachable) once the trial has ended.
+ */
 export function DashboardShell({ children }: { children: ReactNode }) {
   const t = useTranslations("dashboard.nav");
+  const tt = useTranslations("dashboard.trial");
   const router = useRouter();
+  const [ready, setReady] = useState(false);
+  const [trial, setTrial] = useState<TrialStatus | null>(null);
 
   useEffect(() => {
     if (!getToken()) {
       router.replace("/login");
+      return;
     }
+    apiFetch<{ trial: TrialStatus }>("/salons/me")
+      .then((data) => setTrial(data.trial))
+      .catch(() => undefined)
+      .finally(() => setReady(true));
   }, [router]);
 
   return (
@@ -49,7 +67,35 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
       </aside>
-      <main className="flex-1 bg-surface p-4 sm:p-8">{children}</main>
+
+      <div className="flex-1">
+        {trial && !trial.expired ? (
+          <p className="border-b border-primary/20 bg-primary/5 px-4 py-2.5 text-center text-sm font-medium text-primary sm:px-8">
+            {tt("daysLeft", { days: trial.daysLeft })}
+          </p>
+        ) : null}
+
+        <main className="bg-surface p-4 sm:p-8">
+          {!ready ? (
+            <p className="text-muted-foreground">…</p>
+          ) : trial?.expired ? (
+            <div className="mx-auto max-w-lg rounded-3xl border bg-card p-8 text-center">
+              <span className="text-4xl" aria-hidden>
+                ⏳
+              </span>
+              <h1 className="mt-4 font-display text-2xl font-semibold text-navy">
+                {tt("expiredTitle")}
+              </h1>
+              <p className="mt-3 leading-relaxed text-muted-foreground">{tt("expiredBody")}</p>
+              <Button asChild size="xl" className="mt-6 rounded-full">
+                <Link href="/settings">{tt("cta")}</Link>
+              </Button>
+            </div>
+          ) : (
+            children
+          )}
+        </main>
+      </div>
     </div>
   );
 }

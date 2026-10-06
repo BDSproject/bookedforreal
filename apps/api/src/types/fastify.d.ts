@@ -1,4 +1,4 @@
-import type { UserRole } from "@bookedforreal/db";
+import type { SubscriptionStatus, UserRole } from "@bookedforreal/db";
 
 declare module "fastify" {
   interface FastifyRequest {
@@ -12,6 +12,8 @@ declare module "fastify" {
     salon?: {
       id: string;
       slug: string;
+      trialEndsAt: Date | null;
+      subscriptionStatus: SubscriptionStatus | null;
     };
     /** Raw request body (fastify-raw-body), used for Stripe webhook signatures. */
     rawBody?: Buffer | string;
