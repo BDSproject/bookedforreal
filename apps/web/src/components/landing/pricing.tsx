@@ -32,8 +32,9 @@ function PlanCard({ planKey, yearly, highlight }: PlanCardProps) {
       <h3 className="text-xl font-bold">{t(`${planKey}.name`)}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{t(`${planKey}.description`)}</p>
 
-      <div className="mt-5 flex items-baseline gap-1">
+      <div className="mt-5 flex items-baseline gap-1.5">
         <span className="text-5xl font-extrabold text-primary">{price} €</span>
+        <span className="text-sm font-semibold text-muted-foreground">HT</span>
         <span className="text-muted-foreground">/ {t("monthly").toLowerCase()}</span>
       </div>
 
@@ -129,6 +130,10 @@ export function Pricing() {
         <PlanCard planKey="pro" yearly={yearly} highlight />
         <CustomCard />
       </div>
+
+      <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-muted-foreground">
+        {t("vatNote")}
+      </p>
     </section>
   );
 }

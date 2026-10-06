@@ -77,8 +77,8 @@ export default async function HomePage({ params }: HomePageProps) {
   const citySlugs = allCitySlugs(cities.map((city) => city.city!));
 
   const software = softwareApplicationJsonLd(url, [
-    { name: "Starter", price: "5" },
-    { name: "Pro", price: "29" },
+    { name: "Starter", price: "19" },
+    { name: "Pro", price: "39" },
   ]);
 
   return (

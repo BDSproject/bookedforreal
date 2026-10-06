@@ -10,15 +10,15 @@ export interface PlanDefinition {
 
 export const PLANS: Record<Plan, PlanDefinition> = {
   STARTER: {
-    monthlyAppointments: 30,
+    monthlyAppointments: 80,
     maxStaff: 1,
     smsWhatsAppCredits: 0,
     customDomain: false,
   },
   PRO: {
-    monthlyAppointments: 300,
+    monthlyAppointments: 400,
     maxStaff: 5,
-    smsWhatsAppCredits: 100,
+    smsWhatsAppCredits: 50,
     customDomain: true,
   },
 };

@@ -4,16 +4,16 @@ import { PLANS, priceIdFor } from "./plans";
 
 describe("plans", () => {
   it("defines STARTER quotas", () => {
-    expect(PLANS.STARTER.monthlyAppointments).toBe(30);
+    expect(PLANS.STARTER.monthlyAppointments).toBe(80);
     expect(PLANS.STARTER.maxStaff).toBe(1);
     expect(PLANS.STARTER.smsWhatsAppCredits).toBe(0);
     expect(PLANS.STARTER.customDomain).toBe(false);
   });
 
   it("defines PRO quotas", () => {
-    expect(PLANS.PRO.monthlyAppointments).toBe(300);
+    expect(PLANS.PRO.monthlyAppointments).toBe(400);
     expect(PLANS.PRO.maxStaff).toBe(5);
-    expect(PLANS.PRO.smsWhatsAppCredits).toBe(100);
+    expect(PLANS.PRO.smsWhatsAppCredits).toBe(50);
     expect(PLANS.PRO.customDomain).toBe(true);
   });
 

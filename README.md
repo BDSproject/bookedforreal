@@ -210,9 +210,10 @@ Login/register are rate-limited (5 attempts / 15 min). `requireAuth` / `requireR
   `checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`,
   `customer.subscription.deleted`.
 
-Plans (see `apps/api/src/lib/plans.ts`): **Starter** (30 bookings/mo, 1 staff),
-**Pro** (300 bookings/mo, 5 staff, 100 SMS/WhatsApp credits), and **Sur devis** (custom
-quote for multi-shop / premium clients).
+Plans (see `apps/api/src/lib/plans.ts`): **Starter** — €19/mo ex VAT (80 bookings/mo, 1
+staff), **Pro** — €39/mo ex VAT (400 bookings/mo, 5 staff, 50 SMS/WhatsApp credits), and
+**Sur devis** (custom quote for multi-shop / premium clients). Every plan starts with a
+7-day free trial.
 
 ## Notifications
 
