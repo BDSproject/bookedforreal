@@ -7,6 +7,7 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import Script from "next/script";
 
 import { LocaleSwitcher } from "@/components/locale-switcher";
+import { MobileNav } from "@/components/mobile-nav";
 import { Link } from "@/i18n/navigation";
 import { isLocale, routing, type AppLocale } from "@/i18n/routing";
 import { hreflangAlternates } from "@/lib/seo";
@@ -100,6 +101,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   // Make messages available to client components (e.g. the locale switcher).
   const messages = await getMessages();
   const t = await getTranslations("common");
+  const mobileLinks = NAV_LINKS.map((link) => ({ href: link.href, label: t(link.key) }));
 
   return (
     <html lang={locale}>
@@ -150,10 +152,11 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
                 </Link>
                 <Link
                   href="/register"
-                  className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-primary/20 transition-colors hover:bg-primary/90"
+                  className="hidden rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-primary/20 transition-colors hover:bg-primary/90 sm:inline-flex"
                 >
                   {t("nav.startFree")}
                 </Link>
+                <MobileNav links={mobileLinks} />
               </div>
             </div>
           </header>

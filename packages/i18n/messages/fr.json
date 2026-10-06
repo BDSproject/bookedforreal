@@ -1,7 +1,7 @@
 {
   "common": {
     "appName": "Bookedforreal",
-    "nav": { "home": "Accueil", "book": "Réserver", "salons": "Salons", "dashboard": "Tableau de bord", "login": "Se connecter", "register": "Inscription", "blog": "Blog", "features": "Le produit", "pricing": "Les tarifs", "testimonials": "Les avis", "faq": "Vos questions", "startFree": "Créer mon salon" },
+    "nav": { "home": "Accueil", "book": "Réserver", "salons": "Salons", "dashboard": "Tableau de bord", "login": "Se connecter", "register": "Inscription", "blog": "Blog", "features": "Le produit", "pricing": "Les tarifs", "testimonials": "Les avis", "faq": "Vos questions", "startFree": "Créer mon salon", "menu": "Menu" },
     "actions": { "submit": "Envoyer", "cancel": "Annuler", "confirm": "Confirmer", "save": "Enregistrer", "delete": "Supprimer", "back": "Retour", "next": "Suivant", "close": "Fermer", "edit": "Modifier", "seeMore": "Voir plus" },
     "languages": { "fr": "Français", "en": "English" }
   },
