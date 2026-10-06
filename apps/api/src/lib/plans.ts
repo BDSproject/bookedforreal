@@ -23,9 +23,20 @@ export const PLANS: Record<Plan, PlanDefinition> = {
   },
 };
 
-/** Stripe price ids per plan (set via env in production). */
-export function priceIdFor(plan: Plan): string {
-  return plan === "PRO"
-    ? (process.env.STRIPE_PRICE_PRO ?? "price_pro_test")
-    : (process.env.STRIPE_PRICE_STARTER ?? "price_starter_test");
+/**
+ * Stripe price ids per plan and billing interval (set via env in production).
+ * `STRIPE_PRICE_*` are the monthly prices; `*_YEARLY` the annual ones.
+ */
+export function priceIdFor(plan: Plan, interval: "monthly" | "yearly" = "monthly"): string {
+  const key =
+    plan === "PRO"
+      ? interval === "yearly"
+        ? "STRIPE_PRICE_PRO_YEARLY"
+        : "STRIPE_PRICE_PRO"
+      : interval === "yearly"
+        ? "STRIPE_PRICE_STARTER_YEARLY"
+        : "STRIPE_PRICE_STARTER";
+
+  const fallback = plan === "PRO" ? "price_pro_test" : "price_starter_test";
+  return process.env[key] ?? fallback;
 }

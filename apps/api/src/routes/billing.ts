@@ -32,6 +32,7 @@ export async function billingRoutes(app: FastifyInstance): Promise<void> {
       salonId: request.salon!.id,
       customerEmail: request.user!.email,
       plan: parsed.data.plan,
+      interval: parsed.data.interval,
       baseUrl: webAppUrl(),
       trialEndsAt: salon?.trialEndsAt ?? null,
     });

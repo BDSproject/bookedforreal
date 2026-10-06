@@ -164,7 +164,17 @@
     "nav": { "dashboard": "Tableau de bord", "appointments": "Rendez-vous", "clients": "Clients", "services": "Services", "staff": "Personnel", "settings": "Paramètres" },
     "stats": { "today": "Aujourd'hui", "upcoming": "À venir", "clients": "Clients", "services": "Services", "staff": "Personnel" },
     "appointments": { "title": "Rendez-vous", "empty": "Aucun rendez-vous pour le moment" },
-    "clients": { "title": "Clients", "empty": "Aucun client pour le moment" }
+    "clients": { "title": "Clients", "empty": "Aucun client pour le moment" },
+    "billing": {
+      "title": "Abonnement",
+      "subtitle": "Choisissez votre plan — essai gratuit, sans engagement",
+      "monthly": "Mensuel",
+      "yearly": "Annuel",
+      "subscribe": "S'abonner",
+      "manage": "Gérer mon abonnement",
+      "redirecting": "Redirection vers Stripe…",
+      "error": "Impossible d'ouvrir le paiement, réessayez"
+    }
   },
   "seo": {
     "home": {

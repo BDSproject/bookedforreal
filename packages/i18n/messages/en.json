@@ -164,7 +164,17 @@
     "nav": { "dashboard": "Dashboard", "appointments": "Appointments", "clients": "Clients", "services": "Services", "staff": "Staff", "settings": "Settings" },
     "stats": { "today": "Today", "upcoming": "Upcoming", "clients": "Clients", "services": "Services", "staff": "Staff" },
     "appointments": { "title": "Appointments", "empty": "No appointments yet" },
-    "clients": { "title": "Clients", "empty": "No clients yet" }
+    "clients": { "title": "Clients", "empty": "No clients yet" },
+    "billing": {
+      "title": "Subscription",
+      "subtitle": "Pick your plan — free trial, no commitment",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "subscribe": "Subscribe",
+      "manage": "Manage subscription",
+      "redirecting": "Redirecting to Stripe…",
+      "error": "Could not open checkout, please retry"
+    }
   },
   "seo": {
     "home": {

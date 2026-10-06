@@ -15,6 +15,8 @@ export interface CheckoutParams {
   customerEmail: string;
   plan: Plan;
   baseUrl: string;
+  /** Billing interval; selects the matching Stripe price. */
+  interval?: "monthly" | "yearly";
   /** End of the salon's free trial; the days left become the Stripe trial. */
   trialEndsAt?: Date | null;
 }
@@ -41,7 +43,7 @@ export async function createCheckoutSession(params: CheckoutParams): Promise<str
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer_email: params.customerEmail,
-    line_items: [{ price: priceIdFor(params.plan), quantity: 1 }],
+    line_items: [{ price: priceIdFor(params.plan, params.interval), quantity: 1 }],
     success_url: `${params.baseUrl}/dashboard?checkout=success`,
     cancel_url: `${params.baseUrl}/settings?checkout=cancelled`,
     metadata: { salonId: params.salonId, plan: params.plan },
