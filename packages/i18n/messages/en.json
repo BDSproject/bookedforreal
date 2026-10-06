@@ -60,7 +60,6 @@
       "save": "-20%",
       "popular": "Most chosen",
       "vatNote": "Prices exclude VAT (20% added at checkout). No commitment, cancel anytime",
-      "launchNote": "Founding rate locked for life for the first 50 salons. Then €29 and €59 ex VAT/month.",
       "starter": { "name": "Starter", "priceMonthly": "19", "priceYearly": "15", "pricePublicMonthly": "29", "pricePublicYearly": "23", "description": "For solo professionals", "features": { "1": "Custom mini-site", "2": "24/7 online booking", "3": "80 bookings / month", "4": "1 staff member", "5": "Email reminders", "6": "No commitment, cancel anytime" } },
       "pro": { "name": "Pro", "priceMonthly": "39", "priceYearly": "31", "pricePublicMonthly": "59", "pricePublicYearly": "47", "description": "For salons with a team", "features": { "1": "Everything in Starter", "2": "400 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (50 credits)", "5": "Custom domain + mobile app", "6": "No commitment, cancel anytime" } },
       "custom": {

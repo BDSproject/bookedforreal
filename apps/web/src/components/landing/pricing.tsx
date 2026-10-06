@@ -134,10 +134,7 @@ export function Pricing() {
         <CustomCard />
       </div>
 
-      <p className="mx-auto mt-8 max-w-2xl text-center text-xs font-medium text-primary">
-        {t("launchNote")}
-      </p>
-      <p className="mx-auto mt-2 max-w-2xl text-center text-xs text-muted-foreground">
+      <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-muted-foreground">
         {t("vatNote")}
       </p>
     </section>
