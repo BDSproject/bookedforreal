@@ -153,6 +153,7 @@ export function articleJsonLd(input: {
   description: string;
   url: string;
   datePublished: string;
+  dateModified?: string;
   author?: string;
 }): JsonLd {
   return withContext({
@@ -161,6 +162,7 @@ export function articleJsonLd(input: {
     description: input.description,
     url: input.url,
     datePublished: input.datePublished,
+    dateModified: input.dateModified ?? input.datePublished,
     author: { "@type": "Organization", name: input.author ?? "Bookedforreal" },
     publisher: { "@type": "Organization", name: "Bookedforreal" },
   });

@@ -3,6 +3,8 @@ export interface BlogArticle {
   slug: string;
   category: string;
   publishedAt: string;
+  /** Set when the article is meaningfully updated (exposed as `dateModified`). */
+  updatedAt?: string;
   fr: { title: string; description: string; content: string[] };
   en: { title: string; description: string; content: string[] };
 }

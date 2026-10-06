@@ -87,3 +87,33 @@ navigateurs qui analysent le DOM / l'arbre d'accessibilité.
 - **Umami** (analytics, optionnel via `NEXT_PUBLIC_UMAMI_*`).
 - ⚠️ Méfiance envers les outils tiers qui promettent des « métriques internes Google » :
   aucun n'y a accès.
+
+## 8. Maintenance technique (audit)
+
+Vérifié sur le site en fonctionnement :
+
+| Contrôle | Résultat |
+| --- | --- |
+| Ressources (CSS, JS, logo) **non bloquées** par robots.txt | ✅ |
+| Ressources servies aux robots (`/_next/...` → 200) | ✅ |
+| **Vrais 404** (pas de soft 404) sur page inconnue / salon inconnu / article inconnu | ✅ 404 |
+| Redirect **308** (équivalent 301) sur slug salon migré | ✅ |
+| `robots.txt` pour le crawl + `noindex` pour l'indexation (jamais l'inverse) | ✅ |
+| Sitemap : uniquement les pages indexables | ✅ |
+| hreflang fr / en / x-default | ✅ |
+| Compression | 126 Ko → **18,6 Ko** (gzip) |
+| CSS critique | 22,7 Ko |
+| JS partagé (First Load) | 87,3 Ko |
+| Polices | auto-hébergées + `preload` + `display: swap` |
+| Favicon fourni (`icon.png` 512×512 + apple-touch-icon) | ✅ |
+
+**À surveiller dans le temps :**
+
+- **Search Console → Indexation des pages** : repérer les *soft 404* et les pages
+  « explorée, non indexée ».
+- **Core Web Vitals** (Search Console + PageSpeed Insights) après déploiement réel.
+- **Ne pas bloquer le logo** dans robots.txt : Google en a besoin pour le knowledge
+  panel (`Organization.logo`).
+- Lors d'un **changement d'URL** : toujours un 301 + mise à jour du sitemap.
+- Avant un **changement de domaine** : suivre la procédure officielle de migration de
+  site (Search Console → « Changement d'adresse »).

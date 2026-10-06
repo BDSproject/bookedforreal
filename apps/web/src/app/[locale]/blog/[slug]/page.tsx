@@ -50,6 +50,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
           description: data.description,
           url,
           datePublished: article.publishedAt,
+          dateModified: article.updatedAt ?? article.publishedAt,
           author,
         })}
       />
