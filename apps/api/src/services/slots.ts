@@ -64,7 +64,9 @@ export function generateSlots(input: GenerateSlotsInput): Slot[] {
   const breakStart = input.breakStart
     ? zonedToUtc(input.date, input.breakStart, input.timezone).getTime()
     : null;
-  const breakEnd = input.breakEnd ? zonedToUtc(input.date, input.breakEnd, input.timezone).getTime() : null;
+  const breakEnd = input.breakEnd
+    ? zonedToUtc(input.date, input.breakEnd, input.timezone).getTime()
+    : null;
 
   const blocked = input.occupied.map((o) => ({
     start: o.startAt.getTime(),

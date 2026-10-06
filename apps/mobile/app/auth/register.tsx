@@ -36,11 +36,21 @@ export default function Register() {
           autoCapitalize="none"
           keyboardType="email-address"
         />
-        <Input label={t("auth.password")} value={password} onChangeText={setPassword} secureTextEntry />
-        <Button label={t("auth.register")} size="xl" onPress={submit} disabled={register.isPending} />
+        <Input
+          label={t("auth.password")}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        <Button
+          label={t("auth.register")}
+          size="xl"
+          onPress={submit}
+          disabled={register.isPending}
+        />
       </View>
 
-      <Link href="/auth/login" className="mt-4 text-center text-primary">
+      <Link href="/auth/login" className="text-primary mt-4 text-center">
         {t("auth.haveAccount")} {t("auth.login")}
       </Link>
     </View>

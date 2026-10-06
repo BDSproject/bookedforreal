@@ -75,7 +75,10 @@ export default async function SalonPage({ params }: SalonPageProps) {
   const jsonLd = salonJsonLd(salon, url, { bookingEnabled });
   const breadcrumb = breadcrumbJsonLd([
     { name: "Bookedforreal", url: `${siteUrl()}/${locale}` },
-    { name: salon.city ?? "", url: `${siteUrl()}/${locale}/${categorySlug}/${salon.city?.toLowerCase()}` },
+    {
+      name: salon.city ?? "",
+      url: `${siteUrl()}/${locale}/${categorySlug}/${salon.city?.toLowerCase()}`,
+    },
     { name: salon.name, url },
   ]);
 
@@ -85,9 +88,9 @@ export default async function SalonPage({ params }: SalonPageProps) {
       <JsonLd data={breadcrumb} />
 
       <h1 className="text-3xl font-bold tracking-tight">{salon.name}</h1>
-      <p className="mt-2 text-muted-foreground">{salon.description}</p>
+      <p className="text-muted-foreground mt-2">{salon.description}</p>
       {salon.address ? (
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-1 text-sm">
           {salon.address}, {salon.postalCode} {salon.city}
         </p>
       ) : null}
@@ -98,9 +101,14 @@ export default async function SalonPage({ params }: SalonPageProps) {
         </h2>
         <ul className="mt-4 space-y-3">
           {salon.services.map((service) => (
-            <li key={service.id} className="flex items-center justify-between rounded-xl border p-4">
-              <span className="font-medium">{locale === "fr" ? service.nameFr : service.nameEn}</span>
-              <span className="text-sm text-muted-foreground">
+            <li
+              key={service.id}
+              className="flex items-center justify-between rounded-xl border p-4"
+            >
+              <span className="font-medium">
+                {locale === "fr" ? service.nameFr : service.nameEn}
+              </span>
+              <span className="text-muted-foreground text-sm">
                 {service.durationMin} min · {(service.priceCents / 100).toFixed(2)} €
               </span>
             </li>
@@ -112,7 +120,7 @@ export default async function SalonPage({ params }: SalonPageProps) {
         <h2 id="staff-heading" className="text-xl font-semibold">
           {t("staff.label")}
         </h2>
-        <p className="mt-2 text-muted-foreground">{salon.staff.map((s) => s.name).join(", ")}</p>
+        <p className="text-muted-foreground mt-2">{salon.staff.map((s) => s.name).join(", ")}</p>
       </section>
 
       {bookingEnabled ? (
@@ -120,9 +128,9 @@ export default async function SalonPage({ params }: SalonPageProps) {
           <Link href={`/${locale}/s/${salon.slug}/book`}>{tc("nav.book")}</Link>
         </Button>
       ) : (
-        <div className="mt-10 rounded-2xl border bg-card p-6">
+        <div className="bg-card mt-10 rounded-2xl border p-6">
           <p className="font-semibold">{t("unavailable")}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{t("unavailableHint")}</p>
+          <p className="text-muted-foreground mt-1 text-sm">{t("unavailableHint")}</p>
         </div>
       )}
     </main>

@@ -28,16 +28,21 @@ export default function Onboarding() {
   return (
     <View className="flex-1 bg-white">
       <View className="flex-1 items-center justify-center px-8">
-        <View className="mb-8 h-32 w-32 items-center justify-center rounded-3xl bg-primary">
+        <View className="bg-primary mb-8 h-32 w-32 items-center justify-center rounded-3xl">
           <Text className="text-6xl font-bold text-white">B</Text>
         </View>
-        <Text className="text-center text-3xl font-extrabold text-gray-900">{data[index]!.title}</Text>
+        <Text className="text-center text-3xl font-extrabold text-gray-900">
+          {data[index]!.title}
+        </Text>
         <Text className="mt-4 text-center text-lg text-gray-500">{data[index]!.subtitle}</Text>
       </View>
 
       <View className="flex-row justify-center gap-2">
         {data.map((_, i) => (
-          <View key={i} className={`h-2 rounded-full ${i === index ? "w-6 bg-primary" : "w-2 bg-gray-300"}`} />
+          <View
+            key={i}
+            className={`h-2 rounded-full ${i === index ? "bg-primary w-6" : "w-2 bg-gray-300"}`}
+          />
         ))}
       </View>
 

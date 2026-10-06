@@ -56,7 +56,7 @@ export default async function Page({ params }: PageProps) {
       ))}
 
       <h1 className="text-3xl font-bold tracking-tight">{page.title}</h1>
-      <p className="mt-2 text-muted-foreground">{page.description}</p>
+      <p className="text-muted-foreground mt-2">{page.description}</p>
 
       {page.salons.length > 0 ? (
         <ul className="mt-8 space-y-4">
@@ -64,20 +64,22 @@ export default async function Page({ params }: PageProps) {
             <li key={salon.slug}>
               <Link
                 href={`/${params.locale}/s/${salon.slug}`}
-                className="block rounded-xl border p-4 transition-colors hover:border-primary"
+                className="hover:border-primary block rounded-xl border p-4 transition-colors"
               >
                 <span className="font-semibold">{salon.name}</span>
                 {salon.description ? (
-                  <span className="mt-1 block text-sm text-muted-foreground">{salon.description}</span>
+                  <span className="text-muted-foreground mt-1 block text-sm">
+                    {salon.description}
+                  </span>
                 ) : null}
               </Link>
             </li>
           ))}
         </ul>
       ) : (
-        <div className="mt-8 rounded-2xl border bg-card p-6">
+        <div className="bg-card mt-8 rounded-2xl border p-6">
           <p className="font-semibold">{t("empty", { city: cityName })}</p>
-          <p className="mt-1 text-sm text-muted-foreground">{t("emptyHint", { city: cityName })}</p>
+          <p className="text-muted-foreground mt-1 text-sm">{t("emptyHint", { city: cityName })}</p>
           <Button asChild className="mt-5 rounded-full">
             <Link href={`/${params.locale}/register`}>{t("ctaList")}</Link>
           </Button>
@@ -91,7 +93,7 @@ export default async function Page({ params }: PageProps) {
             <li key={city.slug}>
               <Link
                 href={`/${params.locale}/${SEGMENT}/${city.slug}`}
-                className="inline-block rounded-full border px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                className="text-muted-foreground hover:border-primary hover:text-primary inline-block rounded-full border px-3 py-1 text-sm transition-colors"
               >
                 {city.name}
               </Link>

@@ -50,7 +50,12 @@ describe("generateSlots", () => {
   });
 
   it("excludes slots inside the break window", () => {
-    const slots = generateSlots({ ...base, endTime: "14:00", breakStart: "12:00", breakEnd: "13:00" });
+    const slots = generateSlots({
+      ...base,
+      endTime: "14:00",
+      breakStart: "12:00",
+      breakEnd: "13:00",
+    });
     const times = slots.map((s) => s.time);
 
     expect(times).toContain("11:45");

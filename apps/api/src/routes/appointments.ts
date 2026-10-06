@@ -1,7 +1,11 @@
 import type { FastifyInstance } from "fastify";
 
 import { prisma, Prisma } from "@bookedforreal/db";
-import { createManualAppointmentSchema, listAppointmentsQuerySchema, updateAppointmentStatusSchema } from "@bookedforreal/types";
+import {
+  createManualAppointmentSchema,
+  listAppointmentsQuerySchema,
+  updateAppointmentStatusSchema,
+} from "@bookedforreal/types";
 
 import { requireAuth } from "../middleware/auth";
 import { requireSalon } from "../middleware/salon";
@@ -41,7 +45,9 @@ export async function appointmentRoutes(app: FastifyInstance): Promise<void> {
       include: {
         client: { select: { id: true, name: true, phone: true, email: true } },
         staff: { select: { id: true, name: true } },
-        service: { select: { id: true, nameFr: true, nameEn: true, durationMin: true, priceCents: true } },
+        service: {
+          select: { id: true, nameFr: true, nameEn: true, durationMin: true, priceCents: true },
+        },
       },
     });
   });
@@ -58,12 +64,16 @@ export async function appointmentRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(403).send({ error: "Quota exceeded — upgrade your plan" });
     }
 
-    const service = await prisma.service.findFirst({ where: { id: parsed.data.serviceId, salonId, active: true } });
+    const service = await prisma.service.findFirst({
+      where: { id: parsed.data.serviceId, salonId, active: true },
+    });
     if (!service) {
       return reply.code(400).send({ error: "Service not available" });
     }
 
-    const staff = await prisma.staff.findFirst({ where: { id: parsed.data.staffId, salonId, active: true } });
+    const staff = await prisma.staff.findFirst({
+      where: { id: parsed.data.staffId, salonId, active: true },
+    });
     if (!staff) {
       return reply.code(400).send({ error: "Staff not available" });
     }

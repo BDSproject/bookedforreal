@@ -30,7 +30,7 @@ export function MobileNav({ links }: { links: readonly MobileNavLink[] }) {
         aria-expanded={open}
         aria-controls="mobile-nav"
         aria-label={t("nav.menu")}
-        className="flex h-10 w-10 items-center justify-center rounded-xl border border-border text-foreground transition-colors hover:bg-accent lg:hidden"
+        className="border-border text-foreground hover:bg-accent flex h-10 w-10 items-center justify-center rounded-xl border transition-colors lg:hidden"
       >
         <svg
           viewBox="0 0 24 24"
@@ -59,7 +59,7 @@ export function MobileNav({ links }: { links: readonly MobileNavLink[] }) {
       <nav
         id="mobile-nav"
         aria-label={t("nav.menu")}
-        className={`absolute inset-x-0 top-full border-b border-border/70 bg-background/95 shadow-lg backdrop-blur-md lg:hidden ${
+        className={`border-border/70 bg-background/95 absolute inset-x-0 top-full border-b shadow-lg backdrop-blur-md lg:hidden ${
           open ? "block" : "hidden"
         }`}
       >
@@ -69,7 +69,7 @@ export function MobileNav({ links }: { links: readonly MobileNavLink[] }) {
               <a
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                className="text-muted-foreground hover:bg-accent hover:text-foreground block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors"
               >
                 {link.label}
               </a>
@@ -79,7 +79,7 @@ export function MobileNav({ links }: { links: readonly MobileNavLink[] }) {
             <Link
               href="/register"
               onClick={() => setOpen(false)}
-              className="rounded-full bg-primary px-4 py-2.5 text-center text-sm font-semibold text-white"
+              className="bg-primary rounded-full px-4 py-2.5 text-center text-sm font-semibold text-white"
             >
               {t("nav.startFree")}
             </Link>

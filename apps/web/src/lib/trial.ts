@@ -10,7 +10,10 @@ const MS_PER_DAY = 24 * 60 * 60 * 1000;
 const ACTIVE_STATUSES = new Set(["ACTIVE", "TRIALING"]);
 
 /** Whole days left in the trial (0 once it has ended). */
-export function trialDaysLeft(trialEndsAt: Date | null | undefined, now: number = Date.now()): number {
+export function trialDaysLeft(
+  trialEndsAt: Date | null | undefined,
+  now: number = Date.now(),
+): number {
   if (!trialEndsAt) {
     return 0;
   }

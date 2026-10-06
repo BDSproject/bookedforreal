@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { availabilityQuerySchema, createAppointmentSchema, updateAppointmentStatusSchema } from "./appointment";
+import {
+  availabilityQuerySchema,
+  createAppointmentSchema,
+  updateAppointmentStatusSchema,
+} from "./appointment";
 
 const validPayload = {
   staffId: "staff_1",
@@ -26,7 +30,9 @@ describe("createAppointmentSchema", () => {
   });
 
   it("rejects a missing startAt", () => {
-    expect(createAppointmentSchema.safeParse({ ...validPayload, startAt: undefined }).success).toBe(false);
+    expect(createAppointmentSchema.safeParse({ ...validPayload, startAt: undefined }).success).toBe(
+      false,
+    );
   });
 });
 

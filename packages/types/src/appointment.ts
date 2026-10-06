@@ -1,6 +1,12 @@
 import { z } from "zod";
 
-export const APPOINTMENT_STATUSES = ["PENDING", "CONFIRMED", "CANCELLED", "DONE", "NO_SHOW"] as const;
+export const APPOINTMENT_STATUSES = [
+  "PENDING",
+  "CONFIRMED",
+  "CANCELLED",
+  "DONE",
+  "NO_SHOW",
+] as const;
 export const APPOINTMENT_SOURCES = ["WEB", "MOBILE", "MANUAL"] as const;
 
 /** Public appointment creation: the client is found or created from name/phone/email. */

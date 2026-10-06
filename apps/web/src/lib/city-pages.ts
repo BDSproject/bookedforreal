@@ -49,7 +49,13 @@ export async function getDistricts(category: SalonCategory, city: string): Promi
 }
 
 export interface CityPageData {
-  salons: { slug: string; name: string; city: string | null; district: string | null; description: string | null }[];
+  salons: {
+    slug: string;
+    name: string;
+    city: string | null;
+    district: string | null;
+    description: string | null;
+  }[];
   title: string;
   description: string;
   path: string;

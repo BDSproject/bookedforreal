@@ -27,7 +27,9 @@ export function Calendar({ onSelect }: { onSelect: (date: string) => void }) {
             }}
             className={`mr-2 items-center rounded-xl px-4 py-3 ${active ? "bg-primary" : "border border-gray-200 bg-white"}`}
           >
-            <Text className={`font-semibold ${active ? "text-white" : "text-gray-900"}`}>{label}</Text>
+            <Text className={`font-semibold ${active ? "text-white" : "text-gray-900"}`}>
+              {label}
+            </Text>
           </Pressable>
         );
       })}

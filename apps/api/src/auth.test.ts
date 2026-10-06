@@ -123,7 +123,9 @@ describe("auth", () => {
 describe("requireRole", () => {
   it("blocks a role that is not allowed", async () => {
     const guardApp = buildApp();
-    guardApp.get("/admin-only", { preHandler: [requireAuth, requireRole("ADMIN")] }, async () => ({ ok: true }));
+    guardApp.get("/admin-only", { preHandler: [requireAuth, requireRole("ADMIN")] }, async () => ({
+      ok: true,
+    }));
 
     const res = await guardApp.inject({
       method: "GET",

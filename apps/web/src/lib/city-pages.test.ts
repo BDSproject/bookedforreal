@@ -27,7 +27,13 @@ describe("getCityPage", () => {
 
   it("builds a city landing page with title, description and JSON-LD", async () => {
     findMany.mockResolvedValue([
-      { slug: "lyon-brotteaux", name: "Studio Brotteaux", city: "Lyon", district: "Brotteaux", description: "Salon à Lyon" },
+      {
+        slug: "lyon-brotteaux",
+        name: "Studio Brotteaux",
+        city: "Lyon",
+        district: "Brotteaux",
+        description: "Salon à Lyon",
+      },
     ]);
 
     const page = await getCityPage("HAIR_SALON", "lyon", undefined, "fr");

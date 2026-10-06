@@ -12,7 +12,7 @@ export default function Appointments() {
   }, []);
 
   return (
-    <View className="flex-1 bg-surface px-4 pt-6">
+    <View className="bg-surface flex-1 px-4 pt-6">
       <Text className="text-2xl font-bold text-gray-900">{t("appointments.title")}</Text>
 
       {items.length === 0 ? (

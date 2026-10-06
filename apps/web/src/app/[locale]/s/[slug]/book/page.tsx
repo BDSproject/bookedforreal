@@ -43,7 +43,9 @@ export default function BookPage() {
     if (!service) return;
     const staffId = salon?.staff?.[0]?.id;
     const qs = `date=${selectedDate}&serviceId=${service.id}${staffId ? `&staffId=${staffId}` : ""}`;
-    const data = await apiFetch<{ slots: Record<string, Slot[]> }>(`/public/salons/${params.slug}/availability?${qs}`);
+    const data = await apiFetch<{ slots: Record<string, Slot[]> }>(
+      `/public/salons/${params.slug}/availability?${qs}`,
+    );
     setSlots(Object.values(data.slots).flat());
   }
 
@@ -53,7 +55,14 @@ export default function BookPage() {
       const staffId = salon.staff?.[0]?.id ?? "";
       await apiFetch(`/public/salons/${salon.slug}/appointments`, {
         method: "POST",
-        body: JSON.stringify({ serviceId: service.id, staffId, name, phone, email, startAt: slot.startAt }),
+        body: JSON.stringify({
+          serviceId: service.id,
+          staffId,
+          name,
+          phone,
+          email,
+          startAt: slot.startAt,
+        }),
       });
       setDone(true);
     } catch {
@@ -66,7 +75,7 @@ export default function BookPage() {
       <main className="mx-auto max-w-md px-4 py-16 text-center">
         <p className="text-3xl">✅</p>
         <h1 className="mt-4 text-2xl font-bold">{t("confirmation.title")}</h1>
-        <p className="mt-2 text-muted-foreground">{t("confirmation.subtitle")}</p>
+        <p className="text-muted-foreground mt-2">{t("confirmation.subtitle")}</p>
       </main>
     );
   }
@@ -79,7 +88,7 @@ export default function BookPage() {
           🔒
         </p>
         <h1 className="mt-4 text-2xl font-bold">{t("unavailable")}</h1>
-        <p className="mt-2 text-muted-foreground">{t("unavailableHint")}</p>
+        <p className="text-muted-foreground mt-2">{t("unavailableHint")}</p>
       </main>
     );
   }
@@ -91,7 +100,7 @@ export default function BookPage() {
       {step === "service" ? (
         <div className="mt-6 space-y-3">
           {salon?.services?.map((item) => (
-            <Card key={item.id} className="transition-colors hover:border-primary">
+            <Card key={item.id} className="hover:border-primary transition-colors">
               <CardContent className="p-0">
                 <button
                   type="button"
@@ -103,9 +112,11 @@ export default function BookPage() {
                 >
                   <span>
                     <span className="block font-semibold">{item.nameFr}</span>
-                    <span className="block text-sm text-muted-foreground">{item.durationMin} min</span>
+                    <span className="text-muted-foreground block text-sm">
+                      {item.durationMin} min
+                    </span>
                   </span>
-                  <span className="font-semibold text-primary">
+                  <span className="text-primary font-semibold">
                     {(item.priceCents / 100).toFixed(2)} €
                   </span>
                 </button>
@@ -163,18 +174,36 @@ export default function BookPage() {
         >
           <div className="space-y-2">
             <Label htmlFor="booking-name">{t("contact.name")}</Label>
-            <Input id="booking-name" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} required />
+            <Input
+              id="booking-name"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="booking-phone">{t("contact.phone")}</Label>
-            <Input id="booking-phone" type="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+            <Input
+              id="booking-phone"
+              type="tel"
+              autoComplete="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="booking-email">{t("contact.email")}</Label>
-            <Input id="booking-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Input
+              id="booking-email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           {error ? (
-            <p className="text-sm text-destructive" role="alert">
+            <p className="text-destructive text-sm" role="alert">
               {te("slotTaken")}
             </p>
           ) : null}

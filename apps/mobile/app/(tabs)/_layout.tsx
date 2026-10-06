@@ -12,15 +12,24 @@ export default function TabsLayout() {
     >
       <Tabs.Screen
         name="index"
-        options={{ title: "Recherche", tabBarIcon: ({ color, size }) => <Ionicons name="search" color={color} size={size} /> }}
+        options={{
+          title: "Recherche",
+          tabBarIcon: ({ color, size }) => <Ionicons name="search" color={color} size={size} />,
+        }}
       />
       <Tabs.Screen
         name="appointments"
-        options={{ title: "Mes RDV", tabBarIcon: ({ color, size }) => <Ionicons name="calendar" color={color} size={size} /> }}
+        options={{
+          title: "Mes RDV",
+          tabBarIcon: ({ color, size }) => <Ionicons name="calendar" color={color} size={size} />,
+        }}
       />
       <Tabs.Screen
         name="profile"
-        options={{ title: "Profil", tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} /> }}
+        options={{
+          title: "Profil",
+          tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
+        }}
       />
     </Tabs>
   );

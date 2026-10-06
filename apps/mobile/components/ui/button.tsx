@@ -9,7 +9,13 @@ interface ButtonProps {
 }
 
 /** Large, rounded button (primary violet). */
-export function Button({ label, onPress, variant = "primary", size = "lg", disabled }: ButtonProps) {
+export function Button({
+  label,
+  onPress,
+  variant = "primary",
+  size = "lg",
+  disabled,
+}: ButtonProps) {
   const variants = {
     primary: "bg-primary",
     outline: "border border-primary bg-white",

@@ -145,8 +145,7 @@ export const SITE_PAGES: Record<SitePageSlug, Record<AppLocale, LocalizedPage>> 
     fr: {
       title: "Mentions légales",
       description: "Mentions légales du site Bookedforreal.",
-      intro:
-        "Informations légales relatives à l'éditeur et à l'hébergement du site Bookedforreal.",
+      intro: "Informations légales relatives à l'éditeur et à l'hébergement du site Bookedforreal.",
       sections: [
         {
           title: "Éditeur du site",
@@ -251,8 +250,7 @@ export const SITE_PAGES: Record<SitePageSlug, Record<AppLocale, LocalizedPage>> 
     en: {
       title: "Privacy policy",
       description: "How Bookedforreal collects, uses and protects your personal data (GDPR).",
-      intro:
-        "We only collect the data needed to run the service, and we never sell it.",
+      intro: "We only collect the data needed to run the service, and we never sell it.",
       sections: [
         {
           title: "Data we collect",
@@ -291,8 +289,7 @@ export const SITE_PAGES: Record<SitePageSlug, Record<AppLocale, LocalizedPage>> 
     fr: {
       title: "Conditions générales de vente",
       description: "Conditions d'abonnement et d'utilisation du logiciel Bookedforreal.",
-      intro:
-        "Ces conditions régissent l'utilisation de Bookedforreal par les salons abonnés.",
+      intro: "Ces conditions régissent l'utilisation de Bookedforreal par les salons abonnés.",
       sections: [
         {
           title: "Objet et abonnement",

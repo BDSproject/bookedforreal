@@ -34,11 +34,16 @@ export default function Login() {
           autoCapitalize="none"
           keyboardType="email-address"
         />
-        <Input label={t("auth.password")} value={password} onChangeText={setPassword} secureTextEntry />
+        <Input
+          label={t("auth.password")}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
         <Button label={t("auth.login")} size="xl" onPress={submit} disabled={login.isPending} />
       </View>
 
-      <Link href="/auth/register" className="mt-4 text-center text-primary">
+      <Link href="/auth/register" className="text-primary mt-4 text-center">
         {t("auth.noAccount")} {t("auth.register")}
       </Link>
     </View>

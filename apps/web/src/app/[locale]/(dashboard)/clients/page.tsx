@@ -27,7 +27,7 @@ export default function ClientsPage() {
           <Card key={client.id}>
             <CardContent>
               <p className="font-semibold">{client.name}</p>
-              <p className="text-sm text-muted-foreground">{client.phone ?? client.email ?? "—"}</p>
+              <p className="text-muted-foreground text-sm">{client.phone ?? client.email ?? "—"}</p>
             </CardContent>
           </Card>
         ))}

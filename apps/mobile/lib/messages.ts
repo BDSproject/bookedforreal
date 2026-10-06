@@ -1,7 +1,13 @@
 /** Mobile translations (i18n-js). */
 export const translations = {
   en: {
-    common: { appName: "Bookedforreal", next: "Next", back: "Back", cancel: "Cancel", save: "Save" },
+    common: {
+      appName: "Bookedforreal",
+      next: "Next",
+      back: "Back",
+      cancel: "Cancel",
+      save: "Save",
+    },
     onboarding: {
       title1: "Book in 3 clicks",
       subtitle1: "Pick a salon, a service and a time. Done.",
@@ -23,7 +29,13 @@ export const translations = {
       logout: "Log out",
     },
     search: { title: "Find a salon", placeholder: "Search by city", nearMe: "Near me" },
-    salon: { services: "Services", staff: "Team", reviews: "Reviews", book: "Book now", from: "from" },
+    salon: {
+      services: "Services",
+      staff: "Team",
+      reviews: "Reviews",
+      book: "Book now",
+      from: "from",
+    },
     booking: {
       title: "Book an appointment",
       service: "Service",
@@ -37,11 +49,27 @@ export const translations = {
       confirmed: "Booking confirmed!",
       slotTaken: "This slot is no longer available.",
     },
-    appointments: { title: "My appointments", upcoming: "Upcoming", past: "Past", empty: "No appointments yet." },
-    profile: { title: "Profile", language: "Language", notifications: "Notifications", logout: "Log out" },
+    appointments: {
+      title: "My appointments",
+      upcoming: "Upcoming",
+      past: "Past",
+      empty: "No appointments yet.",
+    },
+    profile: {
+      title: "Profile",
+      language: "Language",
+      notifications: "Notifications",
+      logout: "Log out",
+    },
   },
   fr: {
-    common: { appName: "Bookedforreal", next: "Suivant", back: "Retour", cancel: "Annuler", save: "Enregistrer" },
+    common: {
+      appName: "Bookedforreal",
+      next: "Suivant",
+      back: "Retour",
+      cancel: "Annuler",
+      save: "Enregistrer",
+    },
     onboarding: {
       title1: "Réservez en 3 clics",
       subtitle1: "Un salon, un service, un créneau. C'est fait.",
@@ -62,8 +90,18 @@ export const translations = {
       haveAccount: "Déjà un compte ?",
       logout: "Se déconnecter",
     },
-    search: { title: "Trouver un salon", placeholder: "Rechercher par ville", nearMe: "Autour de moi" },
-    salon: { services: "Services", staff: "Équipe", reviews: "Avis", book: "Réserver", from: "dès" },
+    search: {
+      title: "Trouver un salon",
+      placeholder: "Rechercher par ville",
+      nearMe: "Autour de moi",
+    },
+    salon: {
+      services: "Services",
+      staff: "Équipe",
+      reviews: "Avis",
+      book: "Réserver",
+      from: "dès",
+    },
     booking: {
       title: "Réserver un rendez-vous",
       service: "Service",
@@ -77,7 +115,17 @@ export const translations = {
       confirmed: "Rendez-vous confirmé !",
       slotTaken: "Ce créneau n'est plus disponible.",
     },
-    appointments: { title: "Mes rendez-vous", upcoming: "À venir", past: "Passés", empty: "Aucun rendez-vous pour le moment." },
-    profile: { title: "Profil", language: "Langue", notifications: "Notifications", logout: "Se déconnecter" },
+    appointments: {
+      title: "Mes rendez-vous",
+      upcoming: "À venir",
+      past: "Passés",
+      empty: "Aucun rendez-vous pour le moment.",
+    },
+    profile: {
+      title: "Profil",
+      language: "Langue",
+      notifications: "Notifications",
+      logout: "Se déconnecter",
+    },
   },
 } as const;

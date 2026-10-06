@@ -106,10 +106,10 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   return (
     <html lang={locale}>
       <body
-        className={`${poppins.variable} ${fraunces.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
+        className={`${poppins.variable} ${fraunces.variable} bg-background text-foreground min-h-screen font-sans antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
+          <header className="border-border/70 bg-background/85 sticky top-0 z-50 border-b backdrop-blur-md">
             <div className="mx-auto flex h-[70px] max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
               <Link href="/" className="flex items-center gap-2.5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -135,7 +135,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
                   <a
                     key={link.key}
                     href={link.href}
-                    className="relative py-1 text-sm font-medium text-muted-foreground transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:bg-primary after:transition-all after:duration-200 hover:text-foreground hover:after:w-full"
+                    className="text-muted-foreground after:bg-primary hover:text-foreground relative py-1 text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:rounded-full after:transition-all after:duration-200 hover:after:w-full"
                   >
                     {t(link.key)}
                   </a>
@@ -146,13 +146,13 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
                 <LocaleSwitcher />
                 <Link
                   href="/login"
-                  className="hidden text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+                  className="text-muted-foreground hover:text-foreground hidden text-sm font-medium transition-colors sm:inline-flex"
                 >
                   {t("nav.login")}
                 </Link>
                 <Link
                   href="/register"
-                  className="hidden rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-primary/20 transition-colors hover:bg-primary/90 sm:inline-flex"
+                  className="bg-primary shadow-primary/20 hover:bg-primary/90 hidden rounded-full px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors sm:inline-flex"
                 >
                   {t("nav.startFree")}
                 </Link>

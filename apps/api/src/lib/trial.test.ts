@@ -19,11 +19,15 @@ describe("trial", () => {
   });
 
   it("grants access during the trial, without any subscription", () => {
-    expect(hasAccess({ trialEndsAt: new Date(NOW + DAY), subscriptionStatus: null }, NOW)).toBe(true);
+    expect(hasAccess({ trialEndsAt: new Date(NOW + DAY), subscriptionStatus: null }, NOW)).toBe(
+      true,
+    );
   });
 
   it("denies access once the trial has ended", () => {
-    expect(hasAccess({ trialEndsAt: new Date(NOW - DAY), subscriptionStatus: null }, NOW)).toBe(false);
+    expect(hasAccess({ trialEndsAt: new Date(NOW - DAY), subscriptionStatus: null }, NOW)).toBe(
+      false,
+    );
     // No trial at all and no subscription → no access.
     expect(hasAccess({ trialEndsAt: null, subscriptionStatus: null }, NOW)).toBe(false);
   });

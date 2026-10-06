@@ -13,7 +13,12 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const locale = params.locale as AppLocale;
   const page = getSitePage("privacy")[locale];
-  return buildMetadata({ locale, title: page.title, description: page.description, path: "privacy" });
+  return buildMetadata({
+    locale,
+    title: page.title,
+    description: page.description,
+    path: "privacy",
+  });
 }
 
 export default function Page({ params }: PageProps) {

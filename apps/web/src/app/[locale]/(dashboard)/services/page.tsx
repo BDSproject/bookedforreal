@@ -21,11 +21,13 @@ export default function ServicesPage() {
             <CardContent className="flex items-center justify-between">
               <div>
                 <p className="font-semibold">{service.nameFr}</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {service.nameEn} · {service.durationMin} min
                 </p>
               </div>
-              <p className="font-semibold text-primary">{(service.priceCents / 100).toFixed(2)} €</p>
+              <p className="text-primary font-semibold">
+                {(service.priceCents / 100).toFixed(2)} €
+              </p>
             </CardContent>
           </Card>
         ))}

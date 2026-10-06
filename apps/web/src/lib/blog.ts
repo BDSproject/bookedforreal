@@ -22,7 +22,8 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "2026-01-10",
     fr: {
       title: "Comment accepter les réservations en ligne (coiffeurs & barbiers)",
-      description: "Le guide complet pour mettre en place la réservation en ligne dans votre salon.",
+      description:
+        "Le guide complet pour mettre en place la réservation en ligne dans votre salon.",
       content: [
         "La réservation en ligne transforme votre salon : plus d'appels manqués, moins de no-shows et un agenda toujours rempli.",
         "Commencez par lister vos services avec leurs durées et tarifs, puis définissez vos horaires et ceux de votre équipe.",
@@ -47,7 +48,8 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "2026-01-08",
     fr: {
       title: "7 astuces pour réduire les no-shows dans votre salon",
-      description: "Les rappels automatiques et la pré-réservation réduisent les rendez-vous manqués.",
+      description:
+        "Les rappels automatiques et la pré-réservation réduisent les rendez-vous manqués.",
       content: [
         "Un rendez-vous manqué coûte de l'argent et bloque un créneau. Les rappels sont votre meilleure arme.",
         "Envoyez un rappel 24h avant via SMS ou WhatsApp : le taux d'absence chute immédiatement.",
@@ -82,7 +84,8 @@ export const blogArticles: BlogArticle[] = [
     },
     en: {
       title: "What is the best booking software for hairdressers?",
-      description: "The criteria to choose: price, simplicity, reminders and an included mini-site.",
+      description:
+        "The criteria to choose: price, simplicity, reminders and an included mini-site.",
       content: [
         "Good booking software must be simple: 3 clicks for the client, no training for you.",
         "Check the price: beware of hidden per-booking fees. Prefer clear subscription pricing.",

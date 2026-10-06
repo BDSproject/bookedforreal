@@ -1,339 +1,683 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bookedforreal — Modèle financier (SASU)</title>
-<style>
-  :root { --primary:#7c3aed; --soft:#f5f3ff; --ink:#0c2c43; --muted:#6b7280; --line:#e5e7eb; --ok:#16a34a; --bad:#dc2626; --bg:#faf9f7; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.5; }
-  header { background:linear-gradient(135deg,#7c3aed,#4c1d95); color:#fff; padding:28px 24px; }
-  header h1 { margin:0; font-size:22px; letter-spacing:-.3px; }
-  header p { margin:6px 0 0; opacity:.9; font-size:14px; }
-  main { max-width:1200px; margin:0 auto; padding:24px; }
-  h2 { font-size:16px; margin:0 0 6px; }
-  .sub { font-size:12.5px; color:var(--muted); margin:0 0 16px; }
-  section { background:#fff; border:1px solid var(--line); border-radius:16px; padding:20px; margin-bottom:20px; }
-  .presets { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
-  .presets button { border:1px solid var(--line); background:#fff; color:var(--ink); padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
-  .presets button.active { background:var(--primary); border-color:var(--primary); color:#fff; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(185px,1fr)); gap:14px; }
-  label { display:block; font-size:12px; font-weight:600; color:var(--muted); margin-bottom:4px; }
-  input[type=number], select { width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:10px; font-size:14px; color:var(--ink); background:#fff; font-variant-numeric:tabular-nums; }
-  input[type=number]:focus, select:focus { outline:2px solid var(--primary); border-color:var(--primary); }
-  .hint { font-size:11px; color:var(--muted); margin-top:3px; }
-  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:12px; }
-  .kpi { background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:14px; }
-  .kpi .v { font-size:21px; font-weight:800; color:var(--primary); font-variant-numeric:tabular-nums; }
-  .kpi .l { font-size:12px; color:var(--muted); margin-top:2px; }
-  .kpi.ok { background:#ecfdf5; } .kpi.ok .v { color:var(--ok); }
-  .kpi.bad { background:#fef2f2; } .kpi.bad .v { color:var(--bad); }
-  .kpi.hero { background:linear-gradient(135deg,#7c3aed,#4c1d95); border:0; }
-  .kpi.hero .v, .kpi.hero .l { color:#fff; } .kpi.hero .l { opacity:.85; }
-  table { width:100%; border-collapse:collapse; font-size:12.5px; font-variant-numeric:tabular-nums; }
-  th,td { padding:7px 8px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
-  th:first-child,td:first-child { text-align:left; }
-  thead th { position:sticky; top:0; background:#fff; font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); }
-  tr.be td { background:#ecfdf5; font-weight:700; }
-  tr.goal td { background:#eef2ff; font-weight:700; }
-  .scroll { max-height:540px; overflow:auto; border:1px solid var(--line); border-radius:12px; }
-  .pos { color:var(--ok); } .neg { color:var(--bad); }
-  svg { width:100%; height:290px; display:block; }
-  .legend { display:flex; gap:18px; font-size:12px; color:var(--muted); margin-top:8px; flex-wrap:wrap; }
-  .legend i { display:inline-block; width:12px; height:3px; border-radius:2px; margin-right:6px; vertical-align:middle; }
-  .note { font-size:12.5px; color:var(--muted); margin-top:12px; }
-  footer { font-size:12px; color:var(--muted); padding:8px 24px 40px; max-width:1200px; margin:0 auto; }
-</style>
-</head>
-<body>
-<header>
-  <h1>Bookedforreal — Modèle financier</h1>
-  <p>60 mois · prix HT · charges SASU · rémunération du président · modifiable en direct</p>
-</header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bookedforreal — Modèle financier (SASU)</title>
+    <style>
+      :root {
+        --primary: #7c3aed;
+        --soft: #f5f3ff;
+        --ink: #0c2c43;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --ok: #16a34a;
+        --bad: #dc2626;
+        --bg: #faf9f7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.5;
+      }
+      header {
+        background: linear-gradient(135deg, #7c3aed, #4c1d95);
+        color: #fff;
+        padding: 28px 24px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: -0.3px;
+      }
+      header p {
+        margin: 6px 0 0;
+        opacity: 0.9;
+        font-size: 14px;
+      }
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      h2 {
+        font-size: 16px;
+        margin: 0 0 6px;
+      }
+      .sub {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin: 0 0 16px;
+      }
+      section {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .presets {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .presets button {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .presets button.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+        gap: 14px;
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      input[type="number"],
+      select {
+        width: 100%;
+        padding: 9px 11px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        font-size: 14px;
+        color: var(--ink);
+        background: #fff;
+        font-variant-numeric: tabular-nums;
+      }
+      input[type="number"]:focus,
+      select:focus {
+        outline: 2px solid var(--primary);
+        border-color: var(--primary);
+      }
+      .hint {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+        gap: 12px;
+      }
+      .kpi {
+        background: var(--soft);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+      }
+      .kpi .v {
+        font-size: 21px;
+        font-weight: 800;
+        color: var(--primary);
+        font-variant-numeric: tabular-nums;
+      }
+      .kpi .l {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .kpi.ok {
+        background: #ecfdf5;
+      }
+      .kpi.ok .v {
+        color: var(--ok);
+      }
+      .kpi.bad {
+        background: #fef2f2;
+      }
+      .kpi.bad .v {
+        color: var(--bad);
+      }
+      .kpi.hero {
+        background: linear-gradient(135deg, #7c3aed, #4c1d95);
+        border: 0;
+      }
+      .kpi.hero .v,
+      .kpi.hero .l {
+        color: #fff;
+      }
+      .kpi.hero .l {
+        opacity: 0.85;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+        font-variant-numeric: tabular-nums;
+      }
+      th,
+      td {
+        padding: 7px 8px;
+        text-align: right;
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      th:first-child,
+      td:first-child {
+        text-align: left;
+      }
+      thead th {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--muted);
+      }
+      tr.be td {
+        background: #ecfdf5;
+        font-weight: 700;
+      }
+      tr.goal td {
+        background: #eef2ff;
+        font-weight: 700;
+      }
+      .scroll {
+        max-height: 540px;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+      .pos {
+        color: var(--ok);
+      }
+      .neg {
+        color: var(--bad);
+      }
+      svg {
+        width: 100%;
+        height: 290px;
+        display: block;
+      }
+      .legend {
+        display: flex;
+        gap: 18px;
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 8px;
+        flex-wrap: wrap;
+      }
+      .legend i {
+        display: inline-block;
+        width: 12px;
+        height: 3px;
+        border-radius: 2px;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+      .note {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+      footer {
+        font-size: 12px;
+        color: var(--muted);
+        padding: 8px 24px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Bookedforreal — Modèle financier</h1>
+      <p>60 mois · prix HT · charges SASU · rémunération du président · modifiable en direct</p>
+    </header>
 
-<main>
-  <section>
-    <h2>Scénarios</h2>
-    <p class="sub">Ajuste n'importe quel paramètre : tout se recalcule instantanément.</p>
-    <div class="presets" id="presets"></div>
-  </section>
+    <main>
+      <section>
+        <h2>Scénarios</h2>
+        <p class="sub">Ajuste n'importe quel paramètre : tout se recalcule instantanément.</p>
+        <div class="presets" id="presets"></div>
+      </section>
 
-  <section>
-    <h2>Paramètres</h2>
-    <div class="grid" id="inputs"></div>
-  </section>
+      <section>
+        <h2>Paramètres</h2>
+        <div class="grid" id="inputs"></div>
+      </section>
 
-  <section>
-    <h2>Objectif de rémunération</h2>
-    <p class="sub" id="remSub"></p>
-    <div class="kpis" id="rem"></div>
-  </section>
+      <section>
+        <h2>Objectif de rémunération</h2>
+        <p class="sub" id="remSub"></p>
+        <div class="kpis" id="rem"></div>
+      </section>
 
-  <section>
-    <h2>Indicateurs clés</h2>
-    <div class="kpis" id="kpis"></div>
-  </section>
+      <section>
+        <h2>Indicateurs clés</h2>
+        <div class="kpis" id="kpis"></div>
+      </section>
 
-  <section>
-    <h2>Revenus vs charges</h2>
-    <svg id="chart" viewBox="0 0 900 290" preserveAspectRatio="none"></svg>
-    <div class="legend">
-      <span><i style="background:#7c3aed"></i>MRR (revenus HT)</span>
-      <span><i style="background:#dc2626"></i>Charges totales (variables + fixes + CAC)</span>
-      <span><i style="background:#16a34a"></i>Seuil de rentabilité</span>
-      <span><i style="background:#2563eb"></i>Objectif de rémunération</span>
-    </div>
-  </section>
+      <section>
+        <h2>Revenus vs charges</h2>
+        <svg id="chart" viewBox="0 0 900 290" preserveAspectRatio="none"></svg>
+        <div class="legend">
+          <span><i style="background: #7c3aed"></i>MRR (revenus HT)</span>
+          <span><i style="background: #dc2626"></i>Charges totales (variables + fixes + CAC)</span>
+          <span><i style="background: #16a34a"></i>Seuil de rentabilité</span>
+          <span><i style="background: #2563eb"></i>Objectif de rémunération</span>
+        </div>
+      </section>
 
-  <section>
-    <h2>Détail mois par mois</h2>
-    <div class="scroll"><table id="table"></table></div>
-    <p class="note">
-      <strong>Marge brute</strong> = revenus − frais Stripe − SMS · <strong>Résultat</strong> = marge brute − CAC − charges fixes.
-      La ligne bleue marque le 1<sup>er</sup> mois où l'objectif de rémunération est atteint.
-    </p>
-  </section>
+      <section>
+        <h2>Détail mois par mois</h2>
+        <div class="scroll"><table id="table"></table></div>
+        <p class="note">
+          <strong>Marge brute</strong> = revenus − frais Stripe − SMS · <strong>Résultat</strong> =
+          marge brute − CAC − charges fixes. La ligne bleue marque le 1<sup>er</sup> mois où
+          l'objectif de rémunération est atteint.
+        </p>
+      </section>
 
-  <section>
-    <h2>Synthèse annuelle</h2>
-    <div class="kpis" id="annual"></div>
-    <p class="note">
-      <strong>Salaire</strong> : net = brut × 0,78 ; coût société = brut × 1,45 → <strong>×1,86</strong> du net.
-      <strong>Dividendes</strong> : IS 15 % (≤ 42 500 €) puis flat tax 30 % → <strong>×1,68</strong> du net.
-      Le salaire coûte ~11 % de plus mais ouvre les droits retraite / prévoyance.
-    </p>
-  </section>
-</main>
+      <section>
+        <h2>Synthèse annuelle</h2>
+        <div class="kpis" id="annual"></div>
+        <p class="note">
+          <strong>Salaire</strong> : net = brut × 0,78 ; coût société = brut × 1,45 →
+          <strong>×1,86</strong> du net. <strong>Dividendes</strong> : IS 15 % (≤ 42 500 €) puis
+          flat tax 30 % → <strong>×1,68</strong> du net. Le salaire coûte ~11 % de plus mais ouvre
+          les droits retraite / prévoyance.
+        </p>
+      </section>
+    </main>
 
-<footer>
-  Modèle indicatif, ne remplace pas un expert-comptable. Hypothèses : Stripe 1,5 % + 0,25 €, SMS ~0,08 €,
-  expert-comptable + CFE + banque ≈ 250 €/mois, cotisations salariales 22 %, patronales 45 %, IS 15 % puis 25 %, flat tax 30 %.
-</footer>
+    <footer>
+      Modèle indicatif, ne remplace pas un expert-comptable. Hypothèses : Stripe 1,5 % + 0,25 €, SMS
+      ~0,08 €, expert-comptable + CFE + banque ≈ 250 €/mois, cotisations salariales 22 %, patronales
+      45 %, IS 15 % puis 25 %, flat tax 30 %.
+    </footer>
 
-<script>
-const MONTHS = 60;
-const FIELDS = [
-  { g: "Prix & plans" },
-  { k:"starterPrice", l:"Prix Starter (€ HT/mois)", s:1, h:"Tarif fondateur affiché" },
-  { k:"proPrice",     l:"Prix Pro (€ HT/mois)",     s:1, h:"Tarif fondateur affiché" },
-  { k:"annualDiscount", l:"Remise annuelle (%)", s:100, h:"20 → −20 %" },
-  { k:"annualShare",  l:"Part en annuel (%)", s:100, h:"Facturés 1×/an" },
-  { k:"proShare",     l:"Part de Pro (%)", s:100, h:"Le reste en Starter" },
-  { g: "Acquisition" },
-  { k:"newPerMonth",  l:"Nouveaux clients / mois (M1)", s:1, h:"Acquisition de départ" },
-  { k:"growth",       l:"Croissance acquisition (%/mois)", s:100, h:"Bouche-à-oreille" },
-  { k:"maxPerMonth",  l:"Plafond nouveaux clients / mois", s:1, h:"Capacité d'onboarding réelle" },
-  { k:"churn",        l:"Churn mensuel (%)", s:100, h:"4 % ≈ 24 mois de rétention" },
-  { k:"cac",          l:"CAC (€ / nouveau client)", s:1, h:"Pub, temps de vente…" },
-  { g: "Rémunération du président" },
-  { k:"remunerationMode", l:"Mode", type:"select", options:[["salaire","Salaire (assimilé salarié)"],["dividendes","Dividendes"]], h:"Salaire = droits retraite, dividendes = moins de charges" },
-  { k:"targetNet",    l:"Net souhaité (€ / mois)", s:1, h:"Objectif dans la poche" },
-  { k:"employeeNet",  l:"Part nette du brut (%)", s:100, h:"~78 % (= 22 % de cotisations salariales)" },
-  { k:"employerRate", l:"Cotisations patronales (%)", s:100, h:"~45 % du brut" },
-  { k:"flatTax",      l:"Flat tax dividendes (%)", s:100, h:"30 %" },
-  { g: "Charges" },
-  { k:"fixedMonthly", l:"Charges fixes (€ / mois)", s:1, h:"Hébergement, compta, CFE, banque" },
-  { k:"smsPerPro",    l:"Crédits SMS inclus (Pro)", s:1, h:"Plafond du plan" },
-  { k:"smsUsage",     l:"Taux d'usage SMS (%)", s:100, h:"Crédits consommés" },
-  { k:"smsCost",      l:"Coût d'un SMS (€)", s:1, h:"Twilio ~0,08 €" },
-  { k:"stripePct",    l:"Stripe (%)", s:100, h:"1,5 % (cartes FR)" },
-  { k:"stripeFixed",  l:"Stripe fixe (€ / transaction)", s:1, h:"0,25 €" },
-];
+    <script>
+      const MONTHS = 60;
+      const FIELDS = [
+        { g: "Prix & plans" },
+        { k: "starterPrice", l: "Prix Starter (€ HT/mois)", s: 1, h: "Tarif fondateur affiché" },
+        { k: "proPrice", l: "Prix Pro (€ HT/mois)", s: 1, h: "Tarif fondateur affiché" },
+        { k: "annualDiscount", l: "Remise annuelle (%)", s: 100, h: "20 → −20 %" },
+        { k: "annualShare", l: "Part en annuel (%)", s: 100, h: "Facturés 1×/an" },
+        { k: "proShare", l: "Part de Pro (%)", s: 100, h: "Le reste en Starter" },
+        { g: "Acquisition" },
+        { k: "newPerMonth", l: "Nouveaux clients / mois (M1)", s: 1, h: "Acquisition de départ" },
+        { k: "growth", l: "Croissance acquisition (%/mois)", s: 100, h: "Bouche-à-oreille" },
+        {
+          k: "maxPerMonth",
+          l: "Plafond nouveaux clients / mois",
+          s: 1,
+          h: "Capacité d'onboarding réelle",
+        },
+        { k: "churn", l: "Churn mensuel (%)", s: 100, h: "4 % ≈ 24 mois de rétention" },
+        { k: "cac", l: "CAC (€ / nouveau client)", s: 1, h: "Pub, temps de vente…" },
+        { g: "Rémunération du président" },
+        {
+          k: "remunerationMode",
+          l: "Mode",
+          type: "select",
+          options: [
+            ["salaire", "Salaire (assimilé salarié)"],
+            ["dividendes", "Dividendes"],
+          ],
+          h: "Salaire = droits retraite, dividendes = moins de charges",
+        },
+        { k: "targetNet", l: "Net souhaité (€ / mois)", s: 1, h: "Objectif dans la poche" },
+        {
+          k: "employeeNet",
+          l: "Part nette du brut (%)",
+          s: 100,
+          h: "~78 % (= 22 % de cotisations salariales)",
+        },
+        { k: "employerRate", l: "Cotisations patronales (%)", s: 100, h: "~45 % du brut" },
+        { k: "flatTax", l: "Flat tax dividendes (%)", s: 100, h: "30 %" },
+        { g: "Charges" },
+        {
+          k: "fixedMonthly",
+          l: "Charges fixes (€ / mois)",
+          s: 1,
+          h: "Hébergement, compta, CFE, banque",
+        },
+        { k: "smsPerPro", l: "Crédits SMS inclus (Pro)", s: 1, h: "Plafond du plan" },
+        { k: "smsUsage", l: "Taux d'usage SMS (%)", s: 100, h: "Crédits consommés" },
+        { k: "smsCost", l: "Coût d'un SMS (€)", s: 1, h: "Twilio ~0,08 €" },
+        { k: "stripePct", l: "Stripe (%)", s: 100, h: "1,5 % (cartes FR)" },
+        { k: "stripeFixed", l: "Stripe fixe (€ / transaction)", s: 1, h: "0,25 €" },
+      ];
 
-const BASE = { starterPrice:19, proPrice:39, annualDiscount:21, annualShare:30, proShare:30,
-  newPerMonth:3, growth:5, maxPerMonth:25, churn:4, cac:60, remunerationMode:"dividendes", targetNet:2000,
-  employeeNet:78, employerRate:45, flatTax:30, fixedMonthly:250,
-  smsPerPro:50, smsUsage:50, smsCost:0.08, stripePct:1.5, stripeFixed:0.25 };
+      const BASE = {
+        starterPrice: 19,
+        proPrice: 39,
+        annualDiscount: 21,
+        annualShare: 30,
+        proShare: 30,
+        newPerMonth: 3,
+        growth: 5,
+        maxPerMonth: 25,
+        churn: 4,
+        cac: 60,
+        remunerationMode: "dividendes",
+        targetNet: 2000,
+        employeeNet: 78,
+        employerRate: 45,
+        flatTax: 30,
+        fixedMonthly: 250,
+        smsPerPro: 50,
+        smsUsage: 50,
+        smsCost: 0.08,
+        stripePct: 1.5,
+        stripeFixed: 0.25,
+      };
 
-const PRESETS = {
-  "Pessimiste": { newPerMonth:1.5, growth:2, churn:8, cac:100, proShare:20, annualShare:15 },
-  "Réaliste":   {},
-  "Optimiste":  { newPerMonth:6, growth:10, churn:2.5, cac:40, proShare:45, annualShare:45 },
-  "Tarif public 29/59": { starterPrice:29, proPrice:59 },
-  "Tout en salaire": { remunerationMode:"salaire" },
-};
+      const PRESETS = {
+        Pessimiste: {
+          newPerMonth: 1.5,
+          growth: 2,
+          churn: 8,
+          cac: 100,
+          proShare: 20,
+          annualShare: 15,
+        },
+        Réaliste: {},
+        Optimiste: {
+          newPerMonth: 6,
+          growth: 10,
+          churn: 2.5,
+          cac: 40,
+          proShare: 45,
+          annualShare: 45,
+        },
+        "Tarif public 29/59": { starterPrice: 29, proPrice: 59 },
+        "Tout en salaire": { remunerationMode: "salaire" },
+      };
 
-let params = { ...BASE };
+      let params = { ...BASE };
 
-// --- Modèle -----------------------------------------------------------------
-const stripeFee = (p, annual) => annual
-  ? (params.stripePct/100 * p*12*(1-params.annualDiscount/100) + params.stripeFixed)/12
-  : params.stripePct/100 * p + params.stripeFixed;
+      // --- Modèle -----------------------------------------------------------------
+      const stripeFee = (p, annual) =>
+        annual
+          ? ((params.stripePct / 100) * p * 12 * (1 - params.annualDiscount / 100) +
+              params.stripeFixed) /
+            12
+          : (params.stripePct / 100) * p + params.stripeFixed;
 
-const contribution = (plan, annual) => {
-  const p = plan === "pro" ? params.proPrice : params.starterPrice;
-  const rev = annual ? p*(1-params.annualDiscount/100) : p;
-  const sms = plan === "pro" ? (params.smsPerPro*params.smsUsage/100)*params.smsCost : 0;
-  return { rev, cost: stripeFee(p, annual) + sms };
-};
+      const contribution = (plan, annual) => {
+        const p = plan === "pro" ? params.proPrice : params.starterPrice;
+        const rev = annual ? p * (1 - params.annualDiscount / 100) : p;
+        const sms =
+          plan === "pro" ? ((params.smsPerPro * params.smsUsage) / 100) * params.smsCost : 0;
+        return { rev, cost: stripeFee(p, annual) + sms };
+      };
 
-/** Coût société mensuel pour verser `net` € au président. */
-function companyCostForNet(net) {
-  if (params.remunerationMode === "salaire") {
-    const brut = net / (params.employeeNet/100);
-    return brut * (1 + params.employerRate/100);
-  }
-  return net / ((1 - 0.15) * (1 - params.flatTax/100));
-}
-/** Net réellement versable au président pour un résultat annuel donné. */
-function netFromAnnualEbitda(annualEbitda) {
-  const profit = Math.max(0, annualEbitda);
-  if (params.remunerationMode === "salaire") {
-    return profit / (1 + params.employerRate/100) * (params.employeeNet/100);
-  }
-  const is = profit <= 42500 ? profit*0.15 : 42500*0.15 + (profit-42500)*0.25;
-  return (profit - is) * (1 - params.flatTax/100);
-}
+      /** Coût société mensuel pour verser `net` € au président. */
+      function companyCostForNet(net) {
+        if (params.remunerationMode === "salaire") {
+          const brut = net / (params.employeeNet / 100);
+          return brut * (1 + params.employerRate / 100);
+        }
+        return net / ((1 - 0.15) * (1 - params.flatTax / 100));
+      }
+      /** Net réellement versable au président pour un résultat annuel donné. */
+      function netFromAnnualEbitda(annualEbitda) {
+        const profit = Math.max(0, annualEbitda);
+        if (params.remunerationMode === "salaire") {
+          return (profit / (1 + params.employerRate / 100)) * (params.employeeNet / 100);
+        }
+        const is = profit <= 42500 ? profit * 0.15 : 42500 * 0.15 + (profit - 42500) * 0.25;
+        return (profit - is) * (1 - params.flatTax / 100);
+      }
 
-function simulate() {
-  const a = params.annualShare/100, mix = params.proShare/100;
-  const sM=contribution("starter",false), sA=contribution("starter",true);
-  const pM=contribution("pro",false),     pA=contribution("pro",true);
-  const perRev = mix*(a*pA.rev+(1-a)*pM.rev) + (1-mix)*(a*sA.rev+(1-a)*sM.rev);
-  const perCost = mix*(a*pA.cost+(1-a)*pM.cost) + (1-mix)*(a*sA.cost+(1-a)*sM.cost);
-  const perMargin = perRev - perCost;
+      function simulate() {
+        const a = params.annualShare / 100,
+          mix = params.proShare / 100;
+        const sM = contribution("starter", false),
+          sA = contribution("starter", true);
+        const pM = contribution("pro", false),
+          pA = contribution("pro", true);
+        const perRev =
+          mix * (a * pA.rev + (1 - a) * pM.rev) + (1 - mix) * (a * sA.rev + (1 - a) * sM.rev);
+        const perCost =
+          mix * (a * pA.cost + (1 - a) * pM.cost) + (1 - mix) * (a * sA.cost + (1 - a) * sM.cost);
+        const perMargin = perRev - perCost;
 
-  const targetCost = companyCostForNet(params.targetNet);
-  const rows = [];
-  let customers = 0, cash = 0, breakEven = null, goal = null;
+        const targetCost = companyCostForNet(params.targetNet);
+        const rows = [];
+        let customers = 0,
+          cash = 0,
+          breakEven = null,
+          goal = null;
 
-  for (let m = 1; m <= MONTHS; m++) {
-    const acquired = Math.min(params.maxPerMonth, params.newPerMonth * Math.pow(1 + params.growth/100, m-1));
-    const churned = customers * (params.churn/100);
-    customers = customers - churned + acquired;
-    const revenue = customers*perRev, margin = customers*perMargin;
-    const cacSpend = acquired*params.cac;
-    const ebitda = margin - cacSpend - params.fixedMonthly;
-    cash += ebitda;
-    if (breakEven === null && ebitda >= 0) breakEven = m;
-    if (goal === null && ebitda >= targetCost) goal = m;
-    rows.push({ m, acquired, churned, customers, revenue, margin, cacSpend, fixed:params.fixedMonthly, ebitda, cash, net: Math.max(0, ebitda) / (params.remunerationMode==="salaire" ? (1+params.employerRate/100)/(params.employeeNet/100) : 1) });
-  }
-  return { rows, perRev, perCost, perMargin, targetCost, breakEven, goal };
-}
+        for (let m = 1; m <= MONTHS; m++) {
+          const acquired = Math.min(
+            params.maxPerMonth,
+            params.newPerMonth * Math.pow(1 + params.growth / 100, m - 1),
+          );
+          const churned = customers * (params.churn / 100);
+          customers = customers - churned + acquired;
+          const revenue = customers * perRev,
+            margin = customers * perMargin;
+          const cacSpend = acquired * params.cac;
+          const ebitda = margin - cacSpend - params.fixedMonthly;
+          cash += ebitda;
+          if (breakEven === null && ebitda >= 0) breakEven = m;
+          if (goal === null && ebitda >= targetCost) goal = m;
+          rows.push({
+            m,
+            acquired,
+            churned,
+            customers,
+            revenue,
+            margin,
+            cacSpend,
+            fixed: params.fixedMonthly,
+            ebitda,
+            cash,
+            net:
+              Math.max(0, ebitda) /
+              (params.remunerationMode === "salaire"
+                ? (1 + params.employerRate / 100) / (params.employeeNet / 100)
+                : 1),
+          });
+        }
+        return { rows, perRev, perCost, perMargin, targetCost, breakEven, goal };
+      }
 
-// --- Rendu ------------------------------------------------------------------
-const eur = (n) => Math.round(n).toLocaleString("fr-FR") + " €";
+      // --- Rendu ------------------------------------------------------------------
+      const eur = (n) => Math.round(n).toLocaleString("fr-FR") + " €";
 
-function renderInputs() {
-  document.getElementById("inputs").innerHTML = FIELDS.map((f) => {
-    if (f.g) return `<div style="grid-column:1/-1;margin-top:6px;font-size:12px;font-weight:700;color:var(--ink);border-top:1px solid var(--line);padding-top:10px">${f.g}</div>`;
-    if (f.type === "select") {
-      return `<div><label for="${f.k}">${f.l}</label>
-        <select id="${f.k}">${f.options.map(([v,t]) => `<option value="${v}" ${params[f.k]===v?"selected":""}>${t}</option>`).join("")}</select>
+      function renderInputs() {
+        document.getElementById("inputs").innerHTML = FIELDS.map((f) => {
+          if (f.g)
+            return `<div style="grid-column:1/-1;margin-top:6px;font-size:12px;font-weight:700;color:var(--ink);border-top:1px solid var(--line);padding-top:10px">${f.g}</div>`;
+          if (f.type === "select") {
+            return `<div><label for="${f.k}">${f.l}</label>
+        <select id="${f.k}">${f.options.map(([v, t]) => `<option value="${v}" ${params[f.k] === v ? "selected" : ""}>${t}</option>`).join("")}</select>
         <div class="hint">${f.h}</div></div>`;
-    }
-    const value = Math.round(params[f.k] * f.s * 1000) / 1000;
-    return `<div><label for="${f.k}">${f.l}</label>
+          }
+          const value = Math.round(params[f.k] * f.s * 1000) / 1000;
+          return `<div><label for="${f.k}">${f.l}</label>
       <input id="${f.k}" type="number" step="any" value="${value}" />
       <div class="hint">${f.h}</div></div>`;
-  }).join("");
-  FIELDS.filter((f) => f.k).forEach((f) => {
-    const el = document.getElementById(f.k);
-    el.addEventListener(f.type === "select" ? "change" : "input", () => {
-      if (f.type === "select") { params[f.k] = el.value; }
-      else { const v = parseFloat(el.value); if (Number.isNaN(v)) return; params[f.k] = v / f.s; }
-      render();
-    });
-  });
-}
+        }).join("");
+        FIELDS.filter((f) => f.k).forEach((f) => {
+          const el = document.getElementById(f.k);
+          el.addEventListener(f.type === "select" ? "change" : "input", () => {
+            if (f.type === "select") {
+              params[f.k] = el.value;
+            } else {
+              const v = parseFloat(el.value);
+              if (Number.isNaN(v)) return;
+              params[f.k] = v / f.s;
+            }
+            render();
+          });
+        });
+      }
 
-function renderPresets() {
-  const el = document.getElementById("presets");
-  el.innerHTML = Object.keys(PRESETS).map((n) => `<button data-p="${n}">${n}</button>`).join("");
-  el.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
-    params = { ...BASE, ...PRESETS[b.dataset.p] };
-    el.querySelectorAll("button").forEach((x) => x.classList.remove("active"));
-    b.classList.add("active");
-    renderInputs(); render();
-  }));
-  el.querySelector('[data-p="Réaliste"]').classList.add("active");
-}
+      function renderPresets() {
+        const el = document.getElementById("presets");
+        el.innerHTML = Object.keys(PRESETS)
+          .map((n) => `<button data-p="${n}">${n}</button>`)
+          .join("");
+        el.querySelectorAll("button").forEach((b) =>
+          b.addEventListener("click", () => {
+            params = { ...BASE, ...PRESETS[b.dataset.p] };
+            el.querySelectorAll("button").forEach((x) => x.classList.remove("active"));
+            b.classList.add("active");
+            renderInputs();
+            render();
+          }),
+        );
+        el.querySelector('[data-p="Réaliste"]').classList.add("active");
+      }
 
-function render() {
-  const S = simulate();
-  const { rows, perMargin, targetCost, breakEven, goal } = S;
-  const last = rows[rows.length-1];
-  const beCustomers = perMargin > 0 ? Math.ceil((params.fixedMonthly + targetCost) / perMargin) : Infinity;
-  const ltv = perMargin / (params.churn/100);
-  const payback = perMargin > 0 ? params.cac / perMargin : Infinity;
-  const ltvCac = params.cac > 0 ? ltv / params.cac : Infinity;
+      function render() {
+        const S = simulate();
+        const { rows, perMargin, targetCost, breakEven, goal } = S;
+        const last = rows[rows.length - 1];
+        const beCustomers =
+          perMargin > 0 ? Math.ceil((params.fixedMonthly + targetCost) / perMargin) : Infinity;
+        const ltv = perMargin / (params.churn / 100);
+        const payback = perMargin > 0 ? params.cac / perMargin : Infinity;
+        const ltvCac = params.cac > 0 ? ltv / params.cac : Infinity;
 
-  // --- Objectif de rémunération ---
-  const modeLabel = params.remunerationMode === "salaire"
-    ? `Salaire : brut ${eur(params.targetNet/(params.employeeNet/100))}, coût société ${eur(targetCost)}/mois`
-    : `Dividendes : bénéfice avant IS ${eur(targetCost)}/mois`;
-  document.getElementById("remSub").textContent =
-    `Pour ${eur(params.targetNet)} net/mois au président → ${modeLabel}.`;
+        // --- Objectif de rémunération ---
+        const modeLabel =
+          params.remunerationMode === "salaire"
+            ? `Salaire : brut ${eur(params.targetNet / (params.employeeNet / 100))}, coût société ${eur(targetCost)}/mois`
+            : `Dividendes : bénéfice avant IS ${eur(targetCost)}/mois`;
+        document.getElementById("remSub").textContent =
+          `Pour ${eur(params.targetNet)} net/mois au président → ${modeLabel}.`;
 
-  const goalRow = goal ? rows[goal-1] : null;
-  document.getElementById("rem").innerHTML = [
-    { v: goal ? "M" + goal : "> 60 mois", l: `${eur(params.targetNet)} net/mois atteignable`, c: goal ? "ok": "bad" },
-    { v: goalRow ? goalRow.customers.toFixed(0) : "—", l: "Clients à ce moment-là" },
-    { v: goalRow ? eur(goalRow.revenue) : "—", l: "MRR à ce moment-là" },
-    { v: eur(targetCost), l: "Résultat mensuel nécessaire", c: "hero" },
-  ].map((k) => `<div class="kpi ${k.c||""}"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join("");
+        const goalRow = goal ? rows[goal - 1] : null;
+        document.getElementById("rem").innerHTML = [
+          {
+            v: goal ? "M" + goal : "> 60 mois",
+            l: `${eur(params.targetNet)} net/mois atteignable`,
+            c: goal ? "ok" : "bad",
+          },
+          { v: goalRow ? goalRow.customers.toFixed(0) : "—", l: "Clients à ce moment-là" },
+          { v: goalRow ? eur(goalRow.revenue) : "—", l: "MRR à ce moment-là" },
+          { v: eur(targetCost), l: "Résultat mensuel nécessaire", c: "hero" },
+        ]
+          .map(
+            (k) =>
+              `<div class="kpi ${k.c || ""}"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`,
+          )
+          .join("");
 
-  // --- KPI ---
-  document.getElementById("kpis").innerHTML = [
-    { v: breakEven ? "M"+breakEven : "—", l: "Rentabilité (résultat ≥ 0)", c: breakEven ? "ok":"bad" },
-    { v: isFinite(beCustomers) ? beCustomers : "—", l: "Clients pour couvrir fixes + objectif" },
-    { v: eur(rows[11].revenue), l: "MRR fin année 1" },
-    { v: eur(last.revenue), l: "MRR fin année 5" },
-    { v: last.customers.toFixed(0), l: "Clients à 60 mois" },
-    { v: eur(ltv), l: "LTV (marge ÷ churn)" },
-    { v: ltvCac.toFixed(2), l: "LTV / CAC", c: ltvCac>=3?"ok":"bad" },
-    { v: isFinite(payback) ? payback.toFixed(1)+" mois" : "—", l: "Retour sur CAC", c: payback<=12?"ok":"bad" },
-    { v: eur(perMargin), l: "Marge / client / mois" },
-    { v: eur(last.cash), l: "Trésorerie cumulée", c: last.cash>=0?"ok":"bad" },
-  ].map((k) => `<div class="kpi ${k.c||""}"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join("");
+        // --- KPI ---
+        document.getElementById("kpis").innerHTML = [
+          {
+            v: breakEven ? "M" + breakEven : "—",
+            l: "Rentabilité (résultat ≥ 0)",
+            c: breakEven ? "ok" : "bad",
+          },
+          {
+            v: isFinite(beCustomers) ? beCustomers : "—",
+            l: "Clients pour couvrir fixes + objectif",
+          },
+          { v: eur(rows[11].revenue), l: "MRR fin année 1" },
+          { v: eur(last.revenue), l: "MRR fin année 5" },
+          { v: last.customers.toFixed(0), l: "Clients à 60 mois" },
+          { v: eur(ltv), l: "LTV (marge ÷ churn)" },
+          { v: ltvCac.toFixed(2), l: "LTV / CAC", c: ltvCac >= 3 ? "ok" : "bad" },
+          {
+            v: isFinite(payback) ? payback.toFixed(1) + " mois" : "—",
+            l: "Retour sur CAC",
+            c: payback <= 12 ? "ok" : "bad",
+          },
+          { v: eur(perMargin), l: "Marge / client / mois" },
+          { v: eur(last.cash), l: "Trésorerie cumulée", c: last.cash >= 0 ? "ok" : "bad" },
+        ]
+          .map(
+            (k) =>
+              `<div class="kpi ${k.c || ""}"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`,
+          )
+          .join("");
 
-  // --- Graphique ---
-  const costs = (r) => r.margin - r.ebitda;
-  const maxY = Math.max(...rows.map((r) => Math.max(r.revenue, costs(r), targetCost)), 1);
-  const W=900, H=290, PAD=10, X=(i)=>PAD+(i/(MONTHS-1))*(W-PAD*2), Y=(v)=>H-PAD-(v/maxY)*(H-PAD*2);
-  const path = (sel) => rows.map((r,i)=>`${i?"L":"M"}${X(i).toFixed(1)},${Y(sel(r)).toFixed(1)}`).join(" ");
-  const gx = goal ? X(goal-1) : null, bx = breakEven ? X(breakEven-1) : null;
-  document.getElementById("chart").innerHTML = `
-    ${[.25,.5,.75,1].map(f=>`<line x1="${PAD}" y1="${Y(maxY*f)}" x2="${W-PAD}" y2="${Y(maxY*f)}" stroke="#e5e7eb"/>`).join("")}
-    <line x1="${PAD}" y1="${Y(targetCost)}" x2="${W-PAD}" y2="${Y(targetCost)}" stroke="#2563eb" stroke-width="2" stroke-dasharray="3 3"/>
-    <path d="${path(r=>r.revenue)}" fill="none" stroke="#7c3aed" stroke-width="3"/>
+        // --- Graphique ---
+        const costs = (r) => r.margin - r.ebitda;
+        const maxY = Math.max(...rows.map((r) => Math.max(r.revenue, costs(r), targetCost)), 1);
+        const W = 900,
+          H = 290,
+          PAD = 10,
+          X = (i) => PAD + (i / (MONTHS - 1)) * (W - PAD * 2),
+          Y = (v) => H - PAD - (v / maxY) * (H - PAD * 2);
+        const path = (sel) =>
+          rows
+            .map((r, i) => `${i ? "L" : "M"}${X(i).toFixed(1)},${Y(sel(r)).toFixed(1)}`)
+            .join(" ");
+        const gx = goal ? X(goal - 1) : null,
+          bx = breakEven ? X(breakEven - 1) : null;
+        document.getElementById("chart").innerHTML = `
+    ${[0.25, 0.5, 0.75, 1].map((f) => `<line x1="${PAD}" y1="${Y(maxY * f)}" x2="${W - PAD}" y2="${Y(maxY * f)}" stroke="#e5e7eb"/>`).join("")}
+    <line x1="${PAD}" y1="${Y(targetCost)}" x2="${W - PAD}" y2="${Y(targetCost)}" stroke="#2563eb" stroke-width="2" stroke-dasharray="3 3"/>
+    <path d="${path((r) => r.revenue)}" fill="none" stroke="#7c3aed" stroke-width="3"/>
     <path d="${path(costs)}" fill="none" stroke="#dc2626" stroke-width="3" stroke-dasharray="6 4"/>
-    ${bx!==null?`<line x1="${bx}" y1="${PAD}" x2="${bx}" y2="${H-PAD}" stroke="#16a34a" stroke-width="2" stroke-dasharray="4 4"/>`:""}
-    ${gx!==null?`<line x1="${gx}" y1="${PAD}" x2="${gx}" y2="${H-PAD}" stroke="#2563eb" stroke-width="2"/><circle cx="${gx}" cy="${Y(rows[goal-1].revenue)}" r="5" fill="#2563eb"/>`:""}`;
+    ${bx !== null ? `<line x1="${bx}" y1="${PAD}" x2="${bx}" y2="${H - PAD}" stroke="#16a34a" stroke-width="2" stroke-dasharray="4 4"/>` : ""}
+    ${gx !== null ? `<line x1="${gx}" y1="${PAD}" x2="${gx}" y2="${H - PAD}" stroke="#2563eb" stroke-width="2"/><circle cx="${gx}" cy="${Y(rows[goal - 1].revenue)}" r="5" fill="#2563eb"/>` : ""}`;
 
-  // --- Tableau ---
-  const head = `<thead><tr><th>Mois</th><th>Nouveaux</th><th>Clients</th><th>MRR</th><th>Marge</th><th>CAC</th><th>Fixes</th><th>Résultat</th><th>Net président</th><th>Trésorerie</th></tr></thead>`;
-  document.getElementById("table").innerHTML = head + "<tbody>" + rows.map((r) => {
-    const cls = r.m === goal ? "goal" : (r.m === breakEven ? "be" : "");
-    const net = r.ebitda > 0 ? netFromAnnualEbitda(r.ebitda*12)/12 : 0;
-    return `<tr class="${cls}"><td>M${r.m}</td><td>${r.acquired.toFixed(1)}</td><td>${r.customers.toFixed(0)}</td>
+        // --- Tableau ---
+        const head = `<thead><tr><th>Mois</th><th>Nouveaux</th><th>Clients</th><th>MRR</th><th>Marge</th><th>CAC</th><th>Fixes</th><th>Résultat</th><th>Net président</th><th>Trésorerie</th></tr></thead>`;
+        document.getElementById("table").innerHTML =
+          head +
+          "<tbody>" +
+          rows
+            .map((r) => {
+              const cls = r.m === goal ? "goal" : r.m === breakEven ? "be" : "";
+              const net = r.ebitda > 0 ? netFromAnnualEbitda(r.ebitda * 12) / 12 : 0;
+              return `<tr class="${cls}"><td>M${r.m}</td><td>${r.acquired.toFixed(1)}</td><td>${r.customers.toFixed(0)}</td>
       <td>${eur(r.revenue)}</td><td>${eur(r.margin)}</td><td class="neg">−${eur(r.cacSpend)}</td>
-      <td class="neg">−${eur(r.fixed)}</td><td class="${r.ebitda>=0?"pos":"neg"}">${r.ebitda>=0?"+":""}${eur(r.ebitda)}</td>
-      <td class="${net>=params.targetNet?"pos":""}">${eur(net)}</td>
-      <td class="${r.cash>=0?"pos":"neg"}">${eur(r.cash)}</td></tr>`;
-  }).join("") + "</tbody>";
+      <td class="neg">−${eur(r.fixed)}</td><td class="${r.ebitda >= 0 ? "pos" : "neg"}">${r.ebitda >= 0 ? "+" : ""}${eur(r.ebitda)}</td>
+      <td class="${net >= params.targetNet ? "pos" : ""}">${eur(net)}</td>
+      <td class="${r.cash >= 0 ? "pos" : "neg"}">${eur(r.cash)}</td></tr>`;
+            })
+            .join("") +
+          "</tbody>";
 
-  // --- Synthèse annuelle ---
-  document.getElementById("annual").innerHTML = [1,2,3,4,5].map((n) => {
-    const y = rows.slice((n-1)*12, n*12);
-    const revenue = y.reduce((x,r)=>x+r.revenue,0);
-    const ebitda = y.reduce((x,r)=>x+r.ebitda,0);
-    const net = netFromAnnualEbitda(ebitda);
-    const reached = net/12 >= params.targetNet;
-    return `<div class="kpi ${reached?"ok":""}">
+        // --- Synthèse annuelle ---
+        document.getElementById("annual").innerHTML = [1, 2, 3, 4, 5]
+          .map((n) => {
+            const y = rows.slice((n - 1) * 12, n * 12);
+            const revenue = y.reduce((x, r) => x + r.revenue, 0);
+            const ebitda = y.reduce((x, r) => x + r.ebitda, 0);
+            const net = netFromAnnualEbitda(ebitda);
+            const reached = net / 12 >= params.targetNet;
+            return `<div class="kpi ${reached ? "ok" : ""}">
       <div class="v">Année ${n}</div>
       <div class="l">
         CA ${eur(revenue)}<br />Résultat ${eur(ebitda)}<br />
-        <strong>Net président ${eur(net/12)}/mois</strong><br />
+        <strong>Net président ${eur(net / 12)}/mois</strong><br />
         (${eur(net)} sur l'année)<br />
         ${y[11].customers.toFixed(0)} clients · MRR ${eur(y[11].revenue)}
       </div></div>`;
-  }).join("");
-}
+          })
+          .join("");
+      }
 
-renderPresets(); renderInputs(); render();
-</script>
-</body>
+      renderPresets();
+      renderInputs();
+      render();
+    </script>
+  </body>
 </html>

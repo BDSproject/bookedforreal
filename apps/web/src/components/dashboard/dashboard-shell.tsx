@@ -46,7 +46,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)]">
-      <aside className="hidden w-60 shrink-0 border-r bg-card p-4 sm:block">
+      <aside className="bg-card hidden w-60 shrink-0 border-r p-4 sm:block">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/logo-lockup.png"
@@ -60,7 +60,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="text-muted-foreground hover:bg-accent hover:text-foreground rounded-lg px-3 py-2 text-sm font-medium transition-colors"
             >
               {t(item.key)}
             </Link>
@@ -70,7 +70,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
       <div className="flex-1">
         {trial && !trial.expired ? (
-          <p className="border-b border-primary/20 bg-primary/5 px-4 py-2.5 text-center text-sm font-medium text-primary sm:px-8">
+          <p className="border-primary/20 bg-primary/5 text-primary border-b px-4 py-2.5 text-center text-sm font-medium sm:px-8">
             {tt("daysLeft", { days: trial.daysLeft })}
           </p>
         ) : null}
@@ -79,14 +79,14 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           {!ready ? (
             <p className="text-muted-foreground">…</p>
           ) : trial?.expired ? (
-            <div className="mx-auto max-w-lg rounded-3xl border bg-card p-8 text-center">
+            <div className="bg-card mx-auto max-w-lg rounded-3xl border p-8 text-center">
               <span className="text-4xl" aria-hidden>
                 ⏳
               </span>
-              <h1 className="mt-4 font-display text-2xl font-semibold text-navy">
+              <h1 className="font-display text-navy mt-4 text-2xl font-semibold">
                 {tt("expiredTitle")}
               </h1>
-              <p className="mt-3 leading-relaxed text-muted-foreground">{tt("expiredBody")}</p>
+              <p className="text-muted-foreground mt-3 leading-relaxed">{tt("expiredBody")}</p>
               <Button asChild size="xl" className="mt-6 rounded-full">
                 <Link href="/settings">{tt("cta")}</Link>
               </Button>

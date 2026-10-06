@@ -29,7 +29,12 @@ function refreshSecret(): string {
 
 /** Signs a short-lived access token for the given user. */
 export function signAccessToken(user: { id: string; email: string; role: UserRole }): string {
-  const payload: AccessTokenPayload = { sub: user.id, email: user.email, role: user.role, type: "access" };
+  const payload: AccessTokenPayload = {
+    sub: user.id,
+    email: user.email,
+    role: user.role,
+    type: "access",
+  };
   return jwt.sign(payload, accessSecret(), { expiresIn: ACCESS_TTL_SECONDS });
 }
 

@@ -139,7 +139,10 @@ export function faqJsonLd(questions: { question: string; answer: string }[]): Js
 }
 
 /** SoftwareApplication (landing page) with Starter/Pro offers. */
-export function softwareApplicationJsonLd(url: string, offers: { name: string; price: string }[]): JsonLd {
+export function softwareApplicationJsonLd(
+  url: string,
+  offers: { name: string; price: string }[],
+): JsonLd {
   return withContext({
     "@type": "SoftwareApplication",
     name: "Bookedforreal",

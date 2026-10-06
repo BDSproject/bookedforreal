@@ -26,7 +26,10 @@ export default function SalonDetail() {
 
         <Text className="mt-8 text-xl font-semibold">{t("salon.services")}</Text>
         {salon.services?.map((service) => (
-          <View key={service.id} className="mt-2 flex-row justify-between rounded-xl border border-gray-200 p-4">
+          <View
+            key={service.id}
+            className="mt-2 flex-row justify-between rounded-xl border border-gray-200 p-4"
+          >
             <Text className="font-medium text-gray-900">{service.nameFr}</Text>
             <Text className="text-gray-500">
               {(service.priceCents / 100).toFixed(2)} € · {service.durationMin} min
@@ -39,7 +42,11 @@ export default function SalonDetail() {
       </View>
 
       <View className="p-6">
-        <Button label={t("salon.book")} size="xl" onPress={() => router.push(`/booking/${salon.slug}`)} />
+        <Button
+          label={t("salon.book")}
+          size="xl"
+          onPress={() => router.push(`/booking/${salon.slug}`)}
+        />
       </View>
     </ScrollView>
   );

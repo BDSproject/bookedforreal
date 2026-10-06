@@ -30,10 +30,10 @@ export default function DashboardPage() {
         {stats.map((stat) => (
           <Card key={stat.label}>
             <CardHeader>
-              <CardTitle className="text-sm text-muted-foreground">{stat.label}</CardTitle>
+              <CardTitle className="text-muted-foreground text-sm">{stat.label}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-primary">{stat.value}</p>
+              <p className="text-primary text-3xl font-bold">{stat.value}</p>
             </CardContent>
           </Card>
         ))}

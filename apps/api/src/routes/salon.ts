@@ -32,7 +32,10 @@ export async function salonRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "Invalid input", details: parsed.error.issues });
     }
 
-    const salon = await prisma.salon.update({ where: { id: request.salon!.id }, data: parsed.data });
+    const salon = await prisma.salon.update({
+      where: { id: request.salon!.id },
+      data: parsed.data,
+    });
     return { salon };
   });
 }

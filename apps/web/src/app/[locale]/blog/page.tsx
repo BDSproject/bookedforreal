@@ -31,10 +31,13 @@ export default async function BlogPage({ params }: BlogPageProps) {
           const data = article[locale as AppLocale];
           return (
             <li key={article.slug}>
-              <Link href={`/${locale}/blog/${article.slug}`} className="block rounded-xl border p-6 transition-colors hover:border-primary">
-                <p className="text-xs text-muted-foreground">{article.category}</p>
+              <Link
+                href={`/${locale}/blog/${article.slug}`}
+                className="hover:border-primary block rounded-xl border p-6 transition-colors"
+              >
+                <p className="text-muted-foreground text-xs">{article.category}</p>
                 <h2 className="mt-1 text-lg font-semibold">{data.title}</h2>
-                <p className="mt-2 text-sm text-muted-foreground">{data.description}</p>
+                <p className="text-muted-foreground mt-2 text-sm">{data.description}</p>
               </Link>
             </li>
           );

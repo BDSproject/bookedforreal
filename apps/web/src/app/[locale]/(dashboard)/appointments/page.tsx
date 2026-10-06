@@ -8,7 +8,10 @@ import { useApiData } from "@/hooks/use-api";
 import { apiFetch } from "@/lib/api-client";
 import type { Appointment } from "@/lib/api-types";
 
-const STATUS_VARIANT: Record<Appointment["status"], "secondary" | "success" | "destructive" | "outline"> = {
+const STATUS_VARIANT: Record<
+  Appointment["status"],
+  "secondary" | "success" | "destructive" | "outline"
+> = {
   PENDING: "secondary",
   CONFIRMED: "success",
   CANCELLED: "destructive",
@@ -43,16 +46,19 @@ export default function AppointmentsPage() {
             <CardContent className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="font-semibold">{appointment.client?.name ?? "—"}</p>
-                <p className="text-sm text-muted-foreground">
-                  {new Date(appointment.startAt).toLocaleString()} · {appointment.service?.nameFr ?? ""}
+                <p className="text-muted-foreground text-sm">
+                  {new Date(appointment.startAt).toLocaleString()} ·{" "}
+                  {appointment.service?.nameFr ?? ""}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant={STATUS_VARIANT[appointment.status]}>{ts(appointment.status)}</Badge>
                 <select
-                  className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                  className="border-input bg-background h-9 rounded-md border px-2 text-sm"
                   value={appointment.status}
-                  onChange={(e) => setStatus(appointment.id, e.target.value as Appointment["status"])}
+                  onChange={(e) =>
+                    setStatus(appointment.id, e.target.value as Appointment["status"])
+                  }
                 >
                   <option value="PENDING">{ts("PENDING")}</option>
                   <option value="CONFIRMED">{ts("CONFIRMED")}</option>

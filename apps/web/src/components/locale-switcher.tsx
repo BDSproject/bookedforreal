@@ -28,7 +28,7 @@ export function LocaleSwitcher() {
   }
 
   return (
-    <nav aria-label="Language" className="flex items-center gap-1 rounded-full border bg-card p-1">
+    <nav aria-label="Language" className="bg-card flex items-center gap-1 rounded-full border p-1">
       {LOCALES.map((item) => (
         <button
           key={item}

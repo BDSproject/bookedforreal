@@ -8,11 +8,15 @@ import { requireActiveSubscription } from "../middleware/subscription";
 
 export async function clientRoutes(app: FastifyInstance): Promise<void> {
   // GET /clients — list clients (tenant-scoped), most recent first.
-  app.get("/", { preHandler: [requireAuth, requireSalon, requireActiveSubscription] }, async (request) => {
-    return prisma.client.findMany({
-      where: { salonId: request.salon!.id },
-      orderBy: { createdAt: "desc" },
-      include: { _count: { select: { appointments: true } } },
-    });
-  });
+  app.get(
+    "/",
+    { preHandler: [requireAuth, requireSalon, requireActiveSubscription] },
+    async (request) => {
+      return prisma.client.findMany({
+        where: { salonId: request.salon!.id },
+        orderBy: { createdAt: "desc" },
+        include: { _count: { select: { appointments: true } } },
+      });
+    },
+  );
 }

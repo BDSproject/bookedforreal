@@ -33,8 +33,14 @@ describe("jwt", () => {
   });
 
   it("rejects a token with the wrong type (access vs refresh)", () => {
-    const accessAsRefresh = jwt.sign({ sub: "u1", type: "access" }, process.env.JWT_REFRESH_SECRET ?? "test-refresh-secret");
-    const refreshAsAccess = jwt.sign({ sub: "u1", type: "refresh" }, process.env.JWT_ACCESS_SECRET ?? "test-access-secret");
+    const accessAsRefresh = jwt.sign(
+      { sub: "u1", type: "access" },
+      process.env.JWT_REFRESH_SECRET ?? "test-refresh-secret",
+    );
+    const refreshAsAccess = jwt.sign(
+      { sub: "u1", type: "refresh" },
+      process.env.JWT_ACCESS_SECRET ?? "test-access-secret",
+    );
 
     expect(() => verifyRefreshToken(accessAsRefresh)).toThrow();
     expect(() => verifyAccessToken(refreshAsAccess)).toThrow();

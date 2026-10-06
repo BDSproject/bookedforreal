@@ -20,7 +20,9 @@ export default function StaffPage() {
           <Card key={member.id}>
             <CardContent className="flex items-center justify-between">
               <p className="font-semibold">{member.name}</p>
-              <Badge variant={member.active ? "success" : "outline"}>{member.active ? "Actif" : "Inactif"}</Badge>
+              <Badge variant={member.active ? "success" : "outline"}>
+                {member.active ? "Actif" : "Inactif"}
+              </Badge>
             </CardContent>
           </Card>
         ))}

@@ -24,7 +24,12 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   }
   const locale = params.locale as AppLocale;
   const data = article[locale];
-  return buildMetadata({ locale, title: data.title, description: data.description, path: `blog/${article.slug}` });
+  return buildMetadata({
+    locale,
+    title: data.title,
+    description: data.description,
+    path: `blog/${article.slug}`,
+  });
 }
 
 export default function ArticlePage({ params }: ArticlePageProps) {
@@ -61,14 +66,14 @@ export default function ArticlePage({ params }: ArticlePageProps) {
         ])}
       />
 
-      <Link href={`/${locale}/blog`} className="text-sm text-primary">
+      <Link href={`/${locale}/blog`} className="text-primary text-sm">
         ← Blog
       </Link>
-      <p className="mt-4 text-xs text-muted-foreground">
+      <p className="text-muted-foreground mt-4 text-xs">
         {article.category} · {article.publishedAt} · {author}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold tracking-tight">{data.title}</h1>
-      <p className="mt-3 text-lg text-muted-foreground">{data.description}</p>
+      <p className="text-muted-foreground mt-3 text-lg">{data.description}</p>
 
       <div className="mt-8 space-y-4">
         {data.content.map((paragraph) => (

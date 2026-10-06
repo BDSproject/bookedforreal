@@ -10,7 +10,7 @@ export default function Search() {
   const { data } = useSalons(city || undefined);
 
   return (
-    <View className="flex-1 bg-surface px-4 pt-6">
+    <View className="bg-surface flex-1 px-4 pt-6">
       <Text className="text-2xl font-bold text-gray-900">{t("search.title")}</Text>
       <TextInput
         className="mt-4 h-12 rounded-xl border border-gray-300 bg-white px-4 text-gray-900"

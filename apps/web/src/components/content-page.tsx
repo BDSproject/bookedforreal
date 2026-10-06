@@ -7,10 +7,10 @@ export function ContentPage({ slug, locale }: { slug: SitePageSlug; locale: AppL
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
-      <h1 className="font-display text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
+      <h1 className="font-display text-navy text-3xl font-semibold tracking-tight sm:text-4xl">
         {page.title}
       </h1>
-      <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{page.intro}</p>
+      <p className="text-muted-foreground mt-4 text-lg leading-relaxed">{page.intro}</p>
 
       <div className="mt-12 space-y-10">
         {page.sections.map((section) => (
@@ -18,7 +18,7 @@ export function ContentPage({ slug, locale }: { slug: SitePageSlug; locale: AppL
             <h2 className="font-display text-xl font-semibold">{section.title}</h2>
             <div className="mt-3 space-y-2.5">
               {section.body.map((paragraph) => (
-                <p key={paragraph} className="leading-relaxed text-muted-foreground">
+                <p key={paragraph} className="text-muted-foreground leading-relaxed">
                   {paragraph}
                 </p>
               ))}

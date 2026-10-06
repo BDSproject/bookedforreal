@@ -35,9 +35,21 @@ export default function Booking() {
     try {
       await apiFetch(`/public/salons/${salon.slug}/appointments`, {
         method: "POST",
-        body: JSON.stringify({ serviceId: service.id, staffId, name, phone, email, startAt: slot.startAt }),
+        body: JSON.stringify({
+          serviceId: service.id,
+          staffId,
+          name,
+          phone,
+          email,
+          startAt: slot.startAt,
+        }),
       });
-      await addStoredAppointment({ id: Date.now().toString(), slug: salon.slug, date, time: slot.time });
+      await addStoredAppointment({
+        id: Date.now().toString(),
+        slug: salon.slug,
+        date,
+        time: slot.time,
+      });
       router.replace("/(tabs)/appointments");
     } catch {
       // Slot already taken (kept minimal for the scaffold).
@@ -88,7 +100,9 @@ export default function Booking() {
                   }}
                   className={`rounded-xl px-4 py-3 ${slot?.startAt === s.startAt ? "bg-primary" : "border border-gray-200"}`}
                 >
-                  <Text className={slot?.startAt === s.startAt ? "text-white" : "text-gray-900"}>{s.time}</Text>
+                  <Text className={slot?.startAt === s.startAt ? "text-white" : "text-gray-900"}>
+                    {s.time}
+                  </Text>
                 </Pressable>
               ))}
             </View>
@@ -99,8 +113,19 @@ export default function Booking() {
           <View className="mt-6 gap-4">
             <Text className="font-semibold text-gray-700">{t("booking.contact")}</Text>
             <Input label={t("booking.name")} value={name} onChangeText={setName} />
-            <Input label={t("booking.phone")} value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
-            <Input label={t("booking.email")} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
+            <Input
+              label={t("booking.phone")}
+              value={phone}
+              onChangeText={setPhone}
+              keyboardType="phone-pad"
+            />
+            <Input
+              label={t("booking.email")}
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
             <Button label={t("booking.confirm")} size="xl" onPress={confirm} disabled={!name} />
           </View>
         ) : null}

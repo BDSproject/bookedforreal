@@ -17,7 +17,7 @@ export default function Profile() {
   }
 
   return (
-    <View className="flex-1 bg-surface px-4 pt-6">
+    <View className="bg-surface flex-1 px-4 pt-6">
       <Text className="text-2xl font-bold text-gray-900">{t("profile.title")}</Text>
 
       <View className="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
@@ -29,7 +29,9 @@ export default function Profile() {
               onPress={() => switchLocale(l)}
               className={`rounded-full px-4 py-2 ${locale === l ? "bg-primary" : "bg-gray-100"}`}
             >
-              <Text className={locale === l ? "text-white" : "text-gray-700"}>{l.toUpperCase()}</Text>
+              <Text className={locale === l ? "text-white" : "text-gray-700"}>
+                {l.toUpperCase()}
+              </Text>
             </Pressable>
           ))}
         </View>

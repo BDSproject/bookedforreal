@@ -44,14 +44,23 @@ describe("salonJsonLd", () => {
     const ld = salonJsonLd(salon, "https://example.com");
     expect(ld["openingHoursSpecification"]).toHaveLength(1);
     expect(ld["makesOffer"]).toHaveLength(1);
-    expect(ld["aggregateRating"]).toEqual({ "@type": "AggregateRating", ratingValue: "4.5", reviewCount: 2 });
+    expect(ld["aggregateRating"]).toEqual({
+      "@type": "AggregateRating",
+      ratingValue: "4.5",
+      reviewCount: 2,
+    });
   });
 });
 
 describe("openingHoursSpecification", () => {
   it("maps weekday 0-6 to Schema.org day names", () => {
     const spec = openingHoursSpecification([{ weekday: 1, startTime: "09:00", endTime: "18:00" }]);
-    expect(spec[0]).toEqual({ "@type": "OpeningHoursSpecification", dayOfWeek: "Mo", opens: "09:00", closes: "18:00" });
+    expect(spec[0]).toEqual({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Mo",
+      opens: "09:00",
+      closes: "18:00",
+    });
   });
 });
 

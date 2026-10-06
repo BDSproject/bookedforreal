@@ -23,7 +23,9 @@ export async function serviceRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "Invalid input", details: parsed.error.issues });
     }
 
-    const service = await prisma.service.create({ data: { ...parsed.data, salonId: request.salon!.id } });
+    const service = await prisma.service.create({
+      data: { ...parsed.data, salonId: request.salon!.id },
+    });
     return reply.code(201).send(service);
   });
 

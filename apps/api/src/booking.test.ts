@@ -31,14 +31,24 @@ beforeAll(async () => {
   expect(reg.statusCode).toBe(201);
   slug = reg.json().salon.slug;
 
-  const login = await app.inject({ method: "POST", url: "/auth/login", payload: { email, password } });
+  const login = await app.inject({
+    method: "POST",
+    url: "/auth/login",
+    payload: { email, password },
+  });
   token = login.json().accessToken;
 
   const svc = await app.inject({
     method: "POST",
     url: "/services",
     headers: { authorization: `Bearer ${token}` },
-    payload: { nameFr: "Coupe", nameEn: "Haircut", durationMin: 30, priceCents: 2500, bufferMin: 5 },
+    payload: {
+      nameFr: "Coupe",
+      nameEn: "Haircut",
+      durationMin: 30,
+      priceCents: 2500,
+      bufferMin: 5,
+    },
   });
   serviceId = svc.json().id;
 
@@ -54,7 +64,14 @@ beforeAll(async () => {
     method: "POST",
     url: "/availability",
     headers: { authorization: `Bearer ${token}` },
-    payload: { staffId, weekday: 1, startTime: "09:00", endTime: "18:00", breakStart: "12:00", breakEnd: "13:00" },
+    payload: {
+      staffId,
+      weekday: 1,
+      startTime: "09:00",
+      endTime: "18:00",
+      breakStart: "12:00",
+      breakEnd: "13:00",
+    },
   });
   availabilityId = avail.json().id;
 });
@@ -115,7 +132,10 @@ describe("public booking", () => {
     });
     expect(res.statusCode).toBe(201);
 
-    const status = await app.inject({ method: "GET", url: `/public/salons/${slug}/appointments/${res.json().id}` });
+    const status = await app.inject({
+      method: "GET",
+      url: `/public/salons/${slug}/appointments/${res.json().id}`,
+    });
     expect(status.statusCode).toBe(200);
     expect(status.json().status).toBe("PENDING");
   });
@@ -124,7 +144,13 @@ describe("public booking", () => {
     const res = await app.inject({
       method: "POST",
       url: `/public/salons/${slug}/appointments`,
-      payload: { serviceId, staffId, name: "John Doe", phone: "+33699999999", startAt: bookedStartAt },
+      payload: {
+        serviceId,
+        staffId,
+        name: "John Doe",
+        phone: "+33699999999",
+        startAt: bookedStartAt,
+      },
     });
     expect(res.statusCode).toBe(409);
   });
@@ -132,19 +158,31 @@ describe("public booking", () => {
 
 describe("protected endpoints", () => {
   it("returns the salon for GET /salons/me", async () => {
-    const res = await app.inject({ method: "GET", url: "/salons/me", headers: { authorization: `Bearer ${token}` } });
+    const res = await app.inject({
+      method: "GET",
+      url: "/salons/me",
+      headers: { authorization: `Bearer ${token}` },
+    });
     expect(res.statusCode).toBe(200);
     expect(res.json().salon.slug).toBe(slug);
   });
 
   it("lists appointments for GET /appointments", async () => {
-    const res = await app.inject({ method: "GET", url: "/appointments", headers: { authorization: `Bearer ${token}` } });
+    const res = await app.inject({
+      method: "GET",
+      url: "/appointments",
+      headers: { authorization: `Bearer ${token}` },
+    });
     expect(res.statusCode).toBe(200);
     expect(res.json().length).toBeGreaterThan(0);
   });
 
   it("confirms an appointment with PATCH /appointments/:id", async () => {
-    const list = await app.inject({ method: "GET", url: "/appointments", headers: { authorization: `Bearer ${token}` } });
+    const list = await app.inject({
+      method: "GET",
+      url: "/appointments",
+      headers: { authorization: `Bearer ${token}` },
+    });
     const appointment = list.json()[0];
 
     const res = await app.inject({
@@ -158,13 +196,21 @@ describe("protected endpoints", () => {
   });
 
   it("lists clients for GET /clients", async () => {
-    const res = await app.inject({ method: "GET", url: "/clients", headers: { authorization: `Bearer ${token}` } });
+    const res = await app.inject({
+      method: "GET",
+      url: "/clients",
+      headers: { authorization: `Bearer ${token}` },
+    });
     expect(res.statusCode).toBe(200);
     expect(res.json().length).toBeGreaterThan(0);
   });
 
   it("returns dashboard stats for GET /stats/dashboard", async () => {
-    const res = await app.inject({ method: "GET", url: "/stats/dashboard", headers: { authorization: `Bearer ${token}` } });
+    const res = await app.inject({
+      method: "GET",
+      url: "/stats/dashboard",
+      headers: { authorization: `Bearer ${token}` },
+    });
     expect(res.statusCode).toBe(200);
     expect(typeof res.json().appointmentsToday).toBe("number");
   });
@@ -220,7 +266,11 @@ describe("management CRUD", () => {
   });
 
   it("POST /appointments creates a manual appointment", async () => {
-    const clients = await app.inject({ method: "GET", url: "/clients", headers: { authorization: `Bearer ${token}` } });
+    const clients = await app.inject({
+      method: "GET",
+      url: "/clients",
+      headers: { authorization: `Bearer ${token}` },
+    });
     const clientId = clients.json()[0].id;
 
     const res = await app.inject({
@@ -305,7 +355,11 @@ describe("error handling", () => {
   });
 
   it("returns 400 for an invalid appointment status", async () => {
-    const list = await app.inject({ method: "GET", url: "/appointments", headers: { authorization: `Bearer ${token}` } });
+    const list = await app.inject({
+      method: "GET",
+      url: "/appointments",
+      headers: { authorization: `Bearer ${token}` },
+    });
     const id = list.json()[0].id;
 
     const res = await app.inject({
@@ -361,7 +415,9 @@ describe("error handling", () => {
     });
 
     const guardApp = buildApp();
-    guardApp.get("/salon-only", { preHandler: [requireAuth, requireSalon] }, async () => ({ ok: true }));
+    guardApp.get("/salon-only", { preHandler: [requireAuth, requireSalon] }, async () => ({
+      ok: true,
+    }));
     const res = await guardApp.inject({
       method: "GET",
       url: "/salon-only",

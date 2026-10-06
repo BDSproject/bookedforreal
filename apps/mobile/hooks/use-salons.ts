@@ -28,7 +28,8 @@ export function useAvailability(slug: string, date: string, serviceId?: string, 
 
   return useQuery({
     queryKey: ["availability", slug, date, serviceId, staffId],
-    queryFn: () => apiFetch<AvailabilityResponse>(`/public/salons/${slug}/availability?${params.join("&")}`),
+    queryFn: () =>
+      apiFetch<AvailabilityResponse>(`/public/salons/${slug}/availability?${params.join("&")}`),
     enabled: Boolean(serviceId && date),
   });
 }

@@ -7,9 +7,9 @@ test("home page is localized and has hreflang", async ({ page }) => {
   await expect(page.locator("h1")).toContainText("Réservez votre coupe en 3 clics");
 
   // hreflang alternates (fr, en, x-default) present in <head>.
-  const hrefLangs = await page.locator('link[rel="alternate"]').evaluateAll((links) =>
-    links.map((l) => l.getAttribute("hreflang")),
-  );
+  const hrefLangs = await page
+    .locator('link[rel="alternate"]')
+    .evaluateAll((links) => links.map((l) => l.getAttribute("hreflang")));
   expect(hrefLangs).toContain("fr");
   expect(hrefLangs).toContain("en");
   expect(hrefLangs).toContain("x-default");

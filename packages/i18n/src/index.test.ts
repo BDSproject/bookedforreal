@@ -29,7 +29,16 @@ describe("i18n", () => {
   });
 
   it("exposes the required namespaces", () => {
-    for (const ns of ["common", "home", "auth", "booking", "dashboard", "seo", "errors", "emails"]) {
+    for (const ns of [
+      "common",
+      "home",
+      "auth",
+      "booking",
+      "dashboard",
+      "seo",
+      "errors",
+      "emails",
+    ]) {
       expect(Object.keys(en)).toContain(ns);
       expect(Object.keys(fr)).toContain(ns);
     }

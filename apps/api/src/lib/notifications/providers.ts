@@ -28,7 +28,11 @@ export async function sendViaChannel(params: SendParams): Promise<void> {
 }
 
 /** Tries each channel in order (fallback: WhatsApp → SMS → Email). Returns the used channel. */
-export async function sendWithFallback(to: string, message: string, channels: Channel[]): Promise<Channel> {
+export async function sendWithFallback(
+  to: string,
+  message: string,
+  channels: Channel[],
+): Promise<Channel> {
   let lastError: unknown = new Error("No channel");
   for (const channel of channels) {
     try {

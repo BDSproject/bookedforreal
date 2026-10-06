@@ -23,7 +23,9 @@ export async function staffRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "Invalid input", details: parsed.error.issues });
     }
 
-    const staff = await prisma.staff.create({ data: { ...parsed.data, salonId: request.salon!.id } });
+    const staff = await prisma.staff.create({
+      data: { ...parsed.data, salonId: request.salon!.id },
+    });
     return reply.code(201).send(staff);
   });
 

@@ -40,6 +40,8 @@ describe("loginSchema", () => {
   });
 
   it("accepts a valid payload", () => {
-    expect(loginSchema.safeParse({ email: "owner@salon.fr", password: "StrongPass123!" }).success).toBe(true);
+    expect(
+      loginSchema.safeParse({ email: "owner@salon.fr", password: "StrongPass123!" }).success,
+    ).toBe(true);
   });
 });
