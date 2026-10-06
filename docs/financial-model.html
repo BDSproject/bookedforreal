@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bookedforreal — Modèle financier</title>
+<style>
+  :root {
+    --primary: #7c3aed;
+    --primary-soft: #f5f3ff;
+    --ink: #0c2c43;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --bg: #faf9f7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  header {
+    background: linear-gradient(135deg, #7c3aed, #4c1d95);
+    color: #fff;
+    padding: 28px 24px;
+  }
+  header h1 { margin: 0; font-size: 22px; letter-spacing: -0.3px; }
+  header p { margin: 6px 0 0; opacity: 0.9; font-size: 14px; }
+  main { max-width: 1180px; margin: 0 auto; padding: 24px; }
+  h2 { font-size: 16px; margin: 0 0 12px; }
+  section { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+  .presets { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .presets button {
+    border: 1px solid var(--line); background: #fff; color: var(--ink);
+    padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .presets button.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+  input[type="number"] {
+    width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px;
+    font-size: 14px; font-variant-numeric: tabular-nums; color: var(--ink); background: #fff;
+  }
+  input[type="number"]:focus { outline: 2px solid var(--primary); outline-offset: 0; border-color: var(--primary); }
+  .hint { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .kpi { background: var(--primary-soft); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .kpi .v { font-size: 22px; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
+  .kpi .l { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .kpi.ok .v { color: var(--ok); }
+  .kpi.bad .v { color: var(--bad); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 7px 8px; text-align: right; border-bottom: 1px solid var(--line); }
+  th:first-child, td:first-child { text-align: left; }
+  thead th { position: sticky; top: 0; background: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
+  tr.be td { background: #ecfdf5; font-weight: 700; }
+  .scroll { max-height: 520px; overflow: auto; border: 1px solid var(--line); border-radius: 12px; }
+  .pos { color: var(--ok); } .neg { color: var(--bad); }
+  svg { width: 100%; height: 280px; display: block; }
+  .legend { display: flex; gap: 18px; font-size: 12px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+  footer { font-size: 12px; color: var(--muted); padding: 8px 24px 40px; max-width: 1180px; margin: 0 auto; }
+  .note { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Bookedforreal — Modèle financier</h1>
+  <p>Projeté sur 36 mois · prix HT · charges SASU · modifiable en direct</p>
+</header>
+
+<main>
+  <section>
+    <h2>Scénarios</h2>
+    <div class="presets" id="presets"></div>
+    <p class="note">Ajuste n'importe quel paramètre ci-dessous : tout se recalcule instantanément.</p>
+  </section>
+
+  <section>
+    <h2>Paramètres</h2>
+    <div class="grid" id="inputs"></div>
+  </section>
+
+  <section>
+    <h2>Indicateurs clés</h2>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section>
+    <h2>Revenus vs charges</h2>
+    <svg id="chart" viewBox="0 0 900 280" preserveAspectRatio="none"></svg>
+    <div class="legend">
+      <span><i style="background:#7c3aed"></i>MRR (revenus HT)</span>
+      <span><i style="background:#dc2626"></i>Charges totales (variables + fixes + CAC)</span>
+      <span><i style="background:#16a34a"></i>Seuil de rentabilité</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Détail mois par mois</h2>
+    <div class="scroll">
+      <table id="table"></table>
+    </div>
+    <p class="note">
+      <strong>Marge brute</strong> = revenus − frais Stripe − SMS · <strong>Résultat</strong> = marge brute − CAC − charges fixes.
+      Le CAC est une dépense d'acquisition (pas un coût récurrent).
+    </p>
+  </section>
+
+  <section>
+    <h2>Synthèse annuelle &amp; rémunération</h2>
+    <div class="kpis" id="annual"></div>
+    <p class="note">
+      Impôt société (IS) 15 % jusqu'à 42 500 € de bénéfice annuel, puis 25 %. Rémunération en dividendes : flat tax 30 %.
+      En salaire, compte ~45 % de charges sur le brut (non modélisé ici).
+    </p>
+  </section>
+</main>
+
+<footer>
+  Modèle indicatif — ne remplace pas un expert-comptable. Hypothèses par défaut : Stripe 1,5 % + 0,25 €,
+  SMS ~0,08 €, expert-comptable ~1 000 €/an, CFE ~300 €/an.
+</footer>
+
+<script>
+const FIELDS = [
+  { k: "starterPrice",  l: "Prix Starter (€ HT/mois)",       s: 1,    h: "Prix affiché HT" },
+  { k: "proPrice",      l: "Prix Pro (€ HT/mois)",           s: 1,    h: "Prix affiché HT" },
+  { k: "annualDiscount",l: "Remise annuelle (%)",            s: 100,  h: "20 → -20 %" },
+  { k: "annualShare",   l: "Part en annuel (%)",             s: 100,  h: "Facturés 1×/an" },
+  { k: "proShare",      l: "Part de Pro à l'acquisition (%)",s: 100,  h: "Le reste en Starter" },
+  { k: "newPerMonth",   l: "Nouveaux clients / mois (M1)",   s: 1,    h: "Acquisition de départ" },
+  { k: "growth",        l: "Croissance acquisition (%/mois)",s: 100,  h: "Effet bouche-à-oreille" },
+  { k: "churn",         l: "Churn mensuel (%)",              s: 100,  h: "4 % ≈ 24 mois de rétention" },
+  { k: "cac",           l: "CAC (€ / nouveau client)",       s: 1,    h: "Pub, temps de vente…" },
+  { k: "fixedMonthly",  l: "Charges fixes (€ / mois)",       s: 1,    h: "Hébergement, compta, CFE, banque" },
+  { k: "smsPerPro",     l: "Crédits SMS inclus (Pro)",       s: 1,    h: "Plafond du plan" },
+  { k: "smsUsage",      l: "Taux d'usage SMS (%)",           s: 100,  h: "Crédits réellement consommés" },
+  { k: "smsCost",       l: "Coût d'un SMS (€)",              s: 1,    h: "Tarif Twilio ~0,08 €" },
+  { k: "stripePct",     l: "Stripe (%)",                     s: 100,  h: "1,5 % (cartes FR)" },
+  { k: "stripeFixed",   l: "Stripe fixe (€ / transaction)",  s: 1,    h: "0,25 €" },
+];
+
+const PRESETS = {
+  "Pessimiste": { starterPrice:19, proPrice:39, annualDiscount:21, annualShare:15, proShare:20, newPerMonth:1.5, growth:2, churn:8, cac:100, fixedMonthly:150, smsPerPro:50, smsUsage:60, smsCost:0.08, stripePct:1.5, stripeFixed:0.25 },
+  "Réaliste":   { starterPrice:19, proPrice:39, annualDiscount:21, annualShare:30, proShare:30, newPerMonth:3, growth:5, churn:4, cac:60, fixedMonthly:150, smsPerPro:50, smsUsage:50, smsCost:0.08, stripePct:1.5, stripeFixed:0.25 },
+  "Optimiste":  { starterPrice:19, proPrice:39, annualDiscount:21, annualShare:45, proShare:45, newPerMonth:6, growth:10, churn:2.5, cac:40, fixedMonthly:150, smsPerPro:50, smsUsage:40, smsCost:0.08, stripePct:1.5, stripeFixed:0.25 },
+};
+
+let params = { ...PRESETS["Réaliste"] };
+
+// --- Modèle -----------------------------------------------------------------
+function monthlyRevenue(p, annual) {
+  return annual ? p * (1 - params.annualDiscount / 100) : p;
+}
+function monthlyStripeFee(p, annual) {
+  const pct = params.stripePct / 100;
+  if (annual) {
+    const yearly = p * 12 * (1 - params.annualDiscount / 100);
+    return (pct * yearly + params.stripeFixed) / 12;
+  }
+  return pct * p + params.stripeFixed;
+}
+function contribution(plan, annual) {
+  const p = plan === "pro" ? params.proPrice : params.starterPrice;
+  const rev = monthlyRevenue(p, annual);
+  const fee = monthlyStripeFee(p, annual);
+  const sms = plan === "pro" ? (params.smsPerPro * params.smsUsage / 100) * params.smsCost : 0;
+  return { rev, fee, sms, margin: rev - fee - sms };
+}
+
+function simulate() {
+  const a = params.annualShare / 100;
+  const mix = params.proShare / 100;
+  const sM = contribution("starter", false), sA = contribution("starter", true);
+  const pM = contribution("pro", false),     pA = contribution("pro", true);
+
+  const perCustomer = {
+    rev:    mix * (a * pA.rev + (1 - a) * pM.rev) + (1 - mix) * (a * sA.rev + (1 - a) * sM.rev),
+    varCost: mix * (a * (pA.fee + pA.sms) + (1 - a) * (pM.fee + pM.sms))
+           + (1 - mix) * (a * (sA.fee + sA.sms) + (1 - a) * (sM.fee + sM.sms)),
+  };
+  perCustomer.margin = perCustomer.rev - perCustomer.varCost;
+
+  const rows = [];
+  let customers = 0, cash = 0, breakEvenMonth = null;
+
+  for (let m = 1; m <= 36; m++) {
+    const acquired = params.newPerMonth * Math.pow(1 + params.growth / 100, m - 1);
+    const churned = customers * (params.churn / 100);
+    customers = customers - churned + acquired;
+
+    const revenue = customers * perCustomer.rev;
+    const varCosts = customers * perCustomer.varCost;
+    const margin = customers * perCustomer.margin;
+    const cacSpend = acquired * params.cac;
+    const ebitda = margin - cacSpend - params.fixedMonthly;
+    cash += ebitda;
+    if (breakEvenMonth === null && ebitda >= 0) breakEvenMonth = m;
+
+    rows.push({ m, acquired, churned, customers, revenue, varCosts, margin, cacSpend, fixed: params.fixedMonthly, ebitda, cash });
+  }
+  return { rows, perCustomer, breakEvenMonth };
+}
+
+// --- Rendu ------------------------------------------------------------------
+const fmt = (n) => Math.round(n).toLocaleString("fr-FR");
+const eur = (n) => fmt(n) + " €";
+
+function renderInputs() {
+  document.getElementById("inputs").innerHTML = FIELDS.map((f) => {
+    const value = Math.round(params[f.k] * f.s * 1000) / 1000;
+    return `<div>
+      <label for="${f.k}">${f.l}</label>
+      <input id="${f.k}" type="number" step="any" value="${value}" data-scale="${f.s}" />
+      <div class="hint">${f.h}</div>
+    </div>`;
+  }).join("");
+  FIELDS.forEach((f) => {
+    document.getElementById(f.k).addEventListener("input", (e) => {
+      const v = parseFloat(e.target.value);
+      if (!Number.isNaN(v)) { params[f.k] = v / f.s; render(); }
+    });
+  });
+}
+
+function renderPresets() {
+  const el = document.getElementById("presets");
+  el.innerHTML = Object.keys(PRESETS).map((n) => `<button data-preset="${n}">${n}</button>`).join("");
+  el.querySelectorAll("button").forEach((b) => {
+    b.addEventListener("click", () => {
+      params = { ...PRESETS[b.dataset.preset] };
+      el.querySelectorAll("button").forEach((x) => x.classList.remove("active"));
+      b.classList.add("active");
+      renderInputs();
+      render();
+    });
+  });
+  el.querySelector('[data-preset="Réaliste"]').classList.add("active");
+}
+
+function render() {
+  const { rows, perCustomer, breakEvenMonth } = simulate();
+  const last = rows[rows.length - 1];
+  const m12 = rows[11], m24 = rows[23], m36 = rows[35];
+
+  const ltv = perCustomer.margin / (params.churn / 100);
+  const payback = perCustomer.margin > 0 ? params.cac / perCustomer.margin : Infinity;
+  const ltvCac = params.cac > 0 ? ltv / params.cac : Infinity;
+
+  // Break-even customer count (fixed costs only, no CAC)
+  const beCustomers = perCustomer.margin > 0 ? Math.ceil(params.fixedMonthly / perCustomer.margin) : Infinity;
+
+  const kpis = [
+    { v: breakEvenMonth ? "M" + breakEvenMonth : "—", l: "Rentabilité (résultat ≥ 0)", c: breakEvenMonth ? "ok" : "bad" },
+    { v: isFinite(beCustomers) ? beCustomers : "—", l: "Clients pour couvrir les fixes", c: "ok" },
+    { v: eur(m12.revenue), l: "MRR fin d'année 1" },
+    { v: eur(m36.revenue), l: "MRR fin d'année 3" },
+    { v: eur(last.customers), l: "Clients à 36 mois" },
+    { v: eur(ltv), l: "LTV (marge ÷ churn)" },
+    { v: eur(params.cac), l: "CAC" },
+    { v: ltvCac.toFixed(2), l: "LTV / CAC", c: ltvCac >= 3 ? "ok" : "bad" },
+    { v: isFinite(payback) ? payback.toFixed(1) + " mois" : "—", l: "Retour sur CAC", c: payback <= 12 ? "ok" : "bad" },
+    { v: eur(perCustomer.margin), l: "Marge / client / mois" },
+    { v: eur(last.cash), l: "Trésorerie cumulée M36", c: last.cash >= 0 ? "ok" : "bad" },
+    { v: eur(rows.reduce((a, r) => a + r.revenue, 0)), l: "CA cumulé 36 mois" },
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map((k) =>
+    `<div class="kpi ${k.c || ""}"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join("");
+
+  // Chart
+  const maxY = Math.max(...rows.map((r) => Math.max(r.revenue, r.varCosts + r.fixed + r.cacSpend)), 1);
+  const W = 900, H = 280, PAD = 8;
+  const x = (i) => PAD + (i / 35) * (W - PAD * 2);
+  const y = (v) => H - PAD - (v / maxY) * (H - PAD * 2);
+  const line = (sel) => rows.map((r, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(sel(r)).toFixed(1)}`).join(" ");
+  const costs = (r) => r.varCosts + r.fixed + r.cacSpend;
+  const beX = breakEvenMonth ? x(breakEvenMonth - 1) : null;
+
+  document.getElementById("chart").innerHTML = `
+    ${[0.25, 0.5, 0.75, 1].map((f) => `<line x1="${PAD}" y1="${y(maxY * f)}" x2="${W - PAD}" y2="${y(maxY * f)}" stroke="#e5e7eb" stroke-width="1"/>`).join("")}
+    <path d="${line((r) => r.revenue)}" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linejoin="round"/>
+    <path d="${line(costs)}" fill="none" stroke="#dc2626" stroke-width="3" stroke-linejoin="round" stroke-dasharray="6 4"/>
+    ${beX !== null ? `<line x1="${beX}" y1="${PAD}" x2="${beX}" y2="${H - PAD}" stroke="#16a34a" stroke-width="2" stroke-dasharray="4 4"/><circle cx="${beX}" cy="${y(rows[breakEvenMonth - 1].revenue)}" r="5" fill="#16a34a"/>` : ""}
+  `;
+
+  // Table
+  const head = `<thead><tr><th>Mois</th><th>Nouveaux</th><th>Churn</th><th>Clients</th><th>MRR</th><th>Coûts var.</th><th>Marge brute</th><th>CAC</th><th>Fixes</th><th>Résultat</th><th>Trésorerie</th></tr></thead>`;
+  const body = rows.map((r) => `<tr class="${r.m === breakEvenMonth ? "be" : ""}">
+    <td>M${r.m}</td>
+    <td>${r.acquired.toFixed(1)}</td>
+    <td class="neg">−${r.churned.toFixed(1)}</td>
+    <td>${r.customers.toFixed(1)}</td>
+    <td>${eur(r.revenue)}</td>
+    <td class="neg">−${eur(r.varCosts)}</td>
+    <td>${eur(r.margin)}</td>
+    <td class="neg">−${eur(r.cacSpend)}</td>
+    <td class="neg">−${eur(r.fixed)}</td>
+    <td class="${r.ebitda >= 0 ? "pos" : "neg"}">${r.ebitda >= 0 ? "+" : ""}${eur(r.ebitda)}</td>
+    <td class="${r.cash >= 0 ? "pos" : "neg"}">${eur(r.cash)}</td>
+  </tr>`).join("");
+  document.getElementById("table").innerHTML = head + `<tbody>${body}</tbody>`;
+
+  // Annual summary
+  const year = (n) => rows.slice((n - 1) * 12, n * 12);
+  const sum = (arr, sel) => arr.reduce((a, r) => a + sel(r), 0);
+  const annual = [1, 2, 3].map((n) => {
+    const y = year(n);
+    const revenue = sum(y, (r) => r.revenue);
+    const ebitda = sum(y, (r) => r.ebitda);
+    const profit = Math.max(0, ebitda);
+    const is = profit <= 42500 ? profit * 0.15 : 42500 * 0.15 + (profit - 42500) * 0.25;
+    const afterTax = profit - is;
+    const dividends = afterTax * 0.7;
+    return { n, revenue, ebitda, is, dividends, customers: y[11].customers };
+  });
+  document.getElementById("annual").innerHTML = annual.map((a) => `
+    <div class="kpi">
+      <div class="v">Année ${a.n}</div>
+      <div class="l">
+        CA ${eur(a.revenue)}<br />
+        Résultat ${eur(a.ebitda)}<br />
+        IS ${eur(a.is)}<br />
+        <strong>Dividendes nets ${eur(a.dividends)}</strong><br />
+        = ${eur(a.dividends / 12)}/mois<br />
+        ${a.customers.toFixed(0)} clients
+      </div>
+    </div>`).join("");
+}
+
+renderPresets();
+renderInputs();
+render();
+</script>
+</body>
+</html>
