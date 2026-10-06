@@ -40,7 +40,6 @@ function PlanCard({ planKey, yearly, highlight }: PlanCardProps) {
         <span className="text-sm font-semibold text-muted-foreground">HT</span>
         <span className="text-lg text-muted-foreground line-through">{publicPrice} €</span>
       </div>
-      <p className="mt-1 text-xs font-bold uppercase tracking-wide text-primary">{t("launchBadge")}</p>
 
       <ul className="mt-6 space-y-2.5">
         {FEATURES.map((feature) => (

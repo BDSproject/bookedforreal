@@ -60,7 +60,6 @@
       "save": "-20 %",
       "popular": "Le plus choisi",
       "vatNote": "Prix HT — TVA 20 % en sus. Sans engagement, résiliable à tout moment",
-      "launchBadge": "Prix de lancement",
       "launchNote": "Tarif fondateur garanti à vie pour les 50 premiers salons. Ensuite 29 € et 59 € HT/mois.",
       "starter": { "name": "Starter", "priceMonthly": "19", "priceYearly": "15", "pricePublicMonthly": "29", "pricePublicYearly": "23", "description": "Pour les indépendants", "features": { "1": "Mini-site personnalisé", "2": "Réservation en ligne 24/7", "3": "80 RDV / mois", "4": "1 membre du personnel", "5": "Rappels email", "6": "Sans engagement, résiliable à tout moment" } },
       "pro": { "name": "Pro", "priceMonthly": "39", "priceYearly": "31", "pricePublicMonthly": "59", "pricePublicYearly": "47", "description": "Pour les salons avec équipe", "features": { "1": "Tout Starter", "2": "400 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (50 crédits)", "5": "Domaine personnalisé + app mobile", "6": "Sans engagement, résiliable à tout moment" } },
