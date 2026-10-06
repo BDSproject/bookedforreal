@@ -18,7 +18,7 @@ import { JsonLd } from "@/components/json-ld";
 import { Link as AppLink } from "@/i18n/navigation";
 import { isLocale } from "@/i18n/routing";
 import { allCitySlugs, cityDisplayName } from "@/lib/cities";
-import { breadcrumbJsonLd, softwareApplicationJsonLd } from "@/lib/jsonld";
+import { breadcrumbJsonLd, organizationJsonLd, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { siteUrl } from "@/lib/seo";
 
 const STEPS = [1, 2, 3] as const;
@@ -74,6 +74,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <div className="bg-background">
+      <JsonLd data={organizationJsonLd(siteUrl())} />
+      <JsonLd data={websiteJsonLd(siteUrl())} />
       <JsonLd data={software} />
       <JsonLd data={breadcrumbJsonLd([{ name: "Bookedforreal", url }])} />
 

@@ -8,11 +8,20 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // Keep auth and dashboard out of the index (SEO is for public pages only).
-        disallow: ["/auth", "/dashboard"],
+        // Private surfaces (locale-prefixed) and the client-rendered booking flow.
+        disallow: [
+          "/*/login",
+          "/*/register",
+          "/*/dashboard",
+          "/*/appointments",
+          "/*/clients",
+          "/*/services",
+          "/*/staff",
+          "/*/settings",
+          "/*/s/*/book",
+        ],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
   };
 }

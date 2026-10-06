@@ -42,12 +42,40 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   const { locale } = params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "seo.home" });
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const ogImage = `${baseUrl}/${locale}/opengraph-image`;
 
   return {
     title: t("title"),
     description: t("description"),
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
+    metadataBase: new URL(baseUrl),
     alternates: hreflangAlternates(locale as AppLocale),
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      url: `${baseUrl}/${locale}`,
+      siteName: "Bookedforreal",
+      type: "website",
+      locale: locale === "fr" ? "fr_FR" : "en_US",
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: [ogImage],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
   };
 }
 

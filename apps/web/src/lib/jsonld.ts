@@ -159,3 +159,22 @@ export function salonItemListJsonLd(items: { name: string; url: string }[]): Jso
     })),
   });
 }
+
+/** Organization entity — powers the brand knowledge panel. */
+export function organizationJsonLd(url: string): JsonLd {
+  return withContext({
+    "@type": "Organization",
+    name: "Bookedforreal",
+    url,
+    logo: `${url}/logo-mark.png`,
+  });
+}
+
+/** WebSite entity — helps Google understand the site and its locale alternates. */
+export function websiteJsonLd(url: string): JsonLd {
+  return withContext({
+    "@type": "WebSite",
+    name: "Bookedforreal",
+    url,
+  });
+}
