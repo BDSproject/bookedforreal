@@ -141,7 +141,7 @@ Passwords are hashed with **Argon2id**; tokens are **JWT** signed with
 
 | Method | Endpoint         | Description                                                              |
 | ------ | ---------------- | ------------------------------------------------------------------------ |
-| POST   | `/auth/register` | Creates a `User` (OWNER) + `Salon` with a 14-day trial                   |
+| POST   | `/auth/register` | Creates a `User` (OWNER) + `Salon` with a 7-day trial                    |
 | POST   | `/auth/login`    | Returns `accessToken` (15 min) + `refreshToken` (30 d) as httpOnly cookies |
 | POST   | `/auth/refresh`  | Issues a new `accessToken` from the refresh cookie                       |
 | POST   | `/auth/logout`   | Clears both auth cookies                                                 |

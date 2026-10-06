@@ -23,11 +23,17 @@ export async function billingRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "Invalid plan", details: parsed.error.issues });
     }
 
+    const salon = await prisma.salon.findUnique({
+      where: { id: request.salon!.id },
+      select: { trialEndsAt: true },
+    });
+
     const url = await createCheckoutSession({
       salonId: request.salon!.id,
       customerEmail: request.user!.email,
       plan: parsed.data.plan,
       baseUrl: webAppUrl(),
+      trialEndsAt: salon?.trialEndsAt ?? null,
     });
 
     return { url };

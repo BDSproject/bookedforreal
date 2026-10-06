@@ -22,7 +22,7 @@
         "1": "Sans engagement",
         "2": "Données hébergées en France",
         "3": "On vous répond en français",
-        "4": "14 jours pour essayer"
+        "4": "7 jours pour essayer"
       }
     },
     "quoteBand": {
@@ -54,13 +54,13 @@
     },
     "pricing": {
       "title": "Un tarif clair, sans surprise",
-      "subtitle": "Pas d'engagement, pas de frais cachés : vous arrêtez quand vous voulez",
+      "subtitle": "Essai de 7 jours sur tous les plans : vous arrêtez quand vous voulez, sans frais cachés",
       "monthly": "Mensuel",
       "yearly": "Annuel",
       "save": "-20 %",
       "popular": "Le plus choisi",
-      "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "Pour démarrer", "features": { "1": "Mini-site", "2": "Réservation en ligne", "3": "30 RDV / mois", "4": "1 membre du personnel", "5": "Support email" } },
-      "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "Pour les salons actifs", "features": { "1": "Tout Starter", "2": "300 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (100 crédits)", "5": "Domaine personnalisé" } },
+      "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "Pour démarrer", "features": { "1": "Mini-site", "2": "Réservation en ligne", "3": "30 RDV / mois", "4": "1 membre du personnel", "5": "Support email", "6": "Sans engagement, résiliable à tout moment" } },
+      "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "Pour les salons actifs", "features": { "1": "Tout Starter", "2": "300 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (100 crédits)", "5": "Domaine personnalisé", "6": "Sans engagement, résiliable à tout moment" } },
       "cta": "Commencer l'essai"
     },
     "testimonials": {
@@ -76,11 +76,11 @@
       "questions": {
         "1": { "q": "Qu'est-ce que Bookedforreal ?", "a": "C'est un logiciel de réservation en ligne pour coiffeurs et barbiers : mini-site, agenda et rappels automatiques" },
         "2": { "q": "Combien ça coûte ?", "a": "Le plan Starter est à 5 €/mois, le plan Pro à 29 €/mois : l'engagement annuel offre -20 %" },
-        "3": { "q": "Y a-t-il un essai gratuit ?", "a": "Oui, 14 jours gratuits sans carte bancaire" },
+        "3": { "q": "Y a-t-il un essai gratuit ?", "a": "Oui, 7 jours gratuits sur tous les plans, sans carte bancaire : vous pouvez arrêter avant la fin" },
         "4": { "q": "Comment mes clients réservent-ils ?", "a": "Ils choisissent un service, une date et une heure sur votre mini-site, en 3 clics" },
         "5": { "q": "Puis-je personnaliser mon mini-site ?", "a": "Oui : nom, photos, services, tarifs, horaires et couleurs" },
         "6": { "q": "Les rappels SMS/WhatsApp sont-ils inclus ?", "a": "Ils sont inclus dans le plan Pro (100 crédits/mois), le plan Starter inclut les rappels email" },
-        "7": { "q": "Puis-je annuler à tout moment ?", "a": "Oui, sans engagement : vous gardez vos données" },
+        "7": { "q": "Puis-je annuler à tout moment ?", "a": "Oui, sans engagement : vous pouvez résilier à tout moment, même pendant l'essai, et vous gardez vos données" },
         "8": { "q": "Y a-t-il une application mobile ?", "a": "Oui, disponible sur iOS et Android pour gérer votre agenda" },
         "9": { "q": "Mes données clients sont-elles protégées ?", "a": "Oui, conforme RGPD, avec consentement explicite des clients" },
         "10": { "q": "Comment démarrer ?", "a": "Inscrivez-vous, créez votre salon en 5 minutes et partagez votre lien" }
@@ -137,7 +137,7 @@
   "seo": {
     "home": {
       "title": "Bookedforreal — Logiciel de réservation pour coiffeurs et barbiers",
-      "description": "Logiciel de réservation en ligne pour coiffeurs et barbiers. Mini-site, agenda, rappels WhatsApp/SMS, app mobile. Essai gratuit 14 jours."
+      "description": "Logiciel de réservation en ligne pour coiffeurs et barbiers. Mini-site, agenda, rappels WhatsApp/SMS, app mobile. Essai gratuit 7 jours."
     },
     "blog": { "title": "Blog — Conseils pour coiffeurs et barbiers", "description": "Guides et conseils pour remplir votre agenda : réservation en ligne, no-shows, marketing local." }
   },

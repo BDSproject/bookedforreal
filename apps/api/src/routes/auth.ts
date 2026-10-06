@@ -10,7 +10,8 @@ import { requireAuth } from "../middleware/auth";
 const ACCESS_COOKIE = "access_token";
 const REFRESH_COOKIE = "refresh_token";
 
-const TRIAL_DURATION_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
+/** Free trial applied to every plan: 7 days, cancellable at any time before it ends. */
+const TRIAL_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
 
 /** Rate limit applied to credential endpoints: 5 attempts / 15 minutes. */
 const AUTH_RATE_LIMIT = { max: 5, timeWindow: "15 minutes" };
@@ -66,7 +67,7 @@ async function uniqueSalonSlug(name: string): Promise<string> {
 }
 
 export async function authRoutes(app: FastifyInstance): Promise<void> {
-  // POST /auth/register — creates a User (OWNER) + their Salon with a 14-day trial.
+  // POST /auth/register — creates a User (OWNER) + their Salon with a 7-day trial (all plans).
   app.post("/register", { config: { rateLimit: AUTH_RATE_LIMIT } }, async (request, reply) => {
     const parsed = registerSchema.safeParse(request.body);
     if (!parsed.success) {

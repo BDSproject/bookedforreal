@@ -69,7 +69,7 @@ export const blogArticles: BlogArticle[] = [
         "Un bon logiciel de réservation doit être simple : 3 clics pour le client, aucune formation pour vous.",
         "Vérifiez le prix : méfiez-vous des frais cachés par réservation. Préférez un abonnement clair.",
         "Le mini-site, les rappels automatiques et l'application mobile font toute la différence.",
-        "Bookedforreal réunit tout cela à partir de 5 €/mois, avec un essai gratuit de 14 jours.",
+        "Bookedforreal réunit tout cela à partir de 5 €/mois, avec un essai gratuit de 7 jours.",
       ],
     },
     en: {
@@ -79,7 +79,7 @@ export const blogArticles: BlogArticle[] = [
         "Good booking software must be simple: 3 clicks for the client, no training for you.",
         "Check the price: beware of hidden per-booking fees. Prefer clear subscription pricing.",
         "The mini-site, automatic reminders and mobile app make all the difference.",
-        "Bookedforreal brings it all together from €5/month, with a 14-day free trial.",
+        "Bookedforreal brings it all together from €5/month, with a 7-day free trial.",
       ],
     },
   },

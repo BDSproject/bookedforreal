@@ -22,7 +22,7 @@
         "1": "No commitment",
         "2": "Data hosted in France",
         "3": "Real support, in French",
-        "4": "14 days to try it"
+        "4": "7 days to try it"
       }
     },
     "quoteBand": {
@@ -54,13 +54,13 @@
     },
     "pricing": {
       "title": "Clear pricing, no surprises",
-      "subtitle": "No commitment, no hidden fees: stop whenever you want",
+      "subtitle": "7-day trial on every plan: stop whenever you want, no hidden fees",
       "monthly": "Monthly",
       "yearly": "Yearly",
       "save": "-20%",
       "popular": "Most chosen",
-      "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "To get started", "features": { "1": "Mini-site", "2": "Online booking", "3": "30 bookings / month", "4": "1 staff member", "5": "Email support" } },
-      "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "For busy salons", "features": { "1": "Everything in Starter", "2": "300 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (100 credits)", "5": "Custom domain" } },
+      "starter": { "name": "Starter", "priceMonthly": "5", "priceYearly": "4", "description": "To get started", "features": { "1": "Mini-site", "2": "Online booking", "3": "30 bookings / month", "4": "1 staff member", "5": "Email support", "6": "No commitment, cancel anytime" } },
+      "pro": { "name": "Pro", "priceMonthly": "29", "priceYearly": "23", "description": "For busy salons", "features": { "1": "Everything in Starter", "2": "300 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (100 credits)", "5": "Custom domain", "6": "No commitment, cancel anytime" } },
       "cta": "Start the trial"
     },
     "testimonials": {
@@ -76,11 +76,11 @@
       "questions": {
         "1": { "q": "What is Bookedforreal?", "a": "It's an online booking software for hairdressers and barbers: mini-site, calendar and automatic reminders" },
         "2": { "q": "How much does it cost?", "a": "The Starter plan is €5/month, the Pro plan €29/month: yearly billing saves 20%" },
-        "3": { "q": "Is there a free trial?", "a": "Yes, 14 days free with no credit card required" },
+        "3": { "q": "Is there a free trial?", "a": "Yes, 7 days free on every plan, no credit card required: you can stop before the end" },
         "4": { "q": "How do clients book?", "a": "They pick a service, a date and a time on your mini-site, in 3 clicks" },
         "5": { "q": "Can I customize my mini-site?", "a": "Yes: name, photos, services, prices, hours and colors" },
         "6": { "q": "Are SMS/WhatsApp reminders included?", "a": "They're included in the Pro plan (100 credits/month), Starter includes email reminders" },
-        "7": { "q": "Can I cancel anytime?", "a": "Yes, no commitment: you keep your data" },
+        "7": { "q": "Can I cancel anytime?", "a": "Yes, no commitment: cancel anytime, even during the trial, and you keep your data" },
         "8": { "q": "Is there a mobile app?", "a": "Yes, available on iOS and Android to manage your calendar" },
         "9": { "q": "Is my client data protected?", "a": "Yes, GDPR compliant, with explicit client consent" },
         "10": { "q": "How do I get started?", "a": "Sign up, create your salon in 5 minutes and share your link" }
@@ -137,7 +137,7 @@
   "seo": {
     "home": {
       "title": "Bookedforreal — Booking software for hairdressers and barbers",
-      "description": "Online booking software for hairdressers and barbers. Mini-site, calendar, WhatsApp/SMS reminders, mobile app. 14-day free trial."
+      "description": "Online booking software for hairdressers and barbers. Mini-site, calendar, WhatsApp/SMS reminders, mobile app. 7-day free trial."
     },
     "blog": { "title": "Blog — Tips for hairdressers and barbers", "description": "Guides and tips to fill your calendar: online booking, no-shows, local marketing." }
   },

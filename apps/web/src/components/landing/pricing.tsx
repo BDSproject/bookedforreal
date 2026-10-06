@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 
 import { Button } from "@bookedforreal/ui";
 
-const FEATURES = [1, 2, 3, 4, 5] as const;
+const FEATURES = [1, 2, 3, 4, 5, 6] as const;
 
 interface PlanCardProps {
   planKey: "starter" | "pro";
