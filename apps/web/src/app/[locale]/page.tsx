@@ -312,14 +312,14 @@ export default async function HomePage({ params }: HomePageProps) {
       {/* 11. Footer */}
       <footer className="border-t border-border/60 bg-card">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-[0.7rem] bg-primary text-white">
-              <CalendarIcon className="h-[18px] w-[18px]" />
-            </span>
-            <span className="font-display text-[1.3rem] font-semibold tracking-tight">
-              Bookedforreal
-            </span>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-lockup.png"
+            alt="Bookedforreal"
+            width={560}
+            height={364}
+            className="h-24 w-auto"
+          />
           <p className="mt-3 max-w-md text-sm text-muted-foreground">{t("footer.tagline")}</p>
 
           <div className="mt-10">

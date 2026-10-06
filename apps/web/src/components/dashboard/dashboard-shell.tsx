@@ -29,7 +29,14 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-[calc(100vh-4rem)]">
       <aside className="hidden w-60 shrink-0 border-r bg-card p-4 sm:block">
-        <p className="text-lg font-bold text-primary">Bookedforreal</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo-lockup.png"
+          alt="Bookedforreal"
+          width={560}
+          height={364}
+          className="h-16 w-auto"
+        />
         <nav className="mt-6 flex flex-col gap-1">
           {NAV_ITEMS.map((item) => (
             <Link

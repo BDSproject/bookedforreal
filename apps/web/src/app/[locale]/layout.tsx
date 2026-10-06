@@ -6,7 +6,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import Script from "next/script";
 
-import { ScissorsIcon } from "@/components/icons";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Link } from "@/i18n/navigation";
 import { isLocale, routing, type AppLocale } from "@/i18n/routing";
@@ -83,12 +82,22 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
             <div className="mx-auto flex h-[70px] max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
               <Link href="/" className="flex items-center gap-2.5">
-                <span className="flex h-9 w-9 items-center justify-center rounded-[0.7rem] bg-primary text-white shadow-sm shadow-primary/25">
-                  <ScissorsIcon className="h-[18px] w-[18px]" />
-                </span>
-                <span className="font-display text-[1.3rem] font-semibold leading-none tracking-tight">
-                  Bookedforreal
-                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo-mark.png"
+                  alt="Bookedforreal"
+                  width={420}
+                  height={188}
+                  className="h-9 w-auto"
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo-wordmark.png"
+                  alt=""
+                  width={640}
+                  height={84}
+                  className="hidden h-4 w-auto sm:block"
+                />
               </Link>
 
               <nav className="hidden items-center gap-7 lg:flex">

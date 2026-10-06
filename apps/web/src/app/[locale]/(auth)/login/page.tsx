@@ -38,6 +38,14 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto flex max-w-md flex-col justify-center px-4 py-16 sm:px-6">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo-full.png"
+        alt="Bookedforreal — Minimalist barber reservations"
+        width={560}
+        height={402}
+        className="mx-auto mb-8 h-28 w-auto"
+      />
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">{t("title")}</CardTitle>
