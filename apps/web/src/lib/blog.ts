@@ -7,6 +7,12 @@ export interface BlogArticle {
   en: { title: string; description: string; content: string[] };
 }
 
+/** Author byline for every article (E-E-A-T: make it clear who wrote the content). */
+export const BLOG_AUTHOR: Record<"fr" | "en", string> = {
+  fr: "L'équipe Bookedforreal",
+  en: "The Bookedforreal team",
+};
+
 export const blogArticles: BlogArticle[] = [
   {
     slug: "comment-accepter-reservations-en-ligne",

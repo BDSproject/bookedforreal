@@ -25,7 +25,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const locale = params.locale as AppLocale;
   const page = await getCityPage(CATEGORY, params.city, undefined, locale);
-  return buildMetadata({ locale, title: page.title, description: page.description, path: page.path });
+  // While no salon exists in this city the page is thin: keep it crawlable but
+  // out of the index, so it can rank as soon as a salon signs up.
+  return buildMetadata({
+    locale,
+    title: page.title,
+    description: page.description,
+    path: page.path,
+    noindex: page.salons.length === 0,
+  });
 }
 
 export default async function Page({ params }: PageProps) {

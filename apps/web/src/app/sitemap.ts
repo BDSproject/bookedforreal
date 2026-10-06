@@ -3,14 +3,18 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@bookedforreal/db";
 
 import { routing } from "@/i18n/routing";
-import { allCitySlugs } from "@/lib/cities";
-
-/** Category URL segments that get a landing page per city. */
-const CITY_SEGMENTS = ["coiffeur", "barber"] as const;
+import { citySlug } from "@/lib/cities";
 
 /**
- * Dynamic sitemap: home, salon mini-sites and the local-SEO city landing pages
- * (curated city directory + every city where a salon already exists), per locale.
+ * Trust / legal pages (same slug for every locale). They are cheap, permanent
+ * pages, so they are declared with a low `monthly` change frequency.
+ */
+const STATIC_PAGES = ["about", "contact", "legal", "privacy", "terms"] as const;
+
+/**
+ * Dynamic sitemap: home, trust pages, salon mini-sites and the city landing
+ * pages **that actually have a salon** (cities without a salon are noindexed, so
+ * they are deliberately left out of the sitemap).
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
@@ -18,12 +22,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     prisma.salon.findMany({ select: { slug: true } }),
     prisma.salon.findMany({
       where: { city: { not: null } },
-      distinct: ["city"],
-      select: { city: true },
+      distinct: ["city", "type"],
+      select: { city: true, type: true },
     }),
   ]);
-
-  const citySlugs = allCitySlugs(cityRows.map((row) => row.city!));
 
   const entries: MetadataRoute.Sitemap = [];
 
@@ -35,6 +37,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     });
 
+    for (const page of STATIC_PAGES) {
+      entries.push({
+        url: `${baseUrl}/${locale}/${page}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.5,
+      });
+    }
+
     for (const salon of salons) {
       entries.push({
         url: `${baseUrl}/${locale}/s/${salon.slug}`,
@@ -44,15 +55,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
 
-    for (const city of citySlugs) {
-      for (const segment of CITY_SEGMENTS) {
-        entries.push({
-          url: `${baseUrl}/${locale}/${segment}/${city}`,
-          lastModified: new Date(),
-          changeFrequency: "weekly",
-          priority: 0.6,
-        });
-      }
+    for (const row of cityRows) {
+      const segment = row.type === "BARBER_SHOP" ? "barber" : "coiffeur";
+      entries.push({
+        url: `${baseUrl}/${locale}/${segment}/${citySlug(row.city!)}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 0.6,
+      });
     }
   }
 

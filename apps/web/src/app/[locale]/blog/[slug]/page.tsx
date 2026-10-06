@@ -5,7 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 
 import { JsonLd } from "@/components/json-ld";
 import { isLocale, type AppLocale } from "@/i18n/routing";
-import { blogArticles, getArticle } from "@/lib/blog";
+import { BLOG_AUTHOR, blogArticles, getArticle } from "@/lib/blog";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
 import { buildMetadata, siteUrl } from "@/lib/seo";
 
@@ -40,10 +40,19 @@ export default function ArticlePage({ params }: ArticlePageProps) {
   }
   const data = article[locale as AppLocale];
   const url = `${siteUrl()}/${locale}/blog/${article.slug}`;
+  const author = BLOG_AUTHOR[locale as AppLocale];
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <JsonLd data={articleJsonLd({ title: data.title, description: data.description, url, datePublished: article.publishedAt })} />
+      <JsonLd
+        data={articleJsonLd({
+          title: data.title,
+          description: data.description,
+          url,
+          datePublished: article.publishedAt,
+          author,
+        })}
+      />
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Blog", url: `${siteUrl()}/${locale}/blog` },
@@ -55,7 +64,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
         ← Blog
       </Link>
       <p className="mt-4 text-xs text-muted-foreground">
-        {article.category} · {article.publishedAt}
+        {article.category} · {article.publishedAt} · {author}
       </p>
       <h1 className="mt-2 text-3xl font-extrabold tracking-tight">{data.title}</h1>
       <p className="mt-3 text-lg text-muted-foreground">{data.description}</p>

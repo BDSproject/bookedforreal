@@ -120,6 +120,11 @@
       "cities": "Cities",
       "hairdressers": "Hairdressers",
       "barbers": "Barbers",
+      "about": "About",
+      "contact": "Contact",
+      "legal": "Legal notice",
+      "privacy": "Privacy",
+      "terms": "Terms",
       "rights": "All rights reserved"
     },
     "mockup": {

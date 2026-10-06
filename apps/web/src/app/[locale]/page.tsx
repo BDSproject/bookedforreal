@@ -43,6 +43,15 @@ const CITY_DIRS = [
   { segment: "barber", label: "footer.barbers" },
 ] as const;
 
+/** Trust / legal pages linked from the footer (E-E-A-T + legal requirements). */
+const COMPANY_LINKS = [
+  { href: "/about", label: "footer.about" },
+  { href: "/contact", label: "footer.contact" },
+  { href: "/legal", label: "footer.legal" },
+  { href: "/privacy", label: "footer.privacy" },
+  { href: "/terms", label: "footer.terms" },
+] as const;
+
 interface HomePageProps {
   params: { locale: string };
 }
@@ -354,7 +363,19 @@ export default async function HomePage({ params }: HomePageProps) {
             ))}
           </div>
 
-          <p className="mt-10 text-xs text-muted-foreground">
+          <div className="mt-10 flex flex-wrap gap-x-6 gap-y-2 border-t border-border/60 pt-6">
+            {COMPANY_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={`/${locale}${link.href}`}
+                className="text-sm text-muted-foreground transition-colors hover:text-primary"
+              >
+                {t(link.label)}
+              </Link>
+            ))}
+          </div>
+
+          <p className="mt-6 text-xs text-muted-foreground">
             © {new Date().getFullYear()} Bookedforreal. {t("footer.rights")}
           </p>
         </div>

@@ -135,14 +135,20 @@ export function softwareApplicationJsonLd(url: string, offers: { name: string; p
 }
 
 /** Article (blog post). */
-export function articleJsonLd(input: { title: string; description: string; url: string; datePublished: string }): JsonLd {
+export function articleJsonLd(input: {
+  title: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  author?: string;
+}): JsonLd {
   return withContext({
     "@type": "Article",
     headline: input.title,
     description: input.description,
     url: input.url,
     datePublished: input.datePublished,
-    author: { "@type": "Organization", name: "Bookedforreal" },
+    author: { "@type": "Organization", name: input.author ?? "Bookedforreal" },
     publisher: { "@type": "Organization", name: "Bookedforreal" },
   });
 }

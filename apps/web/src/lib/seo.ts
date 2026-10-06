@@ -28,6 +28,11 @@ export interface BuildMetadataInput {
   /** Relative path WITHOUT leading slash, e.g. "s/paris-marais". */
   path: string;
   image?: string;
+  /**
+   * Keeps the page crawlable but out of the index. Used for thin pages (e.g. a
+   * city without any salon yet) to avoid scaled/thin-content issues.
+   */
+  noindex?: boolean;
 }
 
 /** Builds full page metadata: title, description, OpenGraph, Twitter, canonical + hreflang. */
@@ -54,5 +59,6 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
       description: input.description,
       ...ogImage,
     },
+    ...(input.noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }
