@@ -18,9 +18,14 @@ export async function generateMetadata({ params }: BookLayoutProps): Promise<Met
     select: { name: true },
   });
   const prefix = params.locale === "fr" ? "Réserver chez" : "Book at";
+  const suffix =
+    params.locale === "fr"
+      ? "Choisissez un service, une date et une heure en 3 clics."
+      : "Pick a service, a date and a time in 3 clicks.";
 
   return {
     title: salon ? `${prefix} ${salon.name}` : "Bookedforreal",
+    description: salon ? `${prefix} ${salon.name}. ${suffix}` : suffix,
     robots: { index: false, follow: true },
   };
 }

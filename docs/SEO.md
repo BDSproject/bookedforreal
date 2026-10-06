@@ -107,6 +107,17 @@ Vérifié sur le site en fonctionnement :
 | Polices | auto-hébergées + `preload` + `display: swap` |
 | Favicon fourni (`icon.png` 512×512 + apple-touch-icon) | ✅ |
 
+**⚠️ `robots.txt` ≠ `noindex` (piège corrigé).** Google précise : *« A robots.txt is not
+a mechanism for keeping a web page out of Google. To keep a web page out of Google,
+use the `noindex` robots rules »*, et avertit que **combiner un `Disallow` avec un
+`noindex` les annule** : une URL bloquée n'est jamais explorée, donc Google ne voit
+jamais le `noindex` — et l'URL peut tout de même être indexée (sans contenu) si elle
+est liée ailleurs.
+
+→ Le `robots.txt` se contente donc de `Allow: /` + le sitemap. **Toute la
+désindexation passe par `noindex`** (zones privées, réservation, villes sans salon),
+ce qui garantit que Google lit bien la directive.
+
 **À surveiller dans le temps :**
 
 - **Search Console → Indexation des pages** : repérer les *soft 404* et les pages
