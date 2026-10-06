@@ -9,6 +9,7 @@ import {
 
 import { createAppointment } from "../services/appointments";
 import { isQuotaExceeded, reportBookingUsage } from "../services/billing";
+import { scheduleAppointmentNotifications } from "../services/notifications";
 import { dayRangeUtc, generateSlots, weekdayOfDate, type Slot } from "../services/slots";
 import { hasAccess } from "../lib/trial";
 
@@ -252,6 +253,9 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
 
     // Pay-as-you-go metering: fire-and-forget so Stripe never blocks a booking.
     void reportBookingUsage(salon.id);
+
+    // Client confirmation, J-1 reminder and salon alert over WhatsApp, then SMS.
+    void scheduleAppointmentNotifications(appointment.id);
 
     return reply.code(201).send(appointment);
   });

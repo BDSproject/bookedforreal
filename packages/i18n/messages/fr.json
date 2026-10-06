@@ -124,7 +124,7 @@
           "2": "Réservation en ligne 24/7",
           "3": "Aucun abonnement fixe",
           "4": "0,50 € par RDV en ligne",
-          "5": "Rappels email",
+          "5": "Rappels WhatsApp/SMS (50 crédits)",
           "6": "Sans engagement, résiliable à tout moment"
         },
         "cta": "Créer mon compte"
@@ -141,7 +141,7 @@
           "2": "Réservation en ligne 24/7",
           "3": "80 RDV / mois",
           "4": "1 membre du personnel",
-          "5": "Rappels email",
+          "5": "Rappels WhatsApp/SMS (100 crédits)",
           "6": "Sans engagement, résiliable à tout moment"
         }
       },
@@ -156,7 +156,7 @@
           "1": "Tout Solo",
           "2": "400 RDV / mois",
           "3": "5 membres du personnel",
-          "4": "Rappels WhatsApp/SMS (50 crédits)",
+          "4": "Rappels WhatsApp/SMS (400 crédits)",
           "5": "Domaine personnalisé + app mobile",
           "6": "Sans engagement, résiliable à tout moment"
         }
@@ -205,7 +205,7 @@
         },
         "2": {
           "q": "Combien ça coûte ?",
-          "a": "Le plan Starter est à 19 € HT/mois et le Pro à 39 € HT/mois (tarif fondateur pour les 50 premiers salons). L'engagement annuel offre -20 %"
+          "a": "Le plan Solo est à 19 € HT/mois et le Salon à 39 € HT/mois. L'engagement annuel offre -20 %, et le plan À l'usage ne coûte que 0,50 € par rendez-vous"
         },
         "3": {
           "q": "Y a-t-il un essai gratuit ?",
@@ -221,7 +221,7 @@
         },
         "6": {
           "q": "Les rappels SMS/WhatsApp sont-ils inclus ?",
-          "a": "Ils sont inclus dans le plan Pro (50 crédits/mois), le plan Starter inclut les rappels email"
+          "a": "Oui, sur tous les plans. Les messages partent sur WhatsApp et basculent automatiquement en SMS si le client n'a pas WhatsApp : 50 crédits sur À l'usage, 100 sur Solo, 400 sur Salon et 2000 sur Groupe"
         },
         "7": {
           "q": "Puis-je annuler à tout moment ?",
@@ -329,7 +329,7 @@
     "confirm": "Confirmer le rendez-vous",
     "confirmation": {
       "title": "Rendez-vous confirmé !",
-      "subtitle": "Vous recevrez un email de confirmation dans quelques instants"
+      "subtitle": "Vous allez recevoir la confirmation sur WhatsApp dans quelques instants"
     },
     "unavailable": "Les réservations en ligne sont momentanément fermées pour ce salon",
     "unavailableHint": "Merci de contacter le salon directement",
@@ -384,6 +384,13 @@
         "usage": "À l'usage",
         "solo": "Solo",
         "salon": "Salon"
+      },
+      "messaging": {
+        "label": "Crédits WhatsApp/SMS",
+        "remaining": "{remaining} sur {quota} restants ce mois",
+        "test": "Recevoir un message de test",
+        "testSent": "Message envoyé sur WhatsApp ou SMS",
+        "testNoPhone": "Ajoutez un numéro de téléphone au salon"
       }
     }
   },
@@ -406,20 +413,5 @@
     "conflict": "Cela entre en conflit avec un enregistrement existant",
     "slotTaken": "Ce créneau n'est plus disponible",
     "invalidCredentials": "Email ou mot de passe invalide"
-  },
-  "emails": {
-    "confirmation": {
-      "subject": "Votre rendez-vous est confirmé",
-      "heading": "Rendez-vous confirmé",
-      "body": "À bientôt chez {salonName} le {date} à {time}."
-    },
-    "reminder": {
-      "subject": "Rappel : votre rendez-vous demain",
-      "heading": "Rappel de rendez-vous"
-    },
-    "cancellation": {
-      "subject": "Votre rendez-vous a été annulé",
-      "heading": "Rendez-vous annulé"
-    }
   }
 }

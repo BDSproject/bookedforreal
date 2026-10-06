@@ -6,27 +6,35 @@ describe("plans", () => {
   it("defines USAGE quotas (no booking cap, pay-as-you-go)", () => {
     expect(PLANS.USAGE.monthlyAppointments).toBeGreaterThan(10_000);
     expect(PLANS.USAGE.maxStaff).toBe(1);
+    expect(PLANS.USAGE.smsWhatsAppCredits).toBe(50);
     expect(PLANS.USAGE.customDomain).toBe(false);
   });
 
   it("defines SOLO quotas", () => {
     expect(PLANS.SOLO.monthlyAppointments).toBe(80);
     expect(PLANS.SOLO.maxStaff).toBe(1);
-    expect(PLANS.SOLO.smsWhatsAppCredits).toBe(0);
+    expect(PLANS.SOLO.smsWhatsAppCredits).toBe(100);
     expect(PLANS.SOLO.customDomain).toBe(false);
   });
 
   it("defines SALON quotas", () => {
     expect(PLANS.SALON.monthlyAppointments).toBe(400);
     expect(PLANS.SALON.maxStaff).toBe(5);
-    expect(PLANS.SALON.smsWhatsAppCredits).toBe(50);
+    expect(PLANS.SALON.smsWhatsAppCredits).toBe(400);
     expect(PLANS.SALON.customDomain).toBe(true);
   });
 
   it("defines GROUP quotas (multi-shop)", () => {
     expect(PLANS.GROUP.monthlyAppointments).toBeGreaterThan(10_000);
     expect(PLANS.GROUP.maxStaff).toBeGreaterThan(100);
+    expect(PLANS.GROUP.smsWhatsAppCredits).toBeGreaterThanOrEqual(2000);
     expect(PLANS.GROUP.customDomain).toBe(true);
+  });
+
+  it("gives every plan a WhatsApp/SMS quota so reminders always work", () => {
+    for (const plan of PLAN_ORDER) {
+      expect(PLANS[plan].smsWhatsAppCredits).toBeGreaterThan(0);
+    }
   });
 
   it("exposes the pay-as-you-go fee in cents (0,50 €)", () => {

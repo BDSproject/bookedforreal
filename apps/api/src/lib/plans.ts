@@ -4,6 +4,7 @@ import type { Plan } from "@bookedforreal/db";
 export interface PlanDefinition {
   monthlyAppointments: number;
   maxStaff: number;
+  /** WhatsApp/SMS messages included per month (1 credit = 1 message sent). */
   smsWhatsAppCredits: number;
   customDomain: boolean;
 }
@@ -21,25 +22,25 @@ export const PLANS: Record<Plan, PlanDefinition> = {
   USAGE: {
     monthlyAppointments: UNLIMITED,
     maxStaff: 1,
-    smsWhatsAppCredits: 0,
+    smsWhatsAppCredits: 50,
     customDomain: false,
   },
   SOLO: {
     monthlyAppointments: 80,
     maxStaff: 1,
-    smsWhatsAppCredits: 0,
+    smsWhatsAppCredits: 100,
     customDomain: false,
   },
   SALON: {
     monthlyAppointments: 400,
     maxStaff: 5,
-    smsWhatsAppCredits: 50,
+    smsWhatsAppCredits: 400,
     customDomain: true,
   },
   GROUP: {
     monthlyAppointments: UNLIMITED,
     maxStaff: UNLIMITED,
-    smsWhatsAppCredits: 1000,
+    smsWhatsAppCredits: 2000,
     customDomain: true,
   },
 };

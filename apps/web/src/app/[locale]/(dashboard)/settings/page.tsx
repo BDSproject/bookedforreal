@@ -7,7 +7,7 @@ import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from "
 
 import { useApiData } from "@/hooks/use-api";
 import { apiFetch } from "@/lib/api-client";
-import type { Salon } from "@/lib/api-types";
+import type { MessagingQuota, Salon } from "@/lib/api-types";
 
 type PlanKey = "USAGE" | "SOLO" | "SALON";
 type Interval = "monthly" | "yearly";
@@ -24,21 +24,39 @@ const SELF_SERVE_PLANS = [
 
 export default function SettingsPage() {
   const t = useTranslations("dashboard.billing");
-  const { data, loading } = useApiData<{ salon: Salon }>("/salons/me");
+  const { data, loading } = useApiData<{ salon: Salon; messaging?: MessagingQuota }>("/salons/me");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState(false);
+  const [test, setTest] = useState<"idle" | "sending" | "sent" | "nophone">("idle");
 
   if (loading || !data) {
     return <p className="text-muted-foreground">…</p>;
   }
 
   const salon = data.salon;
+  const messaging = data.messaging ?? { remaining: 0, quota: 0 };
 
   async function save() {
-    await apiFetch("/salons/me", { method: "PATCH", body: JSON.stringify({ name }) });
+    await apiFetch("/salons/me", {
+      method: "PATCH",
+      body: JSON.stringify({ name, ...(phone === null ? {} : { phone }) }),
+    });
     setSaved(true);
+  }
+
+  /** Sends a real WhatsApp/SMS so the salon can check its setup. */
+  async function sendTest() {
+    setTest("sending");
+    try {
+      await apiFetch("/notifications/test", { method: "POST", body: JSON.stringify({}) });
+      setTest("sent");
+    } catch (cause) {
+      const message = cause instanceof Error ? cause.message : "";
+      setTest(message.includes("NO_PHONE") ? "nophone" : "idle");
+    }
   }
 
   /** Opens Stripe Checkout for the chosen plan + interval. */
@@ -83,6 +101,19 @@ export default function SettingsPage() {
             <Label htmlFor="name">Nom</Label>
             <Input id="name" defaultValue={salon.name} onChange={(e) => setName(e.target.value)} />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">Téléphone</Label>
+            <Input
+              id="phone"
+              type="tel"
+              placeholder="06 12 34 56 78"
+              defaultValue={salon.phone ?? ""}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <p className="text-muted-foreground text-xs">
+              Ce numéro reçoit une alerte WhatsApp ou SMS à chaque nouveau rendez-vous
+            </p>
+          </div>
           <p className="text-muted-foreground text-sm">Slug : {salon.slug}</p>
           <Button onClick={save} disabled={!name}>
             Save
@@ -120,6 +151,27 @@ export default function SettingsPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="space-y-3 rounded-xl border p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="font-semibold">{t("messaging.label")}</span>
+              <span className="text-muted-foreground text-sm">
+                {t("messaging.remaining", {
+                  remaining: messaging.remaining,
+                  quota: messaging.quota,
+                })}
+              </span>
+            </div>
+            <Button size="sm" variant="outline" disabled={test === "sending"} onClick={sendTest}>
+              {t("messaging.test")}
+            </Button>
+            {test === "sent" ? (
+              <p className="text-sm text-green-600">{t("messaging.testSent")}</p>
+            ) : null}
+            {test === "nophone" ? (
+              <p className="text-destructive text-sm">{t("messaging.testNoPhone")}</p>
+            ) : null}
           </div>
 
           <Button variant="ghost" className="w-full" disabled={busy !== null} onClick={openPortal}>

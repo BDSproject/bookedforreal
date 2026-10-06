@@ -11,5 +11,11 @@ export const notificationPreferencesSchema = z.object({
   consentRgpd: z.boolean(),
 });
 
+/** Body of the "send me a test message" endpoint; defaults to the salon number. */
+export const notificationTestSchema = z.object({
+  phone: z.string().max(30).optional(),
+});
+
 export type NotificationQuery = z.infer<typeof notificationQuerySchema>;
 export type NotificationPreferencesInput = z.infer<typeof notificationPreferencesSchema>;
+export type NotificationTestInput = z.infer<typeof notificationTestSchema>;

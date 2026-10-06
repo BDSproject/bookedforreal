@@ -12,6 +12,7 @@ import { requireSalon } from "../middleware/salon";
 import { requireActiveSubscription } from "../middleware/subscription";
 import { createAppointment } from "../services/appointments";
 import { isQuotaExceeded } from "../services/billing";
+import { scheduleAppointmentNotifications } from "../services/notifications";
 
 export async function appointmentRoutes(app: FastifyInstance): Promise<void> {
   const guard = { preHandler: [requireAuth, requireSalon, requireActiveSubscription] };
@@ -97,6 +98,9 @@ export async function appointmentRoutes(app: FastifyInstance): Promise<void> {
     if (!appointment) {
       return reply.code(409).send({ error: "Slot already taken" });
     }
+
+    // Confirmation, J-1 reminder and salon alert over WhatsApp, then SMS.
+    void scheduleAppointmentNotifications(appointment.id);
 
     return reply.code(201).send(appointment);
   });

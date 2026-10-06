@@ -39,10 +39,18 @@ export interface Salon {
   name: string;
   city: string | null;
   description: string | null;
+  /** Salon number in E.164 — receives the new-booking alerts. */
+  phone?: string | null;
   services?: Service[];
   staff?: Staff[];
   /** False once the salon's trial ended without a subscription (public booking closed). */
   bookingEnabled?: boolean;
+}
+
+/** WhatsApp/SMS messages left on the plan for the current month. */
+export interface MessagingQuota {
+  remaining: number;
+  quota: number;
 }
 
 export interface DashboardStats {

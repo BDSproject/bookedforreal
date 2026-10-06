@@ -124,7 +124,7 @@
           "2": "24/7 online booking",
           "3": "No fixed subscription",
           "4": "0,50 € per online booking",
-          "5": "Email reminders",
+          "5": "WhatsApp/SMS reminders (50 credits)",
           "6": "No commitment, cancel anytime"
         },
         "cta": "Create my account"
@@ -141,7 +141,7 @@
           "2": "24/7 online booking",
           "3": "80 bookings / month",
           "4": "1 staff member",
-          "5": "Email reminders",
+          "5": "WhatsApp/SMS reminders (100 credits)",
           "6": "No commitment, cancel anytime"
         }
       },
@@ -156,7 +156,7 @@
           "1": "Everything in Solo",
           "2": "400 bookings / month",
           "3": "5 staff members",
-          "4": "WhatsApp/SMS reminders (50 credits)",
+          "4": "WhatsApp/SMS reminders (400 credits)",
           "5": "Custom domain + mobile app",
           "6": "No commitment, cancel anytime"
         }
@@ -205,7 +205,7 @@
         },
         "2": {
           "q": "How much does it cost?",
-          "a": "The Starter plan is €19/month ex VAT and Pro €39/month ex VAT (founding rate for the first 50 salons). Yearly billing saves 20%"
+          "a": "Solo is €19/mo ex VAT and Salon is €39/mo ex VAT. Yearly billing gives -20%, and Pay as you go only costs €0.50 per booking"
         },
         "3": {
           "q": "Is there a free trial?",
@@ -221,7 +221,7 @@
         },
         "6": {
           "q": "Are SMS/WhatsApp reminders included?",
-          "a": "They're included in the Pro plan (50 credits/month), Starter includes email reminders"
+          "a": "Yes, on every plan. Messages go out on WhatsApp and automatically fall back to SMS when the client is not on WhatsApp: 50 credits on Pay as you go, 100 on Solo, 400 on Salon and 2000 on Group"
         },
         "7": {
           "q": "Can I cancel anytime?",
@@ -329,7 +329,7 @@
     "confirm": "Confirm booking",
     "confirmation": {
       "title": "Booking confirmed!",
-      "subtitle": "You'll receive a confirmation email shortly"
+      "subtitle": "You'll receive the confirmation on WhatsApp shortly"
     },
     "unavailable": "Online booking is temporarily closed for this salon",
     "unavailableHint": "Please contact the salon directly",
@@ -384,6 +384,13 @@
         "usage": "Pay as you go",
         "solo": "Solo",
         "salon": "Salon"
+      },
+      "messaging": {
+        "label": "WhatsApp/SMS credits",
+        "remaining": "{remaining} of {quota} left this month",
+        "test": "Send me a test message",
+        "testSent": "Message sent over WhatsApp or SMS",
+        "testNoPhone": "Add a phone number to the salon first"
       }
     }
   },
@@ -406,20 +413,5 @@
     "conflict": "This conflicts with an existing record",
     "slotTaken": "This slot is no longer available",
     "invalidCredentials": "Invalid email or password"
-  },
-  "emails": {
-    "confirmation": {
-      "subject": "Your appointment is confirmed",
-      "heading": "Appointment confirmed",
-      "body": "See you soon at {salonName} on {date} at {time}."
-    },
-    "reminder": {
-      "subject": "Reminder: your appointment tomorrow",
-      "heading": "Appointment reminder"
-    },
-    "cancellation": {
-      "subject": "Your appointment has been cancelled",
-      "heading": "Appointment cancelled"
-    }
   }
 }

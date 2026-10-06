@@ -29,18 +29,15 @@ describe("i18n", () => {
   });
 
   it("exposes the required namespaces", () => {
-    for (const ns of [
-      "common",
-      "home",
-      "auth",
-      "booking",
-      "dashboard",
-      "seo",
-      "errors",
-      "emails",
-    ]) {
+    for (const ns of ["common", "home", "city", "auth", "booking", "dashboard", "seo", "errors"]) {
       expect(Object.keys(en)).toContain(ns);
       expect(Object.keys(fr)).toContain(ns);
     }
+  });
+
+  it("never advertises email reminders", () => {
+    // Reminders go out on WhatsApp with an SMS fallback, never by email.
+    expect(JSON.stringify(en)).not.toMatch(/email reminder/i);
+    expect(JSON.stringify(fr)).not.toMatch(/rappel(s)? email/i);
   });
 });

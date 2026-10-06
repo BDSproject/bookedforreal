@@ -227,7 +227,7 @@ export const SITE_PAGES: Record<SitePageSlug, Record<AppLocale, LocalizedPage>> 
         {
           title: "Finalités et durée de conservation",
           body: [
-            "Les données servent à gérer votre compte, vos réservations et l'envoi des rappels (email, SMS ou WhatsApp).",
+            "Les données servent à gérer votre compte, vos réservations et l'envoi des rappels (WhatsApp ou SMS).",
             "Elles sont conservées pendant la durée d'utilisation du service, puis supprimées sur demande.",
           ],
         },
@@ -263,7 +263,7 @@ export const SITE_PAGES: Record<SitePageSlug, Record<AppLocale, LocalizedPage>> 
         {
           title: "Purpose and retention",
           body: [
-            "Data is used to manage your account, your bookings and to send reminders (email, SMS or WhatsApp).",
+            "Data is used to manage your account, your bookings and to send reminders (WhatsApp or SMS).",
             "It is kept for as long as you use the service, then deleted on request.",
           ],
         },

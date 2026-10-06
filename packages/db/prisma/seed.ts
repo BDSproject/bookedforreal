@@ -20,6 +20,7 @@ const DEMO_SALONS = [
     district: "Le Marais",
     city: "Paris",
     postalCode: "75004",
+    phone: "+33142710001",
     ownerEmail: "owner-paris@demo.local",
     staff: [
       { id: "paris-staff-1", name: "Alex Martin" },
@@ -59,6 +60,7 @@ const DEMO_SALONS = [
     district: "Brotteaux",
     city: "Lyon",
     postalCode: "69006",
+    phone: "+33472890002",
     ownerEmail: "owner-lyon@demo.local",
     staff: [{ id: "lyon-staff-1", name: "Camille Bernard" }],
     services: [
@@ -87,6 +89,7 @@ const DEMO_SALONS = [
     district: "Vieux-Port",
     city: "Marseille",
     postalCode: "13002",
+    phone: "+33491910003",
     ownerEmail: "owner-marseille@demo.local",
     staff: [{ id: "marseille-staff-1", name: "Karim Haddad" }],
     services: [
@@ -131,6 +134,7 @@ async function main() {
         name: salon.name,
         type: salon.type,
         district: salon.district,
+        phone: salon.phone,
         trialEndsAt: DEMO_TRIAL_END,
       },
       create: {
@@ -143,6 +147,7 @@ async function main() {
         city: salon.city,
         postalCode: salon.postalCode,
         country: "FR",
+        phone: salon.phone,
         timezone: "Europe/Paris",
         plan: "SOLO",
         trialEndsAt: DEMO_TRIAL_END,

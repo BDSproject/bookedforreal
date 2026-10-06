@@ -1,95 +1,115 @@
-/** Notification channel providers (Brevo / Twilio / Meta WhatsApp / Expo push). */
+/**
+ * Notification channel providers.
+ *
+ * Email is deliberately not supported: appointment messages go out on WhatsApp
+ * (roughly half the price of an SMS in France) and fall back to SMS when
+ * WhatsApp is not configured or rejected by Twilio.
+ *
+ * Both channels go through Twilio, so there is a single set of credentials and a
+ * single fallback chain.
+ */
 
-export type Channel = "EMAIL" | "SMS" | "WHATSAPP" | "PUSH";
+export type Channel = "SMS" | "WHATSAPP";
+
+/** Thrown when a channel is missing its credentials or template. */
+export class ChannelNotConfiguredError extends Error {}
+
+/**
+ * WhatsApp refuses business-initiated messages that are not an approved template,
+ * so every automated message needs a Twilio Content template and its variables.
+ */
+export interface WhatsappTemplate {
+  /** Twilio Content template SID (`HX…`). */
+  contentSid: string;
+  /** Values injected into the `{{1}}`, `{{2}}` … placeholders. */
+  variables: Record<string, string>;
+}
 
 export interface SendParams {
   channel: Channel;
+  /** Recipient in E.164, e.g. `+33612345678`. */
   to: string;
+  /** Plain-text body; used for SMS. */
   message: string;
-  subject?: string;
+  whatsapp?: WhatsappTemplate;
 }
 
-/** Sends via a channel; no-ops when the provider is not configured (dev). */
+/** Sends on a single channel. Throws when the channel is unavailable. */
 export async function sendViaChannel(params: SendParams): Promise<void> {
   switch (params.channel) {
-    case "EMAIL":
-      await sendEmail(params.to, params.subject ?? "Bookedforreal", params.message);
-      break;
     case "SMS":
       await sendSms(params.to, params.message);
       break;
     case "WHATSAPP":
-      await sendWhatsapp(params.to, params.message);
-      break;
-    case "PUSH":
-      await sendPush(params.to, params.message);
+      if (!params.whatsapp) {
+        throw new ChannelNotConfiguredError("No WhatsApp template configured");
+      }
+      await sendWhatsapp(params.to, params.whatsapp);
       break;
   }
 }
 
-/** Tries each channel in order (fallback: WhatsApp → SMS → Email). Returns the used channel. */
+/**
+ * Tries each channel in order and returns the one that worked.
+ * The first channel of the chain must be the cheapest one (WhatsApp, then SMS).
+ */
 export async function sendWithFallback(
-  to: string,
-  message: string,
-  channels: Channel[],
+  params: Omit<SendParams, "channel"> & { channels: Channel[] },
 ): Promise<Channel> {
-  let lastError: unknown = new Error("No channel");
-  for (const channel of channels) {
+  let lastError: unknown = new Error("No channel available");
+
+  for (const channel of params.channels) {
     try {
-      await sendViaChannel({ channel, to, message });
+      await sendViaChannel({ ...params, channel });
       return channel;
     } catch (error) {
       lastError = error;
     }
   }
+
   throw lastError instanceof Error ? lastError : new Error("All channels failed");
 }
 
-async function sendEmail(to: string, subject: string, body: string): Promise<void> {
-  const key = process.env.BREVO_API_KEY;
-  if (!key) return;
-  await fetch("https://api.brevo.com/v3/smtp/email", {
-    method: "POST",
-    headers: { "api-key": key, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sender: { email: process.env.BREVO_SENDER_EMAIL ?? "noreply@bookedforreal.com" },
-      to: [{ email: to }],
-      subject,
-      htmlContent: body,
-    }),
-  });
-}
-
-async function sendSms(to: string, body: string): Promise<void> {
+/** Posts a message through the Twilio Messages API. */
+async function twilioSend(from: string, to: string, body: Record<string, string>): Promise<void> {
   const sid = process.env.TWILIO_ACCOUNT_SID;
   const token = process.env.TWILIO_AUTH_TOKEN;
-  const from = process.env.TWILIO_PHONE_NUMBER;
-  if (!sid || !token || !from) return;
-  const params = new URLSearchParams({ To: to, From: from, Body: body });
-  await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+  if (!sid || !token) {
+    throw new ChannelNotConfiguredError("Twilio credentials are missing");
+  }
+
+  const response = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${Buffer.from(`${sid}:${token}`).toString("base64")}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: params.toString(),
+    body: new URLSearchParams({ From: from, To: to, ...body }).toString(),
   });
+
+  // Without this check a rejected message looked like a silent success and burnt
+  // a credit for nothing.
+  if (!response.ok) {
+    throw new Error(`Twilio ${response.status}: ${await response.text()}`);
+  }
 }
 
-async function sendWhatsapp(to: string, body: string): Promise<void> {
-  const token = process.env.META_WHATSAPP_TOKEN;
-  if (!token) return;
-  await fetch("https://graph.facebook.com/v19.0/me/messages", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ messaging_product: "whatsapp", to, text: { body } }),
-  });
+async function sendSms(to: string, message: string): Promise<void> {
+  const from = process.env.TWILIO_PHONE_NUMBER;
+  if (!from) {
+    throw new ChannelNotConfiguredError("TWILIO_PHONE_NUMBER is missing");
+  }
+  await twilioSend(from, to, { Body: message });
 }
 
-async function sendPush(to: string, body: string): Promise<void> {
-  await fetch("https://exp.host/--/api/v2/push/send", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ to, title: "Bookedforreal", body }),
+async function sendWhatsapp(to: string, template: WhatsappTemplate): Promise<void> {
+  const from = process.env.TWILIO_WHATSAPP_NUMBER;
+  if (!from) {
+    throw new ChannelNotConfiguredError("TWILIO_WHATSAPP_NUMBER is missing");
+  }
+
+  await twilioSend(`whatsapp:${from}`, `whatsapp:${to}`, {
+    ContentSid: template.contentSid,
+    ContentVariables: JSON.stringify(template.variables),
   });
 }

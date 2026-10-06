@@ -10,7 +10,7 @@ multi-tenant dashboard — on web and mobile.
   `robots.txt` and a 48-city local-SEO directory.
 - **Billing**: Stripe subscriptions with a 7-day trial, a pay-as-you-go plan, two
   subscription tiers (Solo / Salon) and a quote-based tier for multi-shop groups.
-- **Notifications**: email (Brevo), SMS & WhatsApp (Twilio / Meta), with a fallback chain.
+- **Notifications**: WhatsApp first, automatic SMS fallback (both via Twilio). No email.
 - **Brand**: primary `#7C3AED` (violet), secondary `#FFFFFF` (white).
 
 ## Stack
@@ -126,9 +126,9 @@ Copy `.env.example` to the relevant package(s). Grouped below by concern.
 | `STRIPE_SECRET_KEY` | `api` | Stripe secret key (`sk_test_…` / `sk_live_…`) |
 | `STRIPE_WEBHOOK_SECRET` | `api` | Webhook signing secret (`whsec_…`) |
 | `STRIPE_PRICE_USAGE` / `STRIPE_PRICE_SOLO` / `STRIPE_PRICE_SALON` / `STRIPE_PRICE_GROUP` | `api` | Stripe price IDs per plan (`USAGE` is metered) |
-| `BREVO_API_KEY` / `BREVO_SENDER_EMAIL` | `api` | Email notifications (Brevo) |
-| `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` / `TWILIO_PHONE_NUMBER` | `api` | SMS / WhatsApp (Twilio) |
-| `META_WHATSAPP_TOKEN` | `api` | WhatsApp via Meta (optional channel) |
+| `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` | `api` | Twilio credentials for SMS + WhatsApp |
+| `TWILIO_PHONE_NUMBER` / `TWILIO_WHATSAPP_NUMBER` | `api` | Twilio senders (E.164) |
+| `TWILIO_CONTENT_CONFIRMATION` / `_REMINDER` / `_OWNER_ALERT` / `_TEST` | `api` | Approved WhatsApp templates (`HX…`); absent → SMS |
 | `NEXT_PUBLIC_UMAMI_WEBSITE_ID` / `NEXT_PUBLIC_UMAMI_URL` | `web` | Analytics (Umami, optional) |
 
 **Never commit secrets.** `.env`, `.env.local` and `.env.*.local` are gitignored; only
@@ -219,11 +219,25 @@ starts with a 7-day free trial, no credit card required.
 
 ## Notifications
 
-A `Job` queue stores due notifications; `worker.ts` processes them via a fallback chain:
+Appointment messages go out on **WhatsApp first, SMS as the automatic fallback** — no email.
+In France a WhatsApp utility message costs roughly half a single-segment SMS, so the chain is
+ordered by price and `sendWithFallback` walks it until one channel succeeds.
 
-`email (Brevo) → SMS (Twilio) → WhatsApp (Twilio/Meta) → push`.
+Three messages are queued per appointment (`apps/api/src/services/notifications.ts`):
 
-Quotas (e.g. SMS credits) are enforced per plan.
+| Message | Recipient | When |
+| --- | --- | --- |
+| `appointment.confirmation` | client | immediately after booking |
+| `appointment.reminder` | client | 24 h before, skipped if the booking is closer |
+| `appointment.owner_alert` | salon phone | immediately after booking |
+
+A `Job` queue stores them; `worker.ts` processes them (run it every minute via cron).
+Bodies and WhatsApp templates are rendered at send time, so a template approved later is
+picked up by jobs already queued. A reminder is dropped when its appointment is cancelled.
+
+Phone numbers are normalised to E.164 before use; a client without a dialable number simply
+does not get a message. Each sent message consumes one credit from the plan quota
+(50 / 100 / 400 / 2000).
 
 ## SEO
 
