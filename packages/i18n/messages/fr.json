@@ -136,8 +136,8 @@
   },
   "seo": {
     "home": {
-      "title": "Bookedforreal — Logiciel de réservation pour coiffeurs et barbiers",
-      "description": "Logiciel de réservation en ligne pour coiffeurs et barbiers. Mini-site, agenda, rappels WhatsApp/SMS, app mobile. Essai gratuit 7 jours."
+      "title": "Bookedforreal — Réservation en ligne pour coiffeurs et barbiers",
+      "description": "Réservation en ligne pour coiffeurs et barbiers : mini-site, agenda, rappels WhatsApp/SMS, app mobile. Essai gratuit 7 jours."
     },
     "blog": { "title": "Blog — Conseils pour coiffeurs et barbiers", "description": "Guides et conseils pour remplir votre agenda : réservation en ligne, no-shows, marketing local." }
   },
