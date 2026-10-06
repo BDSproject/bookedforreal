@@ -7,9 +7,9 @@
   },
   "home": {
     "hero": {
-      "title": "Your clients book.",
-      "titleHighlight": "You just keep cutting.",
-      "subtitle": "Bookedforreal is your salon's mini-site and online calendar. Clients book whenever they like, everything lands on your phone, and reminders go out on their own.",
+      "title": "Your clients book",
+      "titleHighlight": "You just keep cutting",
+      "subtitle": "Bookedforreal is your salon's mini-site and online calendar: clients book whenever they like, everything lands on your phone, and reminders go out on their own",
       "cta": "Create my salon",
       "secondary": "See how it works",
       "points": {
@@ -26,35 +26,35 @@
       }
     },
     "quoteBand": {
-      "text": "I used to write appointments in a notebook. Now everything is on my phone and I never lose a line.",
+      "text": "I used to write appointments in a notebook: now everything is on my phone and I never lose a line",
       "author": "Karim, barber in Marseille"
     },
     "problem": {
       "title": "Tired of answering the phone mid-haircut?",
-      "description": "The phone rings right in the middle of a blow-dry. You scribble an appointment on the corner of a notepad. And the client who never shows up? Nobody calls them back. That's exactly why we built Bookedforreal."
+      "description": "The phone rings right in the middle of a blow-dry, you scribble an appointment on the corner of a notepad, and the client who never shows up, nobody calls them back: that's exactly why we built Bookedforreal"
     },
     "solution": {
       "title": "Three small things, and you're set",
       "steps": {
-        "1": { "title": "You build your page", "description": "Your services, your hours, your prices. Done in the time it takes to drink a coffee." },
-        "2": { "title": "You share the link", "description": "On Instagram, on Google, or by text to your regulars. Once, and it's done." },
-        "3": { "title": "You get back to cutting", "description": "Bookings drop into your calendar. All you have to do is look at your day." }
+        "1": { "title": "You build your page", "description": "Your services, your hours, your prices: done in the time it takes to drink a coffee" },
+        "2": { "title": "You share the link", "description": "On Instagram, on Google, or by text to your regulars: once, and it's done" },
+        "3": { "title": "You get back to cutting", "description": "Bookings drop into your calendar, all you have to do is look at your day" }
       }
     },
-    "demo": { "title": "See it in action", "subtitle": "One haircut's worth of time and you'll get it." },
+    "demo": { "title": "See it in action", "subtitle": "One haircut's worth of time and you'll get it" },
     "features": {
       "title": "What's in the box",
-      "subtitle": "No endless menu. Just what actually helps you, every single day.",
+      "subtitle": "No endless menu: just what actually helps you, every single day",
       "items": {
-        "1": { "title": "Your mini-site", "description": "Your page with your services, prices and photos. Ready in 5 minutes, no developer needed." },
-        "2": { "title": "Online booking", "description": "Clients pick a slot whenever it suits them — even at 11pm, even on a Sunday." },
-        "3": { "title": "Automatic reminders", "description": "A quick WhatsApp or SMS the day before. That's what brings clients back." },
-        "4": { "title": "The mobile app", "description": "Your calendar in your pocket. See your whole day at a glance, wherever you are." }
+        "1": { "title": "Your mini-site", "description": "Your page with your services, prices and photos: ready in 5 minutes, no developer needed" },
+        "2": { "title": "Online booking", "description": "Clients pick a slot whenever it suits them, even at 11pm, even on a Sunday" },
+        "3": { "title": "Automatic reminders", "description": "A quick WhatsApp or SMS the day before: that's what brings clients back" },
+        "4": { "title": "The mobile app", "description": "Your calendar in your pocket, see your whole day at a glance, wherever you are" }
       }
     },
     "pricing": {
       "title": "Clear pricing, no surprises",
-      "subtitle": "No commitment, no hidden fees. Stop whenever you want.",
+      "subtitle": "No commitment, no hidden fees: stop whenever you want",
       "monthly": "Monthly",
       "yearly": "Yearly",
       "save": "-20%",
@@ -66,43 +66,43 @@
     "testimonials": {
       "title": "What salons say",
       "items": {
-        "1": { "quote": "I don't answer the phone during haircuts anymore. That alone changes your day.", "author": "Alex, barber in Paris" },
-        "2": { "quote": "Reminders cut my no-shows in half. For that alone, it's worth it.", "author": "Camille, hairdresser in Lyon" },
-        "3": { "quote": "My clients find it easier than calling. And honestly, so do I.", "author": "Karim, barber in Marseille" }
+        "1": { "quote": "I don't answer the phone during haircuts anymore: that alone changes your day", "author": "Alex, barber in Paris" },
+        "2": { "quote": "Reminders cut my no-shows in half: for that alone, it's worth it", "author": "Camille, hairdresser in Lyon" },
+        "3": { "quote": "My clients find it easier than calling, and honestly, so do I", "author": "Karim, barber in Marseille" }
       }
     },
     "faq": {
       "title": "Your questions",
       "questions": {
-        "1": { "q": "What is Bookedforreal?", "a": "It's an online booking software for hairdressers and barbers: mini-site, calendar and automatic reminders." },
-        "2": { "q": "How much does it cost?", "a": "The Starter plan is €5/month, the Pro plan €29/month. Yearly billing saves 20%." },
-        "3": { "q": "Is there a free trial?", "a": "Yes, 14 days free with no credit card required." },
-        "4": { "q": "How do clients book?", "a": "They pick a service, a date and a time on your mini-site, in 3 clicks." },
-        "5": { "q": "Can I customize my mini-site?", "a": "Yes: name, photos, services, prices, hours and colors." },
-        "6": { "q": "Are SMS/WhatsApp reminders included?", "a": "They're included in the Pro plan (100 credits/month). Starter includes email reminders." },
-        "7": { "q": "Can I cancel anytime?", "a": "Yes, no commitment. You keep your data." },
-        "8": { "q": "Is there a mobile app?", "a": "Yes, available on iOS and Android to manage your calendar." },
-        "9": { "q": "Is my client data protected?", "a": "Yes, GDPR compliant, with explicit client consent." },
-        "10": { "q": "How do I get started?", "a": "Sign up, create your salon in 5 minutes and share your link." }
+        "1": { "q": "What is Bookedforreal?", "a": "It's an online booking software for hairdressers and barbers: mini-site, calendar and automatic reminders" },
+        "2": { "q": "How much does it cost?", "a": "The Starter plan is €5/month, the Pro plan €29/month: yearly billing saves 20%" },
+        "3": { "q": "Is there a free trial?", "a": "Yes, 14 days free with no credit card required" },
+        "4": { "q": "How do clients book?", "a": "They pick a service, a date and a time on your mini-site, in 3 clicks" },
+        "5": { "q": "Can I customize my mini-site?", "a": "Yes: name, photos, services, prices, hours and colors" },
+        "6": { "q": "Are SMS/WhatsApp reminders included?", "a": "They're included in the Pro plan (100 credits/month), Starter includes email reminders" },
+        "7": { "q": "Can I cancel anytime?", "a": "Yes, no commitment: you keep your data" },
+        "8": { "q": "Is there a mobile app?", "a": "Yes, available on iOS and Android to manage your calendar" },
+        "9": { "q": "Is my client data protected?", "a": "Yes, GDPR compliant, with explicit client consent" },
+        "10": { "q": "How do I get started?", "a": "Sign up, create your salon in 5 minutes and share your link" }
       }
     },
     "finalCta": {
       "title": "Can we show you in 15 minutes?",
-      "subtitle": "Leave your number: a real human calls you back and walks you through it. No commitment.",
+      "subtitle": "Leave your number: a real human calls you back and walks you through it, no commitment",
       "cta": "Create my salon",
       "demoTitle": "Request a callback",
-      "demoSubtitle": "A real human will call you back, promise.",
+      "demoSubtitle": "A real human will call you back, promise",
       "demoCta": "Get a callback",
-      "demoSent": "Thanks! We'll call you back very soon.",
+      "demoSent": "Thanks! We'll call you back very soon",
       "name": "Your name",
       "phone": "Your number"
     },
     "footer": {
-      "tagline": "The online calendar for hairdressers and barbers.",
+      "tagline": "The online calendar for hairdressers and barbers",
       "product": "Product",
       "company": "Company",
       "cities": "Cities",
-      "rights": "All rights reserved."
+      "rights": "All rights reserved"
     },
     "mockup": {
       "salonName": "Camille's Salon",
@@ -125,14 +125,14 @@
     "time": "Time",
     "contact": { "name": "Full name", "phone": "Phone", "email": "Email", "notes": "Notes (optional)" },
     "confirm": "Confirm booking",
-    "confirmation": { "title": "Booking confirmed!", "subtitle": "You'll receive a confirmation email shortly." },
+    "confirmation": { "title": "Booking confirmed!", "subtitle": "You'll receive a confirmation email shortly" },
     "status": { "PENDING": "Pending", "CONFIRMED": "Confirmed", "CANCELLED": "Cancelled", "DONE": "Completed", "NO_SHOW": "No-show" }
   },
   "dashboard": {
     "nav": { "dashboard": "Dashboard", "appointments": "Appointments", "clients": "Clients", "services": "Services", "staff": "Staff", "settings": "Settings" },
     "stats": { "today": "Today", "upcoming": "Upcoming", "clients": "Clients", "services": "Services", "staff": "Staff" },
-    "appointments": { "title": "Appointments", "empty": "No appointments yet." },
-    "clients": { "title": "Clients", "empty": "No clients yet." }
+    "appointments": { "title": "Appointments", "empty": "No appointments yet" },
+    "clients": { "title": "Clients", "empty": "No clients yet" }
   },
   "seo": {
     "home": {
@@ -142,14 +142,14 @@
     "blog": { "title": "Blog — Tips for hairdressers and barbers", "description": "Guides and tips to fill your calendar: online booking, no-shows, local marketing." }
   },
   "errors": {
-    "generic": "Something went wrong. Please try again.",
-    "validation": "Please check the highlighted fields.",
-    "notFound": "Not found.",
-    "unauthorized": "You must be logged in.",
-    "forbidden": "You don't have permission to do this.",
-    "conflict": "This conflicts with an existing record.",
-    "slotTaken": "This slot is no longer available.",
-    "invalidCredentials": "Invalid email or password."
+    "generic": "Something went wrong, please try again",
+    "validation": "Please check the highlighted fields",
+    "notFound": "Not found",
+    "unauthorized": "You must be logged in",
+    "forbidden": "You don't have permission to do this",
+    "conflict": "This conflicts with an existing record",
+    "slotTaken": "This slot is no longer available",
+    "invalidCredentials": "Invalid email or password"
   },
   "emails": {
     "confirmation": { "subject": "Your appointment is confirmed", "heading": "Appointment confirmed", "body": "See you soon at {salonName} on {date} at {time}." },

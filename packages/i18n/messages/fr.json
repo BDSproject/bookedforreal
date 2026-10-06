@@ -7,9 +7,9 @@
   },
   "home": {
     "hero": {
-      "title": "Vos clients réservent.",
-      "titleHighlight": "Vous coupez tranquille.",
-      "subtitle": "Bookedforreal, c'est le mini-site et l'agenda en ligne de votre salon. Vos clients réservent quand ils veulent, vous recevez tout sur votre téléphone, et les rappels partent tout seuls.",
+      "title": "Vos clients réservent",
+      "titleHighlight": "Vous coupez tranquille",
+      "subtitle": "Bookedforreal, c'est le mini-site et l'agenda en ligne de votre salon : vos clients réservent quand ils veulent, vous recevez tout sur votre téléphone, et les rappels partent tout seuls",
       "cta": "Créer mon salon",
       "secondary": "Voir comment ça marche",
       "points": {
@@ -26,35 +26,35 @@
       }
     },
     "quoteBand": {
-      "text": "Avant, je notais les rendez-vous sur un carnet. Maintenant, tout est dans mon téléphone et je ne perds plus une ligne.",
+      "text": "Avant, je notais les rendez-vous sur un carnet : maintenant tout est dans mon téléphone et je ne perds plus une ligne",
       "author": "Karim, barbier à Marseille"
     },
     "problem": {
       "title": "Marre de décrocher entre deux coupes ?",
-      "description": "Le téléphone sonne en plein brushing. Vous notez un rendez-vous sur un coin de nappe. Et le client qui ne vient pas, personne ne le rappelle. C'est exactement pour ça qu'on a créé Bookedforreal."
+      "description": "Le téléphone sonne en plein brushing, vous notez un rendez-vous sur un coin de nappe, et le client qui ne vient pas, personne ne le rappelle : c'est exactement pour ça qu'on a créé Bookedforreal"
     },
     "solution": {
       "title": "Trois petites choses, et c'est réglé",
       "steps": {
-        "1": { "title": "Vous créez votre page", "description": "Vos services, vos horaires, vos prix. Le temps d'un café, c'est en ligne." },
-        "2": { "title": "Vous partagez le lien", "description": "Sur Instagram, sur Google ou par SMS à vos habitués. Une fois, et c'est fait." },
-        "3": { "title": "Vous coupez", "description": "Les réservations tombent dans votre agenda. Vous avez juste à regarder votre journée." }
+        "1": { "title": "Vous créez votre page", "description": "Vos services, vos horaires, vos prix : le temps d'un café, c'est en ligne" },
+        "2": { "title": "Vous partagez le lien", "description": "Sur Instagram, sur Google ou par SMS à vos habitués : une fois, et c'est fait" },
+        "3": { "title": "Vous coupez", "description": "Les réservations tombent dans votre agenda, vous avez juste à regarder votre journée" }
       }
     },
-    "demo": { "title": "Voyez-le en action", "subtitle": "Le temps d'une coupe, vous avez compris." },
+    "demo": { "title": "Voyez-le en action", "subtitle": "Le temps d'une coupe, vous avez compris" },
     "features": {
       "title": "Ce qu'il y a dans la boîte",
-      "subtitle": "Pas de menu à rallonge. Juste ce qui vous sert vraiment, tous les jours.",
+      "subtitle": "Pas de menu à rallonge : juste ce qui vous sert vraiment, tous les jours",
       "items": {
-        "1": { "title": "Votre mini-site", "description": "Votre page avec vos services, vos tarifs et vos photos. Prête en 5 minutes, sans développeur." },
-        "2": { "title": "La réservation en ligne", "description": "Vos clients choisissent un créneau quand ça les arrange — même à 23 h, même le dimanche." },
-        "3": { "title": "Les rappels automatiques", "description": "Un petit message WhatsApp ou SMS la veille. C'est ce qui fait revenir les clients." },
-        "4": { "title": "L'appli mobile", "description": "Votre agenda dans la poche. Vous voyez votre journée d'un coup d'œil, où que vous soyez." }
+        "1": { "title": "Votre mini-site", "description": "Votre page avec vos services, vos tarifs et vos photos : prête en 5 minutes, sans développeur" },
+        "2": { "title": "La réservation en ligne", "description": "Vos clients choisissent un créneau quand ça les arrange, même à 23 h, même le dimanche" },
+        "3": { "title": "Les rappels automatiques", "description": "Un petit message WhatsApp ou SMS la veille : c'est ce qui fait revenir les clients" },
+        "4": { "title": "L'appli mobile", "description": "Votre agenda dans la poche, vous voyez votre journée d'un coup d'œil, où que vous soyez" }
       }
     },
     "pricing": {
       "title": "Un tarif clair, sans surprise",
-      "subtitle": "Pas d'engagement, pas de frais cachés. Vous arrêtez quand vous voulez.",
+      "subtitle": "Pas d'engagement, pas de frais cachés : vous arrêtez quand vous voulez",
       "monthly": "Mensuel",
       "yearly": "Annuel",
       "save": "-20 %",
@@ -66,43 +66,43 @@
     "testimonials": {
       "title": "Ce qu'en disent les salons",
       "items": {
-        "1": { "quote": "Je ne réponds plus au téléphone pendant les coupes. Rien que ça, ça change la journée.", "author": "Alex, barbier à Paris" },
-        "2": { "quote": "Les rappels ont divisé mes lapins par deux. Rien que pour ça, ça vaut le coup.", "author": "Camille, coiffeuse à Lyon" },
-        "3": { "quote": "Mes clients trouvent ça plus simple qu'appeler. Et moi aussi, franchement.", "author": "Karim, barbier à Marseille" }
+        "1": { "quote": "Je ne réponds plus au téléphone pendant les coupes : rien que ça, ça change la journée", "author": "Alex, barbier à Paris" },
+        "2": { "quote": "Les rappels ont divisé mes lapins par deux : rien que pour ça, ça vaut le coup", "author": "Camille, coiffeuse à Lyon" },
+        "3": { "quote": "Mes clients trouvent ça plus simple qu'appeler, et moi aussi, franchement", "author": "Karim, barbier à Marseille" }
       }
     },
     "faq": {
       "title": "Vos questions",
       "questions": {
-        "1": { "q": "Qu'est-ce que Bookedforreal ?", "a": "C'est un logiciel de réservation en ligne pour coiffeurs et barbiers : mini-site, agenda et rappels automatiques." },
-        "2": { "q": "Combien ça coûte ?", "a": "Le plan Starter est à 5 €/mois, le plan Pro à 29 €/mois. L'engagement annuel offre -20 %." },
-        "3": { "q": "Y a-t-il un essai gratuit ?", "a": "Oui, 14 jours gratuits sans carte bancaire." },
-        "4": { "q": "Comment mes clients réservent-ils ?", "a": "Ils choisissent un service, une date et une heure sur votre mini-site, en 3 clics." },
-        "5": { "q": "Puis-je personnaliser mon mini-site ?", "a": "Oui : nom, photos, services, tarifs, horaires et couleurs." },
-        "6": { "q": "Les rappels SMS/WhatsApp sont-ils inclus ?", "a": "Ils sont inclus dans le plan Pro (100 crédits/mois). Le plan Starter inclut les rappels email." },
-        "7": { "q": "Puis-je annuler à tout moment ?", "a": "Oui, sans engagement. Vous gardez vos données." },
-        "8": { "q": "Y a-t-il une application mobile ?", "a": "Oui, disponible sur iOS et Android pour gérer votre agenda." },
-        "9": { "q": "Mes données clients sont-elles protégées ?", "a": "Oui, conforme RGPD, avec consentement explicite des clients." },
-        "10": { "q": "Comment démarrer ?", "a": "Inscrivez-vous, créez votre salon en 5 minutes et partagez votre lien." }
+        "1": { "q": "Qu'est-ce que Bookedforreal ?", "a": "C'est un logiciel de réservation en ligne pour coiffeurs et barbiers : mini-site, agenda et rappels automatiques" },
+        "2": { "q": "Combien ça coûte ?", "a": "Le plan Starter est à 5 €/mois, le plan Pro à 29 €/mois : l'engagement annuel offre -20 %" },
+        "3": { "q": "Y a-t-il un essai gratuit ?", "a": "Oui, 14 jours gratuits sans carte bancaire" },
+        "4": { "q": "Comment mes clients réservent-ils ?", "a": "Ils choisissent un service, une date et une heure sur votre mini-site, en 3 clics" },
+        "5": { "q": "Puis-je personnaliser mon mini-site ?", "a": "Oui : nom, photos, services, tarifs, horaires et couleurs" },
+        "6": { "q": "Les rappels SMS/WhatsApp sont-ils inclus ?", "a": "Ils sont inclus dans le plan Pro (100 crédits/mois), le plan Starter inclut les rappels email" },
+        "7": { "q": "Puis-je annuler à tout moment ?", "a": "Oui, sans engagement : vous gardez vos données" },
+        "8": { "q": "Y a-t-il une application mobile ?", "a": "Oui, disponible sur iOS et Android pour gérer votre agenda" },
+        "9": { "q": "Mes données clients sont-elles protégées ?", "a": "Oui, conforme RGPD, avec consentement explicite des clients" },
+        "10": { "q": "Comment démarrer ?", "a": "Inscrivez-vous, créez votre salon en 5 minutes et partagez votre lien" }
       }
     },
     "finalCta": {
       "title": "On vous montre en 15 minutes ?",
-      "subtitle": "Laissez votre numéro : un vrai humain vous rappelle et vous fait visiter. Sans engagement.",
+      "subtitle": "Laissez votre numéro : un vrai humain vous rappelle et vous fait visiter, sans engagement",
       "cta": "Créer mon salon",
       "demoTitle": "Demander un rappel",
-      "demoSubtitle": "Un vrai humain vous rappelle, promis.",
+      "demoSubtitle": "Un vrai humain vous rappelle, promis",
       "demoCta": "Être rappelé",
-      "demoSent": "Merci ! On vous rappelle très vite.",
+      "demoSent": "Merci ! On vous rappelle très vite",
       "name": "Votre nom",
       "phone": "Votre numéro"
     },
     "footer": {
-      "tagline": "L'agenda en ligne des coiffeurs et des barbiers.",
+      "tagline": "L'agenda en ligne des coiffeurs et des barbiers",
       "product": "Produit",
       "company": "Entreprise",
       "cities": "Villes",
-      "rights": "Tous droits réservés."
+      "rights": "Tous droits réservés"
     },
     "mockup": {
       "salonName": "Salon Camille",
@@ -125,14 +125,14 @@
     "time": "Heure",
     "contact": { "name": "Nom complet", "phone": "Téléphone", "email": "Email", "notes": "Remarques (facultatif)" },
     "confirm": "Confirmer le rendez-vous",
-    "confirmation": { "title": "Rendez-vous confirmé !", "subtitle": "Vous recevrez un email de confirmation dans quelques instants." },
+    "confirmation": { "title": "Rendez-vous confirmé !", "subtitle": "Vous recevrez un email de confirmation dans quelques instants" },
     "status": { "PENDING": "En attente", "CONFIRMED": "Confirmé", "CANCELLED": "Annulé", "DONE": "Terminé", "NO_SHOW": "Absent" }
   },
   "dashboard": {
     "nav": { "dashboard": "Tableau de bord", "appointments": "Rendez-vous", "clients": "Clients", "services": "Services", "staff": "Personnel", "settings": "Paramètres" },
     "stats": { "today": "Aujourd'hui", "upcoming": "À venir", "clients": "Clients", "services": "Services", "staff": "Personnel" },
-    "appointments": { "title": "Rendez-vous", "empty": "Aucun rendez-vous pour le moment." },
-    "clients": { "title": "Clients", "empty": "Aucun client pour le moment." }
+    "appointments": { "title": "Rendez-vous", "empty": "Aucun rendez-vous pour le moment" },
+    "clients": { "title": "Clients", "empty": "Aucun client pour le moment" }
   },
   "seo": {
     "home": {
@@ -142,14 +142,14 @@
     "blog": { "title": "Blog — Conseils pour coiffeurs et barbiers", "description": "Guides et conseils pour remplir votre agenda : réservation en ligne, no-shows, marketing local." }
   },
   "errors": {
-    "generic": "Une erreur est survenue. Veuillez réessayer.",
-    "validation": "Veuillez vérifier les champs en surbrillance.",
-    "notFound": "Introuvable.",
-    "unauthorized": "Vous devez être connecté.",
-    "forbidden": "Vous n'avez pas la permission de faire cela.",
-    "conflict": "Cela entre en conflit avec un enregistrement existant.",
-    "slotTaken": "Ce créneau n'est plus disponible.",
-    "invalidCredentials": "Email ou mot de passe invalide."
+    "generic": "Une erreur est survenue, veuillez réessayer",
+    "validation": "Veuillez vérifier les champs en surbrillance",
+    "notFound": "Introuvable",
+    "unauthorized": "Vous devez être connecté",
+    "forbidden": "Vous n'avez pas la permission de faire cela",
+    "conflict": "Cela entre en conflit avec un enregistrement existant",
+    "slotTaken": "Ce créneau n'est plus disponible",
+    "invalidCredentials": "Email ou mot de passe invalide"
   },
   "emails": {
     "confirmation": { "subject": "Votre rendez-vous est confirmé", "heading": "Rendez-vous confirmé", "body": "À bientôt chez {salonName} le {date} à {time}." },
