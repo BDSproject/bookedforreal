@@ -60,8 +60,10 @@
       "save": "-20 %",
       "popular": "Le plus choisi",
       "vatNote": "Prix HT — TVA 20 % en sus. Sans engagement, résiliable à tout moment",
-      "starter": { "name": "Starter", "priceMonthly": "19", "priceYearly": "15", "description": "Pour démarrer", "features": { "1": "Mini-site", "2": "Réservation en ligne", "3": "80 RDV / mois", "4": "1 membre du personnel", "5": "Support email", "6": "Sans engagement, résiliable à tout moment" } },
-      "pro": { "name": "Pro", "priceMonthly": "39", "priceYearly": "31", "description": "Pour les salons actifs", "features": { "1": "Tout Starter", "2": "400 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (50 crédits)", "5": "Domaine personnalisé", "6": "Sans engagement, résiliable à tout moment" } },
+      "launchBadge": "Prix de lancement",
+      "launchNote": "Tarif fondateur garanti à vie pour les 50 premiers salons. Ensuite 29 € et 59 € HT/mois.",
+      "starter": { "name": "Starter", "priceMonthly": "19", "priceYearly": "15", "pricePublicMonthly": "29", "pricePublicYearly": "23", "description": "Pour les indépendants", "features": { "1": "Mini-site personnalisé", "2": "Réservation en ligne 24/7", "3": "80 RDV / mois", "4": "1 membre du personnel", "5": "Rappels email", "6": "Sans engagement, résiliable à tout moment" } },
+      "pro": { "name": "Pro", "priceMonthly": "39", "priceYearly": "31", "pricePublicMonthly": "59", "pricePublicYearly": "47", "description": "Pour les salons avec équipe", "features": { "1": "Tout Starter", "2": "400 RDV / mois", "3": "5 membres du personnel", "4": "Rappels WhatsApp/SMS (50 crédits)", "5": "Domaine personnalisé + app mobile", "6": "Sans engagement, résiliable à tout moment" } },
       "custom": {
         "badge": "Premium",
         "name": "Multi-boutiques",
@@ -92,7 +94,7 @@
       "title": "Vos questions",
       "questions": {
         "1": { "q": "Qu'est-ce que Bookedforreal ?", "a": "C'est un logiciel de réservation en ligne pour coiffeurs et barbiers : mini-site, agenda et rappels automatiques" },
-        "2": { "q": "Combien ça coûte ?", "a": "Le plan Starter est à 19 € HT/mois, le plan Pro à 39 € HT/mois : l'engagement annuel offre -20 %" },
+        "2": { "q": "Combien ça coûte ?", "a": "Le plan Starter est à 19 € HT/mois et le Pro à 39 € HT/mois (tarif fondateur pour les 50 premiers salons). L'engagement annuel offre -20 %" },
         "3": { "q": "Y a-t-il un essai gratuit ?", "a": "Oui, 7 jours gratuits sur tous les plans, sans carte bancaire : vous pouvez arrêter avant la fin" },
         "4": { "q": "Comment mes clients réservent-ils ?", "a": "Ils choisissent un service, une date et une heure sur votre mini-site, en 3 clics" },
         "5": { "q": "Puis-je personnaliser mon mini-site ?", "a": "Oui : nom, photos, services, tarifs, horaires et couleurs" },

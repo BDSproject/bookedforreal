@@ -16,6 +16,9 @@ interface PlanCardProps {
 function PlanCard({ planKey, yearly, highlight }: PlanCardProps) {
   const t = useTranslations("home.pricing");
   const price = yearly ? t(`${planKey}.priceYearly`) : t(`${planKey}.priceMonthly`);
+  const publicPrice = yearly
+    ? t(`${planKey}.pricePublicYearly`)
+    : t(`${planKey}.pricePublicMonthly`);
 
   return (
     <div
@@ -32,11 +35,12 @@ function PlanCard({ planKey, yearly, highlight }: PlanCardProps) {
       <h3 className="text-xl font-bold">{t(`${planKey}.name`)}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{t(`${planKey}.description`)}</p>
 
-      <div className="mt-5 flex items-baseline gap-1.5">
+      <div className="mt-5 flex items-baseline gap-2">
         <span className="text-5xl font-extrabold text-primary">{price} €</span>
         <span className="text-sm font-semibold text-muted-foreground">HT</span>
-        <span className="text-muted-foreground">/ {t("monthly").toLowerCase()}</span>
+        <span className="text-lg text-muted-foreground line-through">{publicPrice} €</span>
       </div>
+      <p className="mt-1 text-xs font-bold uppercase tracking-wide text-primary">{t("launchBadge")}</p>
 
       <ul className="mt-6 space-y-2.5">
         {FEATURES.map((feature) => (
@@ -131,7 +135,10 @@ export function Pricing() {
         <CustomCard />
       </div>
 
-      <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-muted-foreground">
+      <p className="mx-auto mt-8 max-w-2xl text-center text-xs font-medium text-primary">
+        {t("launchNote")}
+      </p>
+      <p className="mx-auto mt-2 max-w-2xl text-center text-xs text-muted-foreground">
         {t("vatNote")}
       </p>
     </section>

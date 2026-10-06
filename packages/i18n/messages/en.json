@@ -60,8 +60,10 @@
       "save": "-20%",
       "popular": "Most chosen",
       "vatNote": "Prices exclude VAT (20% added at checkout). No commitment, cancel anytime",
-      "starter": { "name": "Starter", "priceMonthly": "19", "priceYearly": "15", "description": "To get started", "features": { "1": "Mini-site", "2": "Online booking", "3": "80 bookings / month", "4": "1 staff member", "5": "Email support", "6": "No commitment, cancel anytime" } },
-      "pro": { "name": "Pro", "priceMonthly": "39", "priceYearly": "31", "description": "For busy salons", "features": { "1": "Everything in Starter", "2": "400 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (50 credits)", "5": "Custom domain", "6": "No commitment, cancel anytime" } },
+      "launchBadge": "Launch price",
+      "launchNote": "Founding rate locked for life for the first 50 salons. Then €29 and €59 ex VAT/month.",
+      "starter": { "name": "Starter", "priceMonthly": "19", "priceYearly": "15", "pricePublicMonthly": "29", "pricePublicYearly": "23", "description": "For solo professionals", "features": { "1": "Custom mini-site", "2": "24/7 online booking", "3": "80 bookings / month", "4": "1 staff member", "5": "Email reminders", "6": "No commitment, cancel anytime" } },
+      "pro": { "name": "Pro", "priceMonthly": "39", "priceYearly": "31", "pricePublicMonthly": "59", "pricePublicYearly": "47", "description": "For salons with a team", "features": { "1": "Everything in Starter", "2": "400 bookings / month", "3": "5 staff members", "4": "WhatsApp/SMS reminders (50 credits)", "5": "Custom domain + mobile app", "6": "No commitment, cancel anytime" } },
       "custom": {
         "badge": "Premium",
         "name": "Multi-shop",
@@ -92,7 +94,7 @@
       "title": "Your questions",
       "questions": {
         "1": { "q": "What is Bookedforreal?", "a": "It's an online booking software for hairdressers and barbers: mini-site, calendar and automatic reminders" },
-        "2": { "q": "How much does it cost?", "a": "The Starter plan is €19/month ex VAT, the Pro plan €39/month ex VAT: yearly billing saves 20%" },
+        "2": { "q": "How much does it cost?", "a": "The Starter plan is €19/month ex VAT and Pro €39/month ex VAT (founding rate for the first 50 salons). Yearly billing saves 20%" },
         "3": { "q": "Is there a free trial?", "a": "Yes, 7 days free on every plan, no credit card required: you can stop before the end" },
         "4": { "q": "How do clients book?", "a": "They pick a service, a date and a time on your mini-site, in 3 clicks" },
         "5": { "q": "Can I customize my mini-site?", "a": "Yes: name, photos, services, prices, hours and colors" },

@@ -210,10 +210,11 @@ Login/register are rate-limited (5 attempts / 15 min). `requireAuth` / `requireR
   `checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`,
   `customer.subscription.deleted`.
 
-Plans (see `apps/api/src/lib/plans.ts`): **Starter** — €19/mo ex VAT (80 bookings/mo, 1
-staff), **Pro** — €39/mo ex VAT (400 bookings/mo, 5 staff, 50 SMS/WhatsApp credits), and
-**Sur devis** (custom quote for multi-shop / premium clients). Every plan starts with a
-7-day free trial.
+Plans (see `apps/api/src/lib/plans.ts`). Public prices are **Starter €29/mo ex VAT** and
+**Pro €59/mo ex VAT**; the first 50 salons get a **founding rate locked for life** at
+**€19 / €39**. Starter = 80 bookings/mo + 1 staff; Pro = 400 bookings/mo, 5 staff,
+50 SMS/WhatsApp credits, custom domain and mobile app. Every plan starts with a 7-day
+free trial.
 
 ## Notifications
 
