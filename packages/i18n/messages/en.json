@@ -118,6 +118,8 @@
       "product": "Product",
       "company": "Company",
       "cities": "Cities",
+      "hairdressers": "Hairdressers",
+      "barbers": "Barbers",
       "rights": "All rights reserved"
     },
     "mockup": {
@@ -126,6 +128,12 @@
       "services": { "1": "Women's cut", "2": "Blow-dry", "3": "Coloring" },
       "next": "Next slot"
     }
+  },
+  "city": {
+    "empty": "No partner salon in {city} yet",
+    "emptyHint": "Are you a hairdresser or barber in {city}? Create your page in 5 minutes and start getting bookings.",
+    "ctaList": "List my salon",
+    "otherCities": "{label} in other cities"
   },
   "auth": {
     "login": { "title": "Log in", "email": "Email", "password": "Password", "submit": "Log in", "noAccount": "No account yet?", "register": "Sign up" },

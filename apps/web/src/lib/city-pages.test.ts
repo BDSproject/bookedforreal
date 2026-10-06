@@ -32,7 +32,7 @@ describe("getCityPage", () => {
 
     const page = await getCityPage("HAIR_SALON", "lyon", undefined, "fr");
 
-    expect(page.title).toBe("Coiffeur Lyon — Bookedforreal");
+    expect(page.title).toBe("Coiffeur à Lyon — Bookedforreal");
     expect(page.description).toContain("Lyon");
     expect(page.path).toBe("coiffeur/lyon");
     expect(page.salons).toHaveLength(1);
@@ -47,7 +47,7 @@ describe("getCityPage", () => {
     const page = await getCityPage("HAIR_SALON", "lyon", "brotteaux", "fr");
 
     expect(page.path).toBe("coiffeur/lyon/brotteaux");
-    expect(page.title).toBe("Coiffeur Brotteaux, Lyon — Bookedforreal");
+    expect(page.title).toBe("Coiffeur à Brotteaux, Lyon — Bookedforreal");
   });
 
   it("uses the barber slug for BARBER_SHOP", async () => {
@@ -56,6 +56,6 @@ describe("getCityPage", () => {
     const page = await getCityPage("BARBER_SHOP", "paris", undefined, "en");
 
     expect(page.path).toBe("barber/paris");
-    expect(page.title).toBe("Barber Paris — Bookedforreal");
+    expect(page.title).toBe("Barber in Paris — Bookedforreal");
   });
 });

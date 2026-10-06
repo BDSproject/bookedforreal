@@ -118,6 +118,8 @@
       "product": "Produit",
       "company": "Entreprise",
       "cities": "Villes",
+      "hairdressers": "Coiffeurs",
+      "barbers": "Barbiers",
       "rights": "Tous droits réservés"
     },
     "mockup": {
@@ -126,6 +128,12 @@
       "services": { "1": "Coupe femme", "2": "Brushing", "3": "Coloration" },
       "next": "Prochain créneau"
     }
+  },
+  "city": {
+    "empty": "Aucun salon partenaire à {city} pour l'instant",
+    "emptyHint": "Vous êtes coiffeur ou barbier à {city} ? Créez votre page en 5 minutes et recevez vos premières réservations.",
+    "ctaList": "Inscrire mon salon",
+    "otherCities": "{label} dans d'autres villes"
   },
   "auth": {
     "login": { "title": "Connexion", "email": "Email", "password": "Mot de passe", "submit": "Se connecter", "noAccount": "Pas encore de compte ?", "register": "S'inscrire" },

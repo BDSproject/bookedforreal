@@ -2,6 +2,7 @@ import { prisma } from "@bookedforreal/db";
 
 import type { AppLocale } from "@/i18n/routing";
 
+import { SEO_CITIES, cityDisplayName, citySlug } from "./cities";
 import { breadcrumbJsonLd, faqJsonLd, salonItemListJsonLd } from "./jsonld";
 import { siteUrl } from "./seo";
 
@@ -23,14 +24,18 @@ export function categoryLabel(category: SalonCategory, locale: AppLocale): strin
   return category === "HAIR_SALON" ? "Hairdresser" : "Barber";
 }
 
-/** Distinct lowercase cities for a category (used by generateStaticParams). */
-export async function getCities(category: SalonCategory): Promise<string[]> {
+/**
+ * Every city slug that gets a prerendered landing page: the curated SEO list
+ * plus any city where a salon already exists (so the directory only grows).
+ */
+export async function getCities(): Promise<string[]> {
   const rows = await prisma.salon.findMany({
-    where: { type: category, city: { not: null } },
+    where: { city: { not: null } },
     distinct: ["city"],
     select: { city: true },
   });
-  return [...new Set(rows.map((r) => r.city!.toLowerCase()))];
+  const fromDb = rows.map((row) => citySlug(row.city!));
+  return [...new Set([...SEO_CITIES.map((city) => city.slug), ...fromDb])].sort();
 }
 
 /** Distinct lowercase districts for a category + city. */
@@ -68,12 +73,12 @@ export async function getCityPage(
   });
 
   const slug = CATEGORY_SLUG[category];
-  const cityTitle = capitalize(city);
+  const cityTitle = cityDisplayName(city);
   const districtTitle = district ? capitalize(district) : null;
   const place = districtTitle ? `${districtTitle}, ${cityTitle}` : cityTitle;
   const label = categoryLabel(category, locale);
 
-  const title = `${label} ${place}`;
+  const title = locale === "fr" ? `${label} à ${place}` : `${label} in ${place}`;
   const description =
     locale === "fr"
       ? `Réservez votre ${label.toLowerCase()} à ${place} en ligne. Disponibilités en temps réel et confirmation immédiate.`

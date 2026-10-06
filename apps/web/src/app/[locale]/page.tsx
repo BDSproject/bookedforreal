@@ -17,6 +17,7 @@ import { Pricing } from "@/components/landing/pricing";
 import { JsonLd } from "@/components/json-ld";
 import { Link as AppLink } from "@/i18n/navigation";
 import { isLocale } from "@/i18n/routing";
+import { allCitySlugs, cityDisplayName } from "@/lib/cities";
 import { breadcrumbJsonLd, softwareApplicationJsonLd } from "@/lib/jsonld";
 import { siteUrl } from "@/lib/seo";
 
@@ -35,6 +36,12 @@ const HERO_TRUST = [1, 2, 3, 4] as const;
 const MOCK_SERVICES = [1, 2, 3] as const;
 const MOCK_TIMES = ["45 min", "30 min", "1 h 30"] as const;
 const MOCK_PRICES = ["35 €", "25 €", "70 €"] as const;
+
+/** Footer city directory: one landing page per category for every SEO city. */
+const CITY_DIRS = [
+  { segment: "coiffeur", label: "footer.hairdressers" },
+  { segment: "barber", label: "footer.barbers" },
+] as const;
 
 interface HomePageProps {
   params: { locale: string };
@@ -56,6 +63,9 @@ export default async function HomePage({ params }: HomePageProps) {
     distinct: ["city"],
     select: { city: true },
   });
+
+  // Curated SEO cities + any city where a salon already exists.
+  const citySlugs = allCitySlugs(cities.map((city) => city.city!));
 
   const software = softwareApplicationJsonLd(url, [
     { name: "Starter", price: "5" },
@@ -322,19 +332,24 @@ export default async function HomePage({ params }: HomePageProps) {
           />
           <p className="mt-3 max-w-md text-sm text-muted-foreground">{t("footer.tagline")}</p>
 
-          <div className="mt-10">
-            <p className="text-sm font-semibold">{t("footer.cities")}</p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {cities.map((city) => (
-                <Link
-                  key={city.city}
-                  href={`/${locale}/coiffeur/${city.city!.toLowerCase()}`}
-                  className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                >
-                  Coiffeur {city.city}
-                </Link>
-              ))}
-            </div>
+          <div className="mt-10 grid gap-10 lg:grid-cols-2">
+            {CITY_DIRS.map((dir) => (
+              <div key={dir.segment}>
+                <p className="text-sm font-semibold">{t(dir.label)}</p>
+                <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5 sm:grid-cols-3">
+                  {citySlugs.map((slug) => (
+                    <li key={slug}>
+                      <Link
+                        href={`/${locale}/${dir.segment}/${slug}`}
+                        className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                      >
+                        {cityDisplayName(slug)}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
           <p className="mt-10 text-xs text-muted-foreground">
