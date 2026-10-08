@@ -334,7 +334,8 @@
     "date": "Date",
     "time": "Time",
     "contact": {
-      "name": "Full name",
+      "firstName": "First name",
+      "lastName": "Last name",
       "phone": "Phone",
       "email": "Email",
       "notes": "Notes (optional)"
@@ -342,7 +343,8 @@
     "confirm": "Confirm booking",
     "confirmation": {
       "title": "Booking confirmed!",
-      "subtitle": "You'll receive the confirmation on WhatsApp shortly"
+      "subtitle": "An email was just sent to confirm your booking",
+      "track": "See my appointments"
     },
     "unavailable": "Online booking is temporarily closed for this salon",
     "unavailableHint": "Please contact the salon directly",
@@ -525,5 +527,28 @@
     "conflict": "This conflicts with an existing record",
     "slotTaken": "This slot is no longer available",
     "invalidCredentials": "Invalid email or password"
+  },
+  "client": {
+    "loginTitle": "My space",
+    "loginSubtitle": "Find your appointments in seconds",
+    "google": "Continue with Google",
+    "or": "or with your email",
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "signIn": "Sign in",
+    "register": "Create my account",
+    "haveAccount": "Already have an account? Sign in",
+    "noAccount": "No account yet? Create one",
+    "logout": "Log out",
+    "verifyTitle": "Confirm your email",
+    "verifyOk": "Your email is confirmed. You can now sign in",
+    "verifyError": "This link is invalid or has expired",
+    "appointmentsTitle": "My appointments",
+    "appointmentsEmpty": "No appointment yet",
+    "emailNotVerified": "Email not confirmed",
+    "emailVerified": "Email confirmed",
+    "backToBooking": "Book again"
   }
 }

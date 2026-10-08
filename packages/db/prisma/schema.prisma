@@ -263,19 +263,44 @@ model Client {
   salonId     String
   phone       String?
   email       String?
+  /// Full name, "firstName lastName" — collected as two fields on the booking form.
   name        String
   locale      String   @default("fr")
   consentRgpd Boolean  @default(false)
+  /// The cross-salon login, when the client created one. Null for pure guests.
+  accountId   String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   salon        Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  account      ClientAccount? @relation(fields: [accountId], references: [id], onDelete: SetNull)
   appointments Appointment[]
   reviews      Review[]
 
   @@index([phone])
   @@index([salonId, email])
+  @@index([accountId])
   @@map("clients")
+}
+
+/// A client's login, shared across salons. The booking collects the email first;
+/// the account is created (or completed) when the client verifies their email or
+/// signs in with Google / a password.
+model ClientAccount {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String
+  passwordHash      String?
+  googleId          String?   @unique
+  emailVerified     Boolean   @default(false)
+  /// Random token in the verification email; cleared once the email is confirmed.
+  verificationToken String?   @unique
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  clients Client[]
+
+  @@map("client_accounts")
 }
 
 /// A booked appointment for a staff member and service.

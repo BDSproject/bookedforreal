@@ -143,7 +143,8 @@ describe("public booking", () => {
       payload: {
         serviceId,
         staffId,
-        name: "Jane Doe",
+        firstName: "Jane",
+        lastName: "Doe",
         phone: "+33612345678",
         email: `jane-${unique}@test.local`,
         startAt: bookedStartAt,
@@ -166,8 +167,10 @@ describe("public booking", () => {
       payload: {
         serviceId,
         staffId,
-        name: "John Doe",
+        firstName: "John",
+        lastName: "Doe",
         phone: "+33699999999",
+        email: `john-${unique}@test.local`,
         startAt: bookedStartAt,
       },
     });

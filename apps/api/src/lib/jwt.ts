@@ -16,8 +16,16 @@ export interface RefreshTokenPayload {
   type: "refresh";
 }
 
+/** Client access token — the "customer" side, distinct from the salon owner. */
+export interface ClientTokenPayload {
+  sub: string;
+  email: string;
+  type: "client";
+}
+
 const ACCESS_TTL_SECONDS = 15 * 60; // 15 minutes
 const REFRESH_TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
+const CLIENT_TTL_SECONDS = 30 * 24 * 60 * 60; // 30 days
 
 function accessSecret(): string {
   return process.env.JWT_ACCESS_SECRET ?? "dev-access-secret";
@@ -25,6 +33,10 @@ function accessSecret(): string {
 
 function refreshSecret(): string {
   return process.env.JWT_REFRESH_SECRET ?? "dev-refresh-secret";
+}
+
+function clientSecret(): string {
+  return process.env.JWT_CLIENT_SECRET ?? process.env.JWT_ACCESS_SECRET ?? "dev-access-secret";
 }
 
 /** Signs a short-lived access token for the given user. */
@@ -60,4 +72,19 @@ export function verifyRefreshToken(token: string): RefreshTokenPayload {
     throw new Error("Invalid refresh token");
   }
   return decoded as unknown as RefreshTokenPayload;
+}
+
+/** Signs a long-lived client token (used for the client login). */
+export function signClientToken(account: { id: string; email: string }): string {
+  const payload: ClientTokenPayload = { sub: account.id, email: account.email, type: "client" };
+  return jwt.sign(payload, clientSecret(), { expiresIn: CLIENT_TTL_SECONDS });
+}
+
+/** Verifies a client token; throws if invalid or wrong type. */
+export function verifyClientToken(token: string): ClientTokenPayload {
+  const decoded = jwt.verify(token, clientSecret());
+  if (typeof decoded === "string" || decoded.type !== "client") {
+    throw new Error("Invalid client token");
+  }
+  return decoded as unknown as ClientTokenPayload;
 }

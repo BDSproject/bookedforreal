@@ -334,7 +334,8 @@
     "date": "Date",
     "time": "Heure",
     "contact": {
-      "name": "Nom complet",
+      "firstName": "Prénom",
+      "lastName": "Nom",
       "phone": "Téléphone",
       "email": "Email",
       "notes": "Remarques (facultatif)"
@@ -342,7 +343,8 @@
     "confirm": "Confirmer le rendez-vous",
     "confirmation": {
       "title": "Rendez-vous confirmé !",
-      "subtitle": "Vous allez recevoir la confirmation sur WhatsApp dans quelques instants"
+      "subtitle": "Un email vient de vous être envoyé pour confirmer votre réservation",
+      "track": "Retrouvez mes rendez-vous"
     },
     "unavailable": "Les réservations en ligne sont momentanément fermées pour ce salon",
     "unavailableHint": "Merci de contacter le salon directement",
@@ -525,5 +527,28 @@
     "conflict": "Cela entre en conflit avec un enregistrement existant",
     "slotTaken": "Ce créneau n'est plus disponible",
     "invalidCredentials": "Email ou mot de passe invalide"
+  },
+  "client": {
+    "loginTitle": "Mon espace",
+    "loginSubtitle": "Retrouvez vos rendez-vous en quelques secondes",
+    "google": "Continuer avec Google",
+    "or": "ou avec votre email",
+    "email": "Email",
+    "password": "Mot de passe",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "signIn": "Se connecter",
+    "register": "Créer mon compte",
+    "haveAccount": "Déjà un compte ? Se connecter",
+    "noAccount": "Pas encore de compte ? Créer un compte",
+    "logout": "Se déconnecter",
+    "verifyTitle": "Confirmation de votre email",
+    "verifyOk": "Votre email est confirmé. Vous pouvez maintenant vous connecter",
+    "verifyError": "Ce lien est invalide ou a expiré",
+    "appointmentsTitle": "Mes rendez-vous",
+    "appointmentsEmpty": "Aucun rendez-vous pour le moment",
+    "emailNotVerified": "Email non confirmé",
+    "emailVerified": "Email confirmé",
+    "backToBooking": "Réserver à nouveau"
   }
 }

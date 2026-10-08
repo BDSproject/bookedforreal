@@ -7,6 +7,8 @@ import rawBody from "fastify-raw-body";
 
 import { appointmentRoutes } from "./routes/appointments";
 import { authRoutes } from "./routes/auth";
+import { clientAuthRoutes } from "./routes/client-auth";
+import { clientAccountRoutes } from "./routes/client";
 import { availabilityRoutes } from "./routes/availability";
 import { billingRoutes, webhookRoutes } from "./routes/billing";
 import { clientRoutes } from "./routes/clients";
@@ -44,6 +46,8 @@ export function buildApp(): FastifyInstance {
 
   void app.register(healthRoutes, { prefix: "/health" });
   void app.register(authRoutes, { prefix: "/auth" });
+  void app.register(clientAuthRoutes, { prefix: "/auth/client" });
+  void app.register(clientAccountRoutes, { prefix: "/client" });
   void app.register(publicRoutes, { prefix: "/public" });
   void app.register(salonRoutes, { prefix: "/salons" });
   void app.register(staffRoutes, { prefix: "/staff" });

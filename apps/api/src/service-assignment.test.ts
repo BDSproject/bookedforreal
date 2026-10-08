@@ -206,8 +206,10 @@ describe("service assignment to staff", () => {
       payload: {
         serviceId: service.id,
         staffId: samId,
-        name: "Client Test",
+        firstName: "Client",
+        lastName: "Test",
         phone: "0612345678",
+        email: "client@test.local",
         startAt: `${MONDAY}T09:00:00.000Z`,
       },
     });
@@ -228,8 +230,10 @@ describe("service assignment to staff", () => {
       payload: {
         serviceId: service.id,
         staffId: alexId,
-        name: "Client Test",
+        firstName: "Client",
+        lastName: "Test",
         phone: "0612345678",
+        email: "client@test.local",
         startAt: `${MONDAY}T09:00:00.000Z`,
       },
     });

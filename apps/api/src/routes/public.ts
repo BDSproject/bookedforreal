@@ -10,6 +10,7 @@ import {
 import { addDays, format, parseISO } from "date-fns";
 
 import { createAppointment } from "../services/appointments";
+import { ensureClientAccount } from "../services/client-account";
 import { isQuotaExceeded, reportBookingUsage } from "../services/billing";
 import { scheduleAppointmentNotifications } from "../services/notifications";
 import { dayRangeUtc, generateSlots, weekdayOfDate, type Slot } from "../services/slots";
@@ -344,7 +345,8 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
 
     const client = await findOrCreateClient(
       salon.id,
-      parsed.data.name,
+      parsed.data.firstName,
+      parsed.data.lastName,
       parsed.data.phone,
       parsed.data.email,
     );
@@ -394,23 +396,34 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
 /** Finds a client by email (then phone) within the salon, or creates a new one. */
 async function findOrCreateClient(
   salonId: string,
-  name: string,
+  firstName: string,
+  lastName: string,
   phone: string | undefined,
-  email: string | undefined,
+  email: string,
 ): Promise<{ id: string }> {
-  if (email) {
-    const existing = await prisma.client.findFirst({ where: { salonId, email } });
-    if (existing) {
-      return existing;
-    }
-  } else if (phone) {
-    const existing = await prisma.client.findFirst({ where: { salonId, phone } });
-    if (existing) {
-      return existing;
-    }
+  const normalizedEmail = email.toLowerCase();
+  const name = `${firstName} ${lastName}`.trim();
+
+  // The account doubles as the email-verification entry point: booking a fake
+  // address creates an unverified account and triggers the confirmation email.
+  const accountId = await ensureClientAccount({ email: normalizedEmail, name });
+
+  const existing = await prisma.client.findFirst({
+    where: { salonId, email: normalizedEmail },
+  });
+  if (existing) {
+    await prisma.client.update({ where: { id: existing.id }, data: { accountId } });
+    return existing;
   }
 
   return prisma.client.create({
-    data: { salonId, name, phone: phone ?? null, email: email ?? null, consentRgpd: true },
+    data: {
+      salonId,
+      name,
+      phone: phone ?? null,
+      email: normalizedEmail,
+      consentRgpd: true,
+      accountId,
+    },
   });
 }

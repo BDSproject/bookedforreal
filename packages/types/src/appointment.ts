@@ -9,13 +9,15 @@ export const APPOINTMENT_STATUSES = [
 ] as const;
 export const APPOINTMENT_SOURCES = ["WEB", "MOBILE", "MANUAL"] as const;
 
-/** Public appointment creation: the client is found or created from name/phone/email. */
+/** Public appointment creation: the client is found or created from their details. */
 export const createAppointmentSchema = z.object({
   serviceId: z.string().min(1),
   staffId: z.string().min(1),
-  name: z.string().min(1).max(120),
+  firstName: z.string().min(1).max(60),
+  lastName: z.string().min(1).max(60),
   phone: z.string().max(30).optional(),
-  email: z.string().email().max(254).optional(),
+  /** Required, and verified by email so a fake address cannot book silently. */
+  email: z.string().email().max(254),
   startAt: z.string().datetime(),
   notes: z.string().max(2000).optional(),
   source: z.enum(APPOINTMENT_SOURCES).default("WEB"),

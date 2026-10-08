@@ -11,6 +11,9 @@ multi-tenant dashboard — on web and mobile.
   report of bookings and revenue.
 - **Agenda**: a Monday–Sunday calendar where the owner confirms, completes or cancels an
   appointment in one click and blocks a slot (holiday, personal appointment) in another.
+- **Client accounts**: the customer books with first name, last name, phone and email; a
+  verification email confirms the inbox is real, then they can sign in with **Google** or a
+  password to find their bookings across salons.
 - **SEO-first**: SSR/SSG, translated metadata, structured data (JSON-LD), `sitemap.xml`,
   `robots.txt` and a 48-city local-SEO directory.
 - **Billing**: Stripe subscriptions with a 7-day trial, a pay-as-you-go plan, two
@@ -134,6 +137,8 @@ Copy `.env.example` to the relevant package(s). Grouped below by concern.
 | `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` | `api` | Twilio credentials for SMS + WhatsApp |
 | `TWILIO_PHONE_NUMBER` / `TWILIO_WHATSAPP_NUMBER` | `api` | Twilio senders (E.164) |
 | `TWILIO_CONTENT_CONFIRMATION` / `_REMINDER` / `_OWNER_ALERT` / `_TEST` | `api` | Approved WhatsApp templates (`HX…`); absent → SMS |
+| `GOOGLE_CLIENT_ID` / `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | `api` / `web` | Google Sign-In OAuth client id (client accounts) |
+| `BREVO_API_KEY` / `BREVO_SENDER_EMAIL` | `api` | Verification email (confirming the client's inbox) |
 | `NEXT_PUBLIC_UMAMI_WEBSITE_ID` / `NEXT_PUBLIC_UMAMI_URL` | `web` | Analytics (Umami, optional) |
 
 **Never commit secrets.** `.env`, `.env.local` and `.env.*.local` are gitignored; only
@@ -287,6 +292,7 @@ coverage gate, then preview/production deploys (Vercel for web, EAS for mobile).
 | --- | --- | --- |
 | [`docs/DEMARRAGE-RAPIDE.md`](docs/DEMARRAGE-RAPIDE.md) | Onboarding a shop | The 6 steps to go live in 10 minutes, a 2-minute check, express troubleshooting |
 | [`docs/STRIPE.md`](docs/STRIPE.md) | Billing setup | Prices to create, webhook, customer portal, tax |
+| [`docs/GOOGLE_OAUTH.md`](docs/GOOGLE_OAUTH.md) | Client login | Google OAuth client for "Sign in with Google" |
 | `/{locale}/guide` | The shop owner | The same guide, published in the app |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Ops | Hosting, environment, migrations |
 | [`docs/SEO.md`](docs/SEO.md) | Marketing | Technical SEO decisions |

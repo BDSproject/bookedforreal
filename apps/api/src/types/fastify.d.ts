@@ -15,6 +15,11 @@ declare module "fastify" {
       trialEndsAt: Date | null;
       subscriptionStatus: SubscriptionStatus | null;
     };
+    /** Authenticated client (the customer), attached by `requireClientAuth`. */
+    client?: {
+      id: string;
+      email: string;
+    };
     /** Raw request body (fastify-raw-body), used for Stripe webhook signatures. */
     rawBody?: Buffer | string;
   }

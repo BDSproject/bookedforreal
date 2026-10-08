@@ -9,7 +9,8 @@ import {
 const validPayload = {
   staffId: "staff_1",
   serviceId: "svc_1",
-  name: "Jane Doe",
+  firstName: "Jane",
+  lastName: "Doe",
   phone: "+33612345678",
   email: "jane@example.com",
   startAt: "2026-01-05T09:00:00.000Z",

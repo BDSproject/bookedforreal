@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { Button, Card, CardContent, Input, Label } from "@bookedforreal/ui";
 
+import { Link } from "@/i18n/navigation";
 import { apiFetch } from "@/lib/api-client";
 import type { Salon, Service } from "@/lib/api-types";
 import { groupServices } from "@/lib/service-groups";
@@ -44,7 +45,8 @@ export default function BookPage() {
   const [staffChoice, setStaffChoice] = useState("");
   const [range, setRange] = useState<Range | null>(null);
   const [selected, setSelected] = useState<Slot | null>(null);
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
@@ -125,7 +127,8 @@ export default function BookPage() {
         body: JSON.stringify({
           serviceId: service.id,
           staffId: staffChoice || selected.staffId,
-          name,
+          firstName,
+          lastName,
           phone,
           email,
           startAt: selected.startAt,
@@ -143,6 +146,12 @@ export default function BookPage() {
         <p className="text-3xl">✅</p>
         <h1 className="mt-4 text-2xl font-bold">{t("confirmation.title")}</h1>
         <p className="text-muted-foreground mt-2">{t("confirmation.subtitle")}</p>
+        <Link
+          href="/client/login"
+          className="text-primary mt-6 inline-block text-sm font-semibold underline-offset-4 hover:underline"
+        >
+          {t("confirmation.track")}
+        </Link>
       </main>
     );
   }
@@ -285,15 +294,27 @@ export default function BookPage() {
             {selected ? ` · ${dayLabel(selected.date)} ${selected.time}` : ""}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="booking-name">{t("contact.name")}</Label>
-            <Input
-              id="booking-name"
-              autoComplete="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="booking-first">{t("contact.firstName")}</Label>
+              <Input
+                id="booking-first"
+                autoComplete="given-name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="booking-last">{t("contact.lastName")}</Label>
+              <Input
+                id="booking-last"
+                autoComplete="family-name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="booking-phone">{t("contact.phone")}</Label>
@@ -313,6 +334,7 @@ export default function BookPage() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           {error ? (
@@ -320,7 +342,12 @@ export default function BookPage() {
               {te("slotTaken")}
             </p>
           ) : null}
-          <Button type="submit" size="xl" className="w-full" disabled={!name}>
+          <Button
+            type="submit"
+            size="xl"
+            className="w-full"
+            disabled={!firstName || !lastName || !email}
+          >
             {t("confirm")}
           </Button>
         </form>
