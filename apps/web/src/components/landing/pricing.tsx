@@ -182,6 +182,15 @@ export function Pricing() {
       <p className="text-muted-foreground mx-auto mt-8 max-w-2xl text-center text-xs">
         {t("vatNote")}
       </p>
+
+      <p className="mt-4 text-center">
+        <AppLink
+          href="/guide"
+          className="text-primary text-sm font-semibold underline-offset-4 hover:underline"
+        >
+          {t("guideLink")}
+        </AppLink>
+      </p>
     </section>
   );
 }

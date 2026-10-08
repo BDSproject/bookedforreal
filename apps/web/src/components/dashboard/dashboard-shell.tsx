@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { href: "/clients", key: "clients" },
   { href: "/services", key: "services" },
   { href: "/staff", key: "staff" },
+  { href: "/availability", key: "availability" },
   { href: "/settings", key: "settings" },
 ] as const;
 
@@ -66,6 +67,14 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             </Link>
           ))}
         </nav>
+
+        {/* Setup guide: the answer to "what do I still need to fill in?". */}
+        <Link
+          href="/guide"
+          className="border-primary/30 text-primary hover:bg-accent mt-6 block rounded-xl border border-dashed px-3 py-2 text-sm font-medium transition-colors"
+        >
+          {t("guide")}
+        </Link>
       </aside>
 
       <div className="flex-1">

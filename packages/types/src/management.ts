@@ -35,15 +35,25 @@ export const createServiceSchema = z.object({
 });
 export const updateServiceSchema = createServiceSchema.partial();
 
-export const createAvailabilitySchema = z.object({
+/**
+ * A recurring weekly opening window. `breakStart`/`breakEnd` accept `null` so a
+ * salon can remove a lunch break it had saved before.
+ */
+const availabilityFields = z.object({
   staffId: z.string().min(1),
+  /** 0 = Sunday … 6 = Saturday. */
   weekday: z.number().int().min(0).max(6),
   startTime: z.string().regex(timeRegex),
   endTime: z.string().regex(timeRegex),
-  breakStart: z.string().regex(timeRegex).optional(),
-  breakEnd: z.string().regex(timeRegex).optional(),
+  breakStart: z.string().regex(timeRegex).nullable().optional(),
+  breakEnd: z.string().regex(timeRegex).nullable().optional(),
 });
-export const updateAvailabilitySchema = createAvailabilitySchema.partial();
+
+export const createAvailabilitySchema = availabilityFields.refine(
+  (value) => value.startTime < value.endTime,
+  { message: "endTime must be after startTime", path: ["endTime"] },
+);
+export const updateAvailabilitySchema = availabilityFields.partial();
 
 export type UpdateSalonInput = z.infer<typeof updateSalonSchema>;
 export type CreateStaffInput = z.infer<typeof createStaffSchema>;

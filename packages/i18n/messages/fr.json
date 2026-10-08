@@ -14,7 +14,8 @@
       "testimonials": "Les avis",
       "faq": "Vos questions",
       "startFree": "Créer mon salon",
-      "menu": "Menu"
+      "menu": "Menu",
+      "guide": "Guide"
     },
     "actions": {
       "submit": "Envoyer",
@@ -177,7 +178,8 @@
         },
         "cta": "Demander un devis"
       },
-      "cta": "Commencer l'essai"
+      "cta": "Commencer l'essai",
+      "guideLink": "Voir le guide de démarrage en 10 minutes"
     },
     "testimonials": {
       "title": "Ce qu'en disent les salons",
@@ -259,6 +261,7 @@
       "cities": "Villes",
       "hairdressers": "Coiffeurs",
       "barbers": "Barbiers",
+      "guide": "Guide de démarrage",
       "about": "À propos",
       "contact": "Contact",
       "legal": "Mentions légales",
@@ -348,7 +351,9 @@
       "clients": "Clients",
       "services": "Services",
       "staff": "Personnel",
-      "settings": "Paramètres"
+      "settings": "Paramètres",
+      "availability": "Horaires",
+      "guide": "Guide de démarrage"
     },
     "stats": {
       "today": "Aujourd'hui",
@@ -391,6 +396,61 @@
         "test": "Recevoir un message de test",
         "testSent": "Message envoyé sur WhatsApp ou SMS",
         "testNoPhone": "Ajoutez un numéro de téléphone au salon"
+      }
+    },
+    "common": {
+      "add": "Ajouter",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "remove": "Supprimer",
+      "saved": "Enregistré",
+      "error": "Une erreur est survenue, réessayez",
+      "loading": "Chargement"
+    },
+    "services": {
+      "title": "Prestations",
+      "subtitle": "Ce que vos clients peuvent réserver, avec la durée et le tarif",
+      "add": "Ajouter une prestation",
+      "nameFr": "Nom en français",
+      "nameEn": "Nom en anglais",
+      "duration": "Durée (minutes)",
+      "price": "Tarif (€)",
+      "buffer": "Temps de nettoyage après (minutes)",
+      "empty": "Aucune prestation pour l'instant. Ajoutez-en une pour que vos clients puissent réserver",
+      "inactive": "Désactivée"
+    },
+    "staff": {
+      "title": "Équipe",
+      "subtitle": "Chaque personne a ses propres horaires et son propre agenda",
+      "add": "Ajouter une personne",
+      "name": "Prénom",
+      "empty": "Aucune personne dans l'équipe pour l'instant",
+      "inactive": "Désactivée"
+    },
+    "availability": {
+      "title": "Horaires",
+      "subtitle": "Vos heures d'ouverture. Un client ne peut réserver que dans ces créneaux",
+      "staff": "Pour qui ?",
+      "startTime": "Heure d'ouverture",
+      "endTime": "Heure de fermeture",
+      "addWindow": "Ajouter une plage",
+      "removeWindow": "Retirer cette plage",
+      "break": "Pause",
+      "addBreak": "Ajouter une pause",
+      "removeBreak": "Retirer la pause",
+      "copyToAll": "Copier sur tous les jours",
+      "closedHint": "Aucune plage : ce jour n'est pas réservable",
+      "save": "Enregistrer les horaires",
+      "noStaff": "Ajoutez d'abord une personne dans Équipe",
+      "days": {
+        "0": "Dimanche",
+        "1": "Lundi",
+        "2": "Mardi",
+        "3": "Mercredi",
+        "4": "Jeudi",
+        "5": "Vendredi",
+        "6": "Samedi"
       }
     }
   },

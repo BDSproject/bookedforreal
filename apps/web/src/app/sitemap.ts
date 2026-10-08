@@ -46,6 +46,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
 
+    // The setup guide is a marketing page: it answers "how long does it take?".
+    entries.push({
+      url: `${baseUrl}/${locale}/guide`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
+
     for (const salon of salons) {
       entries.push({
         url: `${baseUrl}/${locale}/s/${salon.slug}`,

@@ -14,7 +14,8 @@
       "testimonials": "Reviews",
       "faq": "Your questions",
       "startFree": "Create my salon",
-      "menu": "Menu"
+      "menu": "Menu",
+      "guide": "Guide"
     },
     "actions": {
       "submit": "Submit",
@@ -177,7 +178,8 @@
         },
         "cta": "Request a quote"
       },
-      "cta": "Start the trial"
+      "cta": "Start the trial",
+      "guideLink": "See the 10-minute setup guide"
     },
     "testimonials": {
       "title": "What salons say",
@@ -259,6 +261,7 @@
       "cities": "Cities",
       "hairdressers": "Hairdressers",
       "barbers": "Barbers",
+      "guide": "Setup guide",
       "about": "About",
       "contact": "Contact",
       "legal": "Legal notice",
@@ -348,7 +351,9 @@
       "clients": "Clients",
       "services": "Services",
       "staff": "Staff",
-      "settings": "Settings"
+      "settings": "Settings",
+      "availability": "Opening hours",
+      "guide": "Setup guide"
     },
     "stats": {
       "today": "Today",
@@ -391,6 +396,61 @@
         "test": "Send me a test message",
         "testSent": "Message sent over WhatsApp or SMS",
         "testNoPhone": "Add a phone number to the salon first"
+      }
+    },
+    "common": {
+      "add": "Add",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "remove": "Delete",
+      "saved": "Saved",
+      "error": "Something went wrong, please try again",
+      "loading": "Loading"
+    },
+    "services": {
+      "title": "Services",
+      "subtitle": "What your clients can book, with the duration and the price",
+      "add": "Add a service",
+      "nameFr": "French name",
+      "nameEn": "English name",
+      "duration": "Duration (minutes)",
+      "price": "Price (€)",
+      "buffer": "Clean-up time afterwards (minutes)",
+      "empty": "No service yet. Add one so your clients can start booking",
+      "inactive": "Disabled"
+    },
+    "staff": {
+      "title": "Team",
+      "subtitle": "Everyone has their own opening hours and their own calendar",
+      "add": "Add a person",
+      "name": "Name",
+      "empty": "Nobody in the team yet",
+      "inactive": "Disabled"
+    },
+    "availability": {
+      "title": "Opening hours",
+      "subtitle": "When you are open. Clients can only book inside these windows",
+      "staff": "For whom?",
+      "startTime": "Opening time",
+      "endTime": "Closing time",
+      "addWindow": "Add a window",
+      "removeWindow": "Remove this window",
+      "break": "Break",
+      "addBreak": "Add a break",
+      "removeBreak": "Remove the break",
+      "copyToAll": "Copy to every day",
+      "closedHint": "No window: this day cannot be booked",
+      "save": "Save opening hours",
+      "noStaff": "Add a person in Team first",
+      "days": {
+        "0": "Sunday",
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday"
       }
     }
   },

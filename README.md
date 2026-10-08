@@ -274,6 +274,16 @@ coverage gate, then preview/production deploys (Vercel for web, EAS for mobile).
   and run `pnpm db:migrate:deploy` once.
 - **API**: Node server (`apps/api/dist/server.js`) behind a reverse proxy.
 
+## Documentation
+
+| Doc | For | What it covers |
+| --- | --- | --- |
+| [`docs/DEMARRAGE-RAPIDE.md`](docs/DEMARRAGE-RAPIDE.md) | Onboarding a shop | The 6 steps to go live in 10 minutes, a 2-minute check, express troubleshooting |
+| `/{locale}/guide` | The shop owner | The same guide, published in the app |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Ops | Hosting, environment, migrations |
+| [`docs/SEO.md`](docs/SEO.md) | Marketing | Technical SEO decisions |
+| [`docs/MOBILE_BUILD.md`](docs/MOBILE_BUILD.md) | Ops | iOS / Android builds |
+
 ## Demo data
 
 `pnpm db:seed` creates three demo salons (Paris · Lyon · Marseille) with services,

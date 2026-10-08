@@ -50,6 +50,7 @@ const CITY_DIRS = [
 
 /** Trust / legal pages linked from the footer (E-E-A-T + legal requirements). */
 const COMPANY_LINKS = [
+  { href: "/guide", label: "footer.guide" },
   { href: "/about", label: "footer.about" },
   { href: "/contact", label: "footer.contact" },
   { href: "/legal", label: "footer.legal" },

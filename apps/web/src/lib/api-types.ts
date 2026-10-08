@@ -7,6 +7,8 @@ export interface Service {
   durationMin: number;
   priceCents: number;
   bufferMin: number;
+  /** Soft delete: a removed service stays in the history with `active: false`. */
+  active?: boolean;
 }
 
 export interface Staff {
@@ -14,6 +16,19 @@ export interface Staff {
   name: string;
   photoUrl: string | null;
   active: boolean;
+}
+
+/** One recurring weekly opening window for a staff member. */
+export interface Availability {
+  id: string;
+  staffId: string;
+  /** 0 = Sunday … 6 = Saturday. */
+  weekday: number;
+  startTime: string;
+  endTime: string;
+  /** Optional lunch break, subtracted from the bookable slots. */
+  breakStart: string | null;
+  breakEnd: string | null;
 }
 
 export interface Client {
