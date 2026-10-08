@@ -110,6 +110,25 @@ describe("public booking", () => {
     expect(slots.some((s) => s.time === "12:00")).toBe(false);
   });
 
+  it("returns a week of slots in one call", async () => {
+    const res = await app.inject({
+      method: "GET",
+      url: `/public/salons/${slug}/availability/range?serviceId=${serviceId}&staffId=${staffId}&from=2026-01-05&days=3`,
+    });
+    expect(res.statusCode).toBe(200);
+
+    const body = res.json();
+    expect(body.from).toBe("2026-01-05");
+    expect(body.days).toBe(3);
+    expect(Object.keys(body.slots)).toHaveLength(3);
+
+    // The break applies every day, so no slot around midday on any of the three.
+    for (const date of Object.keys(body.slots) as string[]) {
+      const slots = body.slots[date][staffId] as Array<{ time: string }>;
+      expect(slots.some((s) => s.time === "12:00")).toBe(false);
+    }
+  });
+
   it("creates an appointment and exposes its status", async () => {
     const avail = await app.inject({
       method: "GET",

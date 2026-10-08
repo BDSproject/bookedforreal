@@ -11,6 +11,7 @@ import { isLocale, type AppLocale } from "@/i18n/routing";
 import { breadcrumbJsonLd, salonJsonLd } from "@/lib/jsonld";
 import { buildMetadata, siteUrl } from "@/lib/seo";
 import { groupServices } from "@/lib/service-groups";
+import { weeklyHours, windowLabel } from "@/lib/hours";
 import { hasAccess } from "@/lib/trial";
 
 interface SalonPageProps {
@@ -135,6 +136,43 @@ export default async function SalonPage({ params }: SalonPageProps) {
           {t("staff.label")}
         </h2>
         <p className="text-muted-foreground mt-2">{salon.staff.map((s) => s.name).join(", ")}</p>
+      </section>
+
+      <section className="mt-10" aria-labelledby="hours-heading">
+        <h2 id="hours-heading" className="text-xl font-semibold">
+          {t("hours")}
+        </h2>
+        <ul className="mt-4 space-y-2">
+          {weeklyHours(
+            salon.availabilities.filter((a) =>
+              salon.staff.some((member) => member.id === a.staffId),
+            ),
+          ).map((day) => (
+            <li
+              key={day.weekday}
+              className="flex items-start justify-between gap-3 rounded-xl border p-3"
+            >
+              <span className="font-medium">{tc(`days.${day.weekday}`)}</span>
+              {day.windows.length === 0 ? (
+                <span className="text-muted-foreground text-sm">{t("closed")}</span>
+              ) : (
+                <div className="text-right">
+                  {day.windows.map((window) => (
+                    <p
+                      key={`${window.staffId}-${window.startTime}`}
+                      className="text-muted-foreground text-sm"
+                    >
+                      {salon.staff.length > 1
+                        ? `${salon.staff.find((s) => s.id === window.staffId)?.name ?? ""} · `
+                        : ""}
+                      {windowLabel(window, t("break"))}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {bookingEnabled ? (

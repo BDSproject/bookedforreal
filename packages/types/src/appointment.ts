@@ -62,8 +62,19 @@ export const availabilityQuerySchema = z.object({
   staffId: z.string().min(1).optional(),
 });
 
+/** Multi-day availability: free slots for a service over a few days. */
+export const availabilityRangeSchema = z.object({
+  serviceId: z.string().min(1),
+  staffId: z.string().min(1).optional(),
+  /** First day of the window, `YYYY-MM-DD`. */
+  from: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  /** Number of days to return, capped at 14. */
+  days: z.coerce.number().int().min(1).max(14).default(7),
+});
+
 export type CreateAppointmentInput = z.infer<typeof createAppointmentSchema>;
 export type CreateManualAppointmentInput = z.infer<typeof createManualAppointmentSchema>;
 export type UpdateAppointmentStatusInput = z.infer<typeof updateAppointmentStatusSchema>;
 export type AvailabilityQuery = z.infer<typeof availabilityQuerySchema>;
+export type AvailabilityRangeQuery = z.infer<typeof availabilityRangeSchema>;
 export type StaffStatsQuery = z.infer<typeof staffStatsQuerySchema>;

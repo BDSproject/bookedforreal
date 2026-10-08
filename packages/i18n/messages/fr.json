@@ -32,6 +32,15 @@
     "languages": {
       "fr": "Français",
       "en": "English"
+    },
+    "days": {
+      "0": "Dimanche",
+      "1": "Lundi",
+      "2": "Mardi",
+      "3": "Mercredi",
+      "4": "Jeudi",
+      "5": "Vendredi",
+      "6": "Samedi"
     }
   },
   "home": {
@@ -343,7 +352,12 @@
       "CANCELLED": "Annulé",
       "DONE": "Terminé",
       "NO_SHOW": "Absent"
-    }
+    },
+    "hours": "Horaires",
+    "closed": "Fermé",
+    "noSlots": "Aucun créneau disponible sur les prochains jours",
+    "pickSlot": "Choisissez un créneau",
+    "break": "pause"
   },
   "dashboard": {
     "nav": {

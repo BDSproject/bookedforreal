@@ -32,6 +32,15 @@
     "languages": {
       "fr": "Français",
       "en": "English"
+    },
+    "days": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
     }
   },
   "home": {
@@ -343,7 +352,12 @@
       "CANCELLED": "Cancelled",
       "DONE": "Completed",
       "NO_SHOW": "No-show"
-    }
+    },
+    "hours": "Opening hours",
+    "closed": "Closed",
+    "noSlots": "No slot available in the coming days",
+    "pickSlot": "Pick a slot",
+    "break": "break"
   },
   "dashboard": {
     "nav": {

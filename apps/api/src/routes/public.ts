@@ -3,9 +3,11 @@ import type { FastifyInstance } from "fastify";
 import { AppointmentStatus, prisma } from "@bookedforreal/db";
 import {
   availabilityQuerySchema,
+  availabilityRangeSchema,
   createAppointmentSchema,
   listSalonsQuerySchema,
 } from "@bookedforreal/types";
+import { addDays, format, parseISO } from "date-fns";
 
 import { createAppointment } from "../services/appointments";
 import { isQuotaExceeded, reportBookingUsage } from "../services/billing";
@@ -54,6 +56,121 @@ const publicSalonSelect = {
     },
   },
 } as const;
+
+/** Loads the salon, the service and the staff who can perform it. */
+async function availabilityContext(
+  slug: string,
+  serviceId: string,
+  staffId: string | undefined,
+): Promise<
+  | { error: string; status: number }
+  | {
+      salon: { id: string; timezone: string };
+      service: { durationMin: number; bufferMin: number };
+      staffList: { id: string }[];
+    }
+> {
+  const salon = await prisma.salon.findUnique({ where: { slug } });
+  if (!salon) {
+    return { error: "Salon not found", status: 404 };
+  }
+
+  const service = await prisma.service.findFirst({
+    where: { id: serviceId, salonId: salon.id, active: true },
+    include: { staff: { select: { id: true } } },
+  });
+  if (!service) {
+    return { error: "Service not available", status: 400 };
+  }
+
+  // A service assigned to nobody is open to the whole team.
+  const assigned = service.staff.map((member) => member.id);
+  const canPerform = (id: string) => assigned.length === 0 || assigned.includes(id);
+
+  const staffList = (
+    staffId
+      ? await prisma.staff.findMany({
+          where: { id: staffId, salonId: salon.id, active: true },
+        })
+      : await prisma.staff.findMany({ where: { salonId: salon.id, active: true } })
+  ).filter((member) => canPerform(member.id));
+
+  return {
+    salon: { id: salon.id, timezone: salon.timezone },
+    service: { durationMin: service.durationMin, bufferMin: service.bufferMin },
+    staffList,
+  };
+}
+
+/** Free slots for one service on one calendar day, keyed by staff id. */
+async function slotsForDate(
+  salon: { id: string; timezone: string },
+  service: { durationMin: number; bufferMin: number },
+  staffList: { id: string }[],
+  date: string,
+): Promise<Record<string, Slot[]>> {
+  const { start: dayStart, end: dayEnd } = dayRangeUtc(date, salon.timezone);
+  const weekday = weekdayOfDate(date);
+  const result: Record<string, Slot[]> = {};
+
+  for (const staff of staffList) {
+    const [availabilities, appointments, blocks] = await Promise.all([
+      prisma.availability.findMany({ where: { salonId: salon.id, staffId: staff.id, weekday } }),
+      prisma.appointment.findMany({
+        where: {
+          salonId: salon.id,
+          staffId: staff.id,
+          status: { in: [AppointmentStatus.PENDING, AppointmentStatus.CONFIRMED] },
+          startAt: { gte: dayStart, lt: dayEnd },
+        },
+        include: { service: { select: { bufferMin: true } } },
+      }),
+      // Manually blocked slots act like occupied time with no buffer.
+      prisma.timeBlock.findMany({
+        where: {
+          salonId: salon.id,
+          staffId: staff.id,
+          startAt: { lt: dayEnd },
+          endAt: { gt: dayStart },
+        },
+      }),
+    ]);
+
+    const occupied = [
+      ...appointments.map((a) => ({
+        startAt: a.startAt,
+        endAt: a.endAt,
+        bufferMin: a.service.bufferMin,
+      })),
+      ...blocks.map((block) => ({
+        startAt: block.startAt,
+        endAt: block.endAt,
+        bufferMin: 0,
+      })),
+    ];
+
+    const slots: Slot[] = [];
+    for (const avail of availabilities) {
+      slots.push(
+        ...generateSlots({
+          date,
+          timezone: salon.timezone,
+          startTime: avail.startTime,
+          endTime: avail.endTime,
+          breakStart: avail.breakStart,
+          breakEnd: avail.breakEnd,
+          durationMin: service.durationMin,
+          bufferMin: service.bufferMin,
+          occupied,
+        }),
+      );
+    }
+
+    result[staff.id] = slots;
+  }
+
+  return result;
+}
 
 export async function publicRoutes(app: FastifyInstance): Promise<void> {
   // GET /public/salons — list/search salons (optional city + type filter).
@@ -123,93 +240,54 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
       return reply.code(400).send({ error: "serviceId is required" });
     }
 
-    const salon = await prisma.salon.findUnique({ where: { slug: request.params.slug } });
-    if (!salon) {
-      return reply.code(404).send({ error: "Salon not found" });
+    const context = await availabilityContext(
+      request.params.slug,
+      query.data.serviceId,
+      query.data.staffId,
+    );
+    if ("error" in context) {
+      return reply.code(context.status).send({ error: context.error });
     }
+    const { salon, service, staffList } = context;
 
-    const service = await prisma.service.findFirst({
-      where: { id: query.data.serviceId, salonId: salon.id, active: true },
-      include: { staff: { select: { id: true } } },
-    });
-    if (!service) {
-      return reply.code(400).send({ error: "Service not available" });
-    }
+    const slots = await slotsForDate(salon, service, staffList, query.data.date);
+    return { date: query.data.date, timezone: salon.timezone, slots };
+  });
 
-    // A service assigned to nobody is open to the whole team.
-    const assigned = service.staff.map((member) => member.id);
-    const canPerform = (staffId: string) => assigned.length === 0 || assigned.includes(staffId);
-
-    const staffList = (
-      query.data.staffId
-        ? await prisma.staff.findMany({
-            where: { id: query.data.staffId, salonId: salon.id, active: true },
-          })
-        : await prisma.staff.findMany({ where: { salonId: salon.id, active: true } })
-    ).filter((member) => canPerform(member.id));
-
-    const { start: dayStart, end: dayEnd } = dayRangeUtc(query.data.date, salon.timezone);
-    const weekday = weekdayOfDate(query.data.date);
-
-    const result: Record<string, Slot[]> = {};
-    for (const staff of staffList) {
-      const [availabilities, appointments, blocks] = await Promise.all([
-        prisma.availability.findMany({ where: { salonId: salon.id, staffId: staff.id, weekday } }),
-        prisma.appointment.findMany({
-          where: {
-            salonId: salon.id,
-            staffId: staff.id,
-            status: { in: [AppointmentStatus.PENDING, AppointmentStatus.CONFIRMED] },
-            startAt: { gte: dayStart, lt: dayEnd },
-          },
-          include: { service: { select: { bufferMin: true } } },
-        }),
-        // Manually blocked slots act like occupied time with no buffer.
-        prisma.timeBlock.findMany({
-          where: {
-            salonId: salon.id,
-            staffId: staff.id,
-            startAt: { lt: dayEnd },
-            endAt: { gt: dayStart },
-          },
-        }),
-      ]);
-
-      const occupied = [
-        ...appointments.map((a) => ({
-          startAt: a.startAt,
-          endAt: a.endAt,
-          bufferMin: a.service.bufferMin,
-        })),
-        ...blocks.map((block) => ({
-          startAt: block.startAt,
-          endAt: block.endAt,
-          bufferMin: 0,
-        })),
-      ];
-
-      const slots: Slot[] = [];
-      for (const avail of availabilities) {
-        slots.push(
-          ...generateSlots({
-            date: query.data.date,
-            timezone: salon.timezone,
-            startTime: avail.startTime,
-            endTime: avail.endTime,
-            breakStart: avail.breakStart,
-            breakEnd: avail.breakEnd,
-            durationMin: service.durationMin,
-            bufferMin: service.bufferMin,
-            occupied,
-          }),
-        );
+  // GET /public/salons/:slug/availability/range — a week of slots in one call.
+  app.get<{ Params: { slug: string } }>(
+    "/salons/:slug/availability/range",
+    async (request, reply) => {
+      const query = availabilityRangeSchema.safeParse(request.query);
+      if (!query.success) {
+        return reply.code(400).send({ error: "Invalid query", details: query.error.issues });
       }
 
-      result[staff.id] = slots;
-    }
+      const context = await availabilityContext(
+        request.params.slug,
+        query.data.serviceId,
+        query.data.staffId,
+      );
+      if ("error" in context) {
+        return reply.code(context.status).send({ error: context.error });
+      }
+      const { salon, service, staffList } = context;
 
-    return { date: query.data.date, timezone: salon.timezone, slots: result };
-  });
+      const slots: Record<string, Record<string, Slot[]>> = {};
+      const start = parseISO(query.data.from);
+      for (let index = 0; index < query.data.days; index += 1) {
+        const date = format(addDays(start, index), "yyyy-MM-dd");
+        slots[date] = await slotsForDate(salon, service, staffList, date);
+      }
+
+      return {
+        from: query.data.from,
+        days: query.data.days,
+        timezone: salon.timezone,
+        slots,
+      };
+    },
+  );
 
   // POST /public/salons/:slug/appointments — create an appointment.
   app.post<{ Params: { slug: string } }>("/salons/:slug/appointments", async (request, reply) => {

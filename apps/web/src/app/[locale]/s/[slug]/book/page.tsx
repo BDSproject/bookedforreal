@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
@@ -9,15 +9,28 @@ import { Button, Card, CardContent, Input, Label } from "@bookedforreal/ui";
 import { apiFetch } from "@/lib/api-client";
 import type { Salon, Service } from "@/lib/api-types";
 import { groupServices } from "@/lib/service-groups";
+import { isoDate } from "@/lib/week";
 
 type Step = "service" | "datetime" | "contact";
 
 interface Slot {
+  /** Calendar date the slot belongs to, `YYYY-MM-DD`. */
+  date: string;
   time: string;
   startAt: string;
-  /** Staff who can take this slot — resolved when the client has no preference. */
+  /** The hairdresser free at that time — resolved when the client has no preference. */
   staffId: string;
 }
+
+interface Range {
+  from: string;
+  days: number;
+  timezone: string;
+  slots: Record<string, Record<string, { time: string; startAt: string }[]>>;
+}
+
+/** How many days of availability to offer in one go. */
+const RANGE_DAYS = 14;
 
 export default function BookPage() {
   const params = useParams<{ slug: string }>();
@@ -27,16 +40,16 @@ export default function BookPage() {
   const [step, setStep] = useState<Step>("service");
   const [salon, setSalon] = useState<Salon | null>(null);
   const [service, setService] = useState<Service | null>(null);
-  const [date, setDate] = useState("");
-  const [slots, setSlots] = useState<Slot[]>([]);
-  const [slot, setSlot] = useState<Slot | null>(null);
   /** "" means "anyone"; otherwise the id of the chosen hairdresser. */
   const [staffChoice, setStaffChoice] = useState("");
+  const [range, setRange] = useState<Range | null>(null);
+  const [selected, setSelected] = useState<Slot | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadingSlots, setLoadingSlots] = useState(false);
 
   useEffect(() => {
     apiFetch<Salon>(`/public/salons/${params.slug}`)
@@ -44,56 +57,85 @@ export default function BookPage() {
       .catch(() => setError("error"));
   }, [params.slug]);
 
-  /**
-   * Loads the free slots of the day. Without a preference the API returns them
-   * per staff member, so they are merged and each slot remembers who can take it.
-   */
-  async function loadSlots(selectedDate: string, chosenStaff = staffChoice) {
-    if (!service) return;
-    const qs = `date=${selectedDate}&serviceId=${service.id}${chosenStaff ? `&staffId=${chosenStaff}` : ""}`;
-    const data = await apiFetch<{ slots: Record<string, { time: string; startAt: string }[]> }>(
-      `/public/salons/${params.slug}/availability?${qs}`,
-    );
-
-    const merged = new Map<string, Slot>();
-    for (const [staffId, staffSlots] of Object.entries(data.slots)) {
-      for (const item of staffSlots) {
-        if (!merged.has(item.startAt)) {
-          merged.set(item.startAt, { ...item, staffId });
-        }
-      }
-    }
-
-    setSlots([...merged.values()].sort((a, b) => a.startAt.localeCompare(b.startAt)));
-  }
-
-  async function confirm() {
-    if (!service || !slot || !salon) return;
-    try {
-      // The slot already knows who is free at that time.
-      const staffId = staffChoice || slot.staffId;
-      await apiFetch(`/public/salons/${salon.slug}/appointments`, {
-        method: "POST",
-        body: JSON.stringify({
-          serviceId: service.id,
-          staffId,
-          name,
-          phone,
-          email,
-          startAt: slot.startAt,
-        }),
-      });
-      setDone(true);
-    } catch {
-      setError("error");
-    }
-  }
-
   // A service assigned to nobody is open to the whole team.
   const assigned = service?.staff?.map((member) => member.id) ?? [];
   const eligibleStaff = (salon?.staff ?? []).filter(
     (member) => assigned.length === 0 || assigned.includes(member.id),
   );
+
+  // Reload the coming two weeks of slots whenever the service or the choice changes.
+  useEffect(() => {
+    if (!service || !salon) return;
+    let active = true;
+    setLoadingSlots(true);
+    const from = isoDate(new Date());
+    const qs = `serviceId=${service.id}&from=${from}&days=${RANGE_DAYS}${
+      staffChoice ? `&staffId=${staffChoice}` : ""
+    }`;
+    apiFetch<Range>(`/public/salons/${params.slug}/availability/range?${qs}`)
+      .then((data) => {
+        if (active) setRange(data);
+      })
+      .catch(() => {
+        if (active) setError("error");
+      })
+      .finally(() => {
+        if (active) setLoadingSlots(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [service, staffChoice, salon, params.slug]);
+
+  // Flatten the range into days, each with its merged slot chips.
+  const days = useMemo(() => {
+    if (!range) return [];
+    return Object.entries(range.slots)
+      .map(([date, byStaff]) => {
+        const merged = new Map<string, Slot>();
+        for (const [staffId, slots] of Object.entries(byStaff)) {
+          for (const slot of slots) {
+            if (!merged.has(slot.startAt)) {
+              merged.set(slot.startAt, { ...slot, date, staffId });
+            }
+          }
+        }
+        return {
+          date,
+          slots: [...merged.values()].sort((a, b) => a.startAt.localeCompare(b.startAt)),
+        };
+      })
+      .filter((day) => day.slots.length > 0);
+  }, [range]);
+
+  /** "lun. 12 oct." in the salon's language. */
+  function dayLabel(date: string): string {
+    return new Date(`${date}T00:00:00`).toLocaleDateString(undefined, {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+    });
+  }
+
+  async function confirm() {
+    if (!service || !selected || !salon) return;
+    try {
+      await apiFetch(`/public/salons/${salon.slug}/appointments`, {
+        method: "POST",
+        body: JSON.stringify({
+          serviceId: service.id,
+          staffId: staffChoice || selected.staffId,
+          name,
+          phone,
+          email,
+          startAt: selected.startAt,
+        }),
+      });
+      setDone(true);
+    } catch {
+      setError("slotTaken");
+    }
+  }
 
   if (done) {
     return (
@@ -105,7 +147,6 @@ export default function BookPage() {
     );
   }
 
-  // The salon's trial ended without a subscription: booking is closed.
   if (salon && salon.bookingEnabled === false) {
     return (
       <main className="mx-auto max-w-md px-4 py-16 text-center">
@@ -138,9 +179,8 @@ export default function BookPage() {
                             type="button"
                             onClick={() => {
                               setService(item);
-                              // Reset the preference: the next service may be done by someone else.
                               setStaffChoice("");
-                              setSlots([]);
+                              setSelected(null);
                               setStep("datetime");
                             }}
                             className="flex w-full items-center justify-between gap-4 p-6 text-left"
@@ -166,7 +206,7 @@ export default function BookPage() {
       ) : null}
 
       {step === "datetime" ? (
-        <div className="mt-6 space-y-4">
+        <div className="mt-6 space-y-5">
           {/* Only offered when the service is done by more than one person. */}
           {eligibleStaff.length > 1 ? (
             <fieldset className="space-y-2">
@@ -179,8 +219,7 @@ export default function BookPage() {
                     aria-pressed={staffChoice === member.id}
                     onClick={() => {
                       setStaffChoice(member.id);
-                      setSlot(null);
-                      if (date) void loadSlots(date, member.id);
+                      setSelected(null);
                     }}
                     className={`rounded-lg px-4 py-2 text-sm ${
                       staffChoice === member.id ? "bg-primary text-white" : "border"
@@ -193,39 +232,43 @@ export default function BookPage() {
             </fieldset>
           ) : null}
 
-          <div className="space-y-2">
-            <Label htmlFor="booking-date">{t("date")}</Label>
-            <Input
-              id="booking-date"
-              type="date"
-              value={date}
-              onChange={(e) => {
-                setDate(e.target.value);
-                void loadSlots(e.target.value);
-              }}
-            />
-          </div>
-          <fieldset className="space-y-2">
-            <legend className="text-sm font-medium">{t("time")}</legend>
-            <div className="flex flex-wrap gap-2">
-              {slots.map((item) => (
-                <button
-                  key={item.startAt}
-                  type="button"
-                  aria-pressed={slot?.startAt === item.startAt}
-                  onClick={() => {
-                    setSlot(item);
-                    setStep("contact");
-                  }}
-                  className={`rounded-lg px-4 py-2 text-sm ${
-                    slot?.startAt === item.startAt ? "bg-primary text-white" : "border"
-                  }`}
-                >
-                  {item.time}
-                </button>
+          <p className="text-sm font-medium">{t("pickSlot")}</p>
+
+          {loadingSlots ? (
+            <p className="text-muted-foreground">…</p>
+          ) : days.length === 0 ? (
+            <p className="text-muted-foreground rounded-xl border border-dashed p-6 text-center text-sm">
+              {t("noSlots")}
+            </p>
+          ) : (
+            <div className="space-y-4">
+              {days.map((day) => (
+                <div key={day.date}>
+                  <p className="text-muted-foreground text-xs font-bold uppercase tracking-wide">
+                    {dayLabel(day.date)}
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {day.slots.map((slot) => (
+                      <button
+                        key={slot.startAt}
+                        type="button"
+                        aria-pressed={selected?.startAt === slot.startAt}
+                        onClick={() => {
+                          setSelected(slot);
+                          setStep("contact");
+                        }}
+                        className={`rounded-lg px-4 py-2 text-sm ${
+                          selected?.startAt === slot.startAt ? "bg-primary text-white" : "border"
+                        }`}
+                      >
+                        {slot.time}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
-          </fieldset>
+          )}
         </div>
       ) : null}
 
@@ -237,6 +280,11 @@ export default function BookPage() {
             void confirm();
           }}
         >
+          <div className="text-muted-foreground rounded-lg border p-3 text-sm">
+            <span className="font-semibold">{service?.nameFr}</span>
+            {selected ? ` · ${dayLabel(selected.date)} ${selected.time}` : ""}
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="booking-name">{t("contact.name")}</Label>
             <Input
