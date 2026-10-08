@@ -21,7 +21,8 @@
     "db:generate": "pnpm --filter @bookedforreal/db run generate",
     "db:migrate": "pnpm --filter @bookedforreal/db run migrate",
     "db:seed": "pnpm --filter @bookedforreal/db run seed",
-    "db:studio": "pnpm --filter @bookedforreal/db run studio"
+    "db:studio": "pnpm --filter @bookedforreal/db run studio",
+    "stripe:setup": "node scripts/setup-stripe.mjs"
   },
   "devDependencies": {
     "prettier": "^3.3.3",
