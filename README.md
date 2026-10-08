@@ -6,6 +6,9 @@ multi-tenant dashboard — on web and mobile.
 
 - **UI**: ultra-simple, large buttons, accessible to everyone.
 - **i18n**: French (default) and English.
+- **Catalogue**: services grouped into price-list categories and assignable to specific
+  staff (a service with nobody assigned is open to the whole team), with a per-hairdresser
+  report of bookings and revenue.
 - **SEO-first**: SSR/SSG, translated metadata, structured data (JSON-LD), `sitemap.xml`,
   `robots.txt` and a 48-city local-SEO directory.
 - **Billing**: Stripe subscriptions with a 7-day trial, a pay-as-you-go plan, two
@@ -199,8 +202,9 @@ Login/register are rate-limited (5 attempts / 15 min). `requireAuth` / `requireR
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
-| CRUD | `/staff`, `/services`, `/availability`, `/appointments`, `/clients` | Tenant-scoped management |
+| CRUD | `/staff`, `/services`, `/availability`, `/appointments`, `/clients`, `/service-categories` | Tenant-scoped management |
 | GET | `/stats/dashboard` | Dashboard metrics |
+| GET | `/stats/staff?from=&to=` | Per-hairdresser bookings and revenue |
 
 ## Billing (Stripe)
 

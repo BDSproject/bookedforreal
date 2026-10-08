@@ -37,6 +37,8 @@ const publicSalonSelect = {
       durationMin: true,
       priceCents: true,
       bufferMin: true,
+      category: { select: { id: true, name: true, order: true } },
+      staff: { select: { id: true } },
     },
   },
   staff: { where: { active: true }, select: { id: true, name: true, photoUrl: true, order: true } },
@@ -128,16 +130,23 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
 
     const service = await prisma.service.findFirst({
       where: { id: query.data.serviceId, salonId: salon.id, active: true },
+      include: { staff: { select: { id: true } } },
     });
     if (!service) {
       return reply.code(400).send({ error: "Service not available" });
     }
 
-    const staffList = query.data.staffId
-      ? await prisma.staff.findMany({
-          where: { id: query.data.staffId, salonId: salon.id, active: true },
-        })
-      : await prisma.staff.findMany({ where: { salonId: salon.id, active: true } });
+    // A service assigned to nobody is open to the whole team.
+    const assigned = service.staff.map((member) => member.id);
+    const canPerform = (staffId: string) => assigned.length === 0 || assigned.includes(staffId);
+
+    const staffList = (
+      query.data.staffId
+        ? await prisma.staff.findMany({
+            where: { id: query.data.staffId, salonId: salon.id, active: true },
+          })
+        : await prisma.staff.findMany({ where: { salonId: salon.id, active: true } })
+    ).filter((member) => canPerform(member.id));
 
     const { start: dayStart, end: dayEnd } = dayRangeUtc(query.data.date, salon.timezone);
     const weekday = weekdayOfDate(query.data.date);
@@ -227,6 +236,16 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
     });
     if (!staff) {
       return reply.code(400).send({ error: "Staff not available" });
+    }
+
+    // The slot list already hides them, but the API must not trust the client.
+    const assignees = await prisma.service.findUnique({
+      where: { id: service.id },
+      select: { staff: { select: { id: true } } },
+    });
+    const assigned = assignees?.staff.map((member) => member.id) ?? [];
+    if (assigned.length > 0 && !assigned.includes(staff.id)) {
+      return reply.code(400).send({ error: "Staff cannot perform this service" });
     }
 
     const client = await findOrCreateClient(

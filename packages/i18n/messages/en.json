@@ -315,11 +315,12 @@
     },
     "service": {
       "label": "Choose a service",
-      "placeholder": "Select a service"
+      "placeholder": "Select a service",
+      "other": "Other services"
     },
     "staff": {
       "label": "Choose a staff member",
-      "any": "Any available"
+      "any": "Anyone"
     },
     "date": "Date",
     "time": "Time",
@@ -355,21 +356,6 @@
       "availability": "Opening hours",
       "guide": "Setup guide"
     },
-    "stats": {
-      "today": "Today",
-      "upcoming": "Upcoming",
-      "clients": "Clients",
-      "services": "Services",
-      "staff": "Staff"
-    },
-    "appointments": {
-      "title": "Appointments",
-      "empty": "No appointments yet"
-    },
-    "clients": {
-      "title": "Clients",
-      "empty": "No clients yet"
-    },
     "trial": {
       "daysLeft": "Free trial: {days} days left",
       "expiredTitle": "Your free trial has ended",
@@ -398,6 +384,26 @@
         "testNoPhone": "Add a phone number to the salon first"
       }
     },
+    "stats": {
+      "today": "Today",
+      "upcoming": "Upcoming",
+      "clients": "Clients",
+      "services": "Services",
+      "staff": "Staff"
+    },
+    "teamStats": {
+      "title": "Per hairdresser",
+      "subtitle": "What each person did over the period",
+      "staff": "Hairdresser",
+      "bookings": "Bookings",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "noShow": "No-shows",
+      "upcoming": "Upcoming",
+      "revenue": "Revenue",
+      "total": "Total",
+      "empty": "No appointment over this period"
+    },
     "common": {
       "add": "Add",
       "save": "Save",
@@ -418,7 +424,20 @@
       "price": "Price (€)",
       "buffer": "Clean-up time afterwards (minutes)",
       "empty": "No service yet. Add one so your clients can start booking",
-      "inactive": "Disabled"
+      "inactive": "Disabled",
+      "categories": "Categories",
+      "categoriesHint": "Group your price list into sections: Cuts, Colouring, Beard…",
+      "addCategory": "Add a category",
+      "categoryPlaceholder": "Category name",
+      "categoryExists": "This category already exists",
+      "categoryDeletedHint": "Removing a category deletes no service: they simply become ungrouped",
+      "noCategory": "Ungrouped",
+      "category": "Category",
+      "noCategoryOption": "None",
+      "assignedStaff": "Who can perform it?",
+      "assignedStaffHint": "Tick nobody to let the whole team do it",
+      "allStaff": "Whole team",
+      "team": "Team"
     },
     "staff": {
       "title": "Team",
@@ -452,6 +471,14 @@
         "5": "Friday",
         "6": "Saturday"
       }
+    },
+    "appointments": {
+      "title": "Appointments",
+      "empty": "No appointments yet"
+    },
+    "clients": {
+      "title": "Clients",
+      "empty": "No clients yet"
     }
   },
   "seo": {

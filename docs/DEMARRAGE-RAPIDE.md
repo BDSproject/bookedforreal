@@ -15,7 +15,7 @@ Les écrans sont dans cet ordre dans la barre latérale du tableau de bord.
 | # | Écran | Durée | Ce qu'il remplit |
 | - | ----- | ----- | ---------------- |
 | 1 | Inscription | 1 min | Email, mot de passe, nom du salon |
-| 2 | **Prestations** | 3 min | Nom FR/EN, durée, tarif, temps de nettoyage |
+| 2 | **Prestations** | 3 min | Nom FR/EN, durée, tarif, **catégorie**, équipe qui peut la faire |
 | 3 | **Équipe** | 1 min | Un prénom par personne qui prend des rendez-vous |
 | 4 | **Horaires** | 2 min | Plages par personne, avec pause déjeuner |
 | 5 | **Réglages** | 1 min | Téléphone du salon + « Recevoir un message de test » |
@@ -25,6 +25,9 @@ Les écrans sont dans cet ordre dans la barre latérale du tableau de bord.
 
 - **Un jour sans plage n'est pas réservable.** C'est le mécanisme normal pour fermer le dimanche
   et le lundi, pas un bug.
+- **Une prestation sans équipe cochée est ouverte à toute l'équipe.** Cochez des personnes
+  uniquement quand une prestation leur est réservée (par exemple la coloration à un seul
+  coiffeur).
 - **L'ordre compte.** Sans prestation il n'y a rien à réserver ; sans horaire il n'y a aucun
   créneau. Si le lien de réservation affiche « aucune disponibilité », c'est presque toujours
   une de ces deux étapes.

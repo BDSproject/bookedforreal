@@ -315,11 +315,12 @@
     },
     "service": {
       "label": "Choisissez un service",
-      "placeholder": "Sélectionnez un service"
+      "placeholder": "Sélectionnez un service",
+      "other": "Autres prestations"
     },
     "staff": {
       "label": "Choisissez un membre du personnel",
-      "any": "Premier disponible"
+      "any": "Peu importe"
     },
     "date": "Date",
     "time": "Heure",
@@ -355,21 +356,6 @@
       "availability": "Horaires",
       "guide": "Guide de démarrage"
     },
-    "stats": {
-      "today": "Aujourd'hui",
-      "upcoming": "À venir",
-      "clients": "Clients",
-      "services": "Services",
-      "staff": "Personnel"
-    },
-    "appointments": {
-      "title": "Rendez-vous",
-      "empty": "Aucun rendez-vous pour le moment"
-    },
-    "clients": {
-      "title": "Clients",
-      "empty": "Aucun client pour le moment"
-    },
     "trial": {
       "daysLeft": "Essai gratuit : il vous reste {days} jours",
       "expiredTitle": "Votre essai gratuit est terminé",
@@ -398,6 +384,26 @@
         "testNoPhone": "Ajoutez un numéro de téléphone au salon"
       }
     },
+    "stats": {
+      "today": "Aujourd'hui",
+      "upcoming": "À venir",
+      "clients": "Clients",
+      "services": "Services",
+      "staff": "Personnel"
+    },
+    "teamStats": {
+      "title": "Par coiffeur",
+      "subtitle": "Ce que chaque personne a réalisé sur la période",
+      "staff": "Coiffeur",
+      "bookings": "Rendez-vous",
+      "completed": "Terminés",
+      "cancelled": "Annulés",
+      "noShow": "Absences",
+      "upcoming": "À venir",
+      "revenue": "Chiffre réalisé",
+      "total": "Total",
+      "empty": "Aucun rendez-vous sur cette période"
+    },
     "common": {
       "add": "Ajouter",
       "save": "Enregistrer",
@@ -418,7 +424,20 @@
       "price": "Tarif (€)",
       "buffer": "Temps de nettoyage après (minutes)",
       "empty": "Aucune prestation pour l'instant. Ajoutez-en une pour que vos clients puissent réserver",
-      "inactive": "Désactivée"
+      "inactive": "Désactivée",
+      "categories": "Catégories",
+      "categoriesHint": "Rangez votre tarif en sections : Coupes, Colorations, Barbe…",
+      "addCategory": "Ajouter une catégorie",
+      "categoryPlaceholder": "Nom de la catégorie",
+      "categoryExists": "Cette catégorie existe déjà",
+      "categoryDeletedHint": "Retirer une catégorie ne supprime aucune prestation : elles redeviennent simplement non classées",
+      "noCategory": "Non classées",
+      "category": "Catégorie",
+      "noCategoryOption": "Aucune",
+      "assignedStaff": "Qui peut la faire ?",
+      "assignedStaffHint": "Ne cochez personne pour que toute l'équipe puisse la faire",
+      "allStaff": "Toute l'équipe",
+      "team": "Équipe"
     },
     "staff": {
       "title": "Équipe",
@@ -452,6 +471,14 @@
         "5": "Vendredi",
         "6": "Samedi"
       }
+    },
+    "appointments": {
+      "title": "Rendez-vous",
+      "empty": "Aucun rendez-vous pour le moment"
+    },
+    "clients": {
+      "title": "Clients",
+      "empty": "Aucun client pour le moment"
     }
   },
   "seo": {

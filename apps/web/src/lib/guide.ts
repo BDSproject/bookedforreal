@@ -57,8 +57,10 @@ export const GUIDE: Record<AppLocale, GuideContent> = {
       {
         title: "Ajoutez vos prestations",
         duration: "3 min",
-        body: "Dans Prestations, ajoutez ce que vos clients peuvent réserver : nom, durée et tarif. Le temps de nettoyage est le délai dont vous avez besoin entre deux rendez-vous pour ranger le poste.",
+        body: "Dans Prestations, ajoutez ce que vos clients peuvent réserver : nom, durée, tarif et catégorie. Rangez votre tarif en sections (Coupes, Colorations, Barbe…) et cochez qui peut faire chaque prestation.",
         tips: [
+          "Créez vos catégories d'abord : le tarif s'affiche en sections sur votre mini-site",
+          "Ne cochez personne sur une prestation pour que toute l'équipe puisse la faire",
           "Comptez large sur la durée : un créneau trop court vous met en retard toute la journée",
         ],
       },
@@ -126,8 +128,12 @@ export const GUIDE: Record<AppLocale, GuideContent> = {
       {
         title: "Add your services",
         duration: "3 min",
-        body: "In Services, add what your clients can book: name, duration and price. The clean-up time is the gap you need between two appointments to reset your station.",
-        tips: ["Round the duration up: a slot that is too short puts you behind all day"],
+        body: "In Services, add what your clients can book: name, duration, price and category. Group your price list into sections (Cuts, Colouring, Beard…) and tick who can perform each service.",
+        tips: [
+          "Create your categories first: the price list renders in sections on your mini-site",
+          "Tick nobody on a service to let the whole team do it",
+          "Round the duration up: a slot that is too short puts you behind all day",
+        ],
       },
       {
         title: "Add your team",

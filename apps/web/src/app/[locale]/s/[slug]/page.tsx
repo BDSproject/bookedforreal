@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/json-ld";
 import { isLocale, type AppLocale } from "@/i18n/routing";
 import { breadcrumbJsonLd, salonJsonLd } from "@/lib/jsonld";
 import { buildMetadata, siteUrl } from "@/lib/seo";
+import { groupServices } from "@/lib/service-groups";
 import { hasAccess } from "@/lib/trial";
 
 interface SalonPageProps {
@@ -50,7 +51,11 @@ export default async function SalonPage({ params }: SalonPageProps) {
   const salon = await prisma.salon.findUnique({
     where: { slug },
     include: {
-      services: { where: { active: true } },
+      services: {
+        where: { active: true },
+        include: { category: true },
+        orderBy: [{ category: { order: "asc" } }, { nameFr: "asc" }],
+      },
       staff: { where: { active: true } },
       availabilities: true,
       reviews: true,
@@ -99,21 +104,30 @@ export default async function SalonPage({ params }: SalonPageProps) {
         <h2 id="services-heading" className="text-xl font-semibold">
           {t("service.label")}
         </h2>
-        <ul className="mt-4 space-y-3">
-          {salon.services.map((service) => (
-            <li
-              key={service.id}
-              className="flex items-center justify-between rounded-xl border p-4"
-            >
-              <span className="font-medium">
-                {locale === "fr" ? service.nameFr : service.nameEn}
-              </span>
-              <span className="text-muted-foreground text-sm">
-                {service.durationMin} min · {(service.priceCents / 100).toFixed(2)} €
-              </span>
-            </li>
-          ))}
-        </ul>
+
+        {/* Grouped into price-list sections; `groupServices` keeps them in order. */}
+        {groupServices(salon.services).map((group) => (
+          <div key={group.category?.id ?? "ungrouped"} className="mt-6">
+            <h3 className="text-muted-foreground text-xs font-bold uppercase tracking-wide">
+              {group.category?.name ?? t("service.other")}
+            </h3>
+            <ul className="mt-3 space-y-3">
+              {group.services.map((service) => (
+                <li
+                  key={service.id}
+                  className="flex items-center justify-between rounded-xl border p-4"
+                >
+                  <span className="font-medium">
+                    {locale === "fr" ? service.nameFr : service.nameEn}
+                  </span>
+                  <span className="text-muted-foreground text-sm">
+                    {service.durationMin} min · {(service.priceCents / 100).toFixed(2)} €
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </section>
 
       <section className="mt-10" aria-labelledby="staff-heading">

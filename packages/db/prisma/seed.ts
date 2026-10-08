@@ -26,6 +26,11 @@ const DEMO_SALONS = [
       { id: "paris-staff-1", name: "Alex Martin" },
       { id: "paris-staff-2", name: "Sam Dubois" },
     ],
+    categories: [
+      { id: "paris-cat-cuts", name: "Coupes", order: 0 },
+      { id: "paris-cat-beard", name: "Barbe", order: 1 },
+      { id: "paris-cat-color", name: "Colorations", order: 2 },
+    ],
     services: [
       {
         id: "paris-haircut",
@@ -34,6 +39,7 @@ const DEMO_SALONS = [
         durationMin: 30,
         priceCents: 2500,
         bufferMin: 5,
+        categoryId: "paris-cat-cuts",
       },
       {
         id: "paris-beard",
@@ -42,6 +48,9 @@ const DEMO_SALONS = [
         durationMin: 20,
         priceCents: 1800,
         bufferMin: 5,
+        categoryId: "paris-cat-beard",
+        // Only Alex shaves: the public form will not offer Sam on this one.
+        staffIds: ["paris-staff-1"],
       },
       {
         id: "paris-color",
@@ -50,6 +59,8 @@ const DEMO_SALONS = [
         durationMin: 60,
         priceCents: 6000,
         bufferMin: 10,
+        categoryId: "paris-cat-color",
+        staffIds: ["paris-staff-2"],
       },
     ],
   },
@@ -63,6 +74,10 @@ const DEMO_SALONS = [
     phone: "+33472890002",
     ownerEmail: "owner-lyon@demo.local",
     staff: [{ id: "lyon-staff-1", name: "Camille Bernard" }],
+    categories: [
+      { id: "lyon-cat-cuts", name: "Coupes", order: 0 },
+      { id: "lyon-cat-care", name: "Soins et coiffage", order: 1 },
+    ],
     services: [
       {
         id: "lyon-haircut",
@@ -71,6 +86,7 @@ const DEMO_SALONS = [
         durationMin: 45,
         priceCents: 3800,
         bufferMin: 5,
+        categoryId: "lyon-cat-cuts",
       },
       {
         id: "lyon-brushing",
@@ -79,6 +95,7 @@ const DEMO_SALONS = [
         durationMin: 30,
         priceCents: 3000,
         bufferMin: 5,
+        categoryId: "lyon-cat-care",
       },
     ],
   },
@@ -92,6 +109,10 @@ const DEMO_SALONS = [
     phone: "+33491910003",
     ownerEmail: "owner-marseille@demo.local",
     staff: [{ id: "marseille-staff-1", name: "Karim Haddad" }],
+    categories: [
+      { id: "marseille-cat-cuts", name: "Coupes", order: 0 },
+      { id: "marseille-cat-shave", name: "Rasage", order: 1 },
+    ],
     services: [
       {
         id: "marseille-haircut",
@@ -100,6 +121,7 @@ const DEMO_SALONS = [
         durationMin: 40,
         priceCents: 3200,
         bufferMin: 5,
+        categoryId: "marseille-cat-cuts",
       },
       {
         id: "marseille-shave",
@@ -108,6 +130,7 @@ const DEMO_SALONS = [
         durationMin: 25,
         priceCents: 2200,
         bufferMin: 5,
+        categoryId: "marseille-cat-shave",
       },
     ],
   },
@@ -179,17 +202,33 @@ async function main() {
       }
     }
 
+    for (const category of salon.categories) {
+      await prisma.serviceCategory.upsert({
+        where: { id: category.id },
+        update: { name: category.name, order: category.order },
+        create: {
+          id: category.id,
+          salonId: createdSalon.id,
+          name: category.name,
+          order: category.order,
+        },
+      });
+    }
+
     for (const service of salon.services) {
+      const { staffIds, ...fields } = service;
       await prisma.service.upsert({
         where: { id: service.id },
         update: {
-          nameFr: service.nameFr,
-          nameEn: service.nameEn,
-          durationMin: service.durationMin,
-          priceCents: service.priceCents,
-          bufferMin: service.bufferMin,
+          ...fields,
+          // An empty assignment means the whole team can perform it.
+          staff: { set: (staffIds ?? []).map((id) => ({ id })) },
         },
-        create: { ...service, salonId: createdSalon.id },
+        create: {
+          ...fields,
+          salonId: createdSalon.id,
+          staff: { connect: (staffIds ?? []).map((id) => ({ id })) },
+        },
       });
     }
 

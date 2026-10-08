@@ -1,5 +1,14 @@
 /** Shared API response types (mirrors the Fastify API). */
 
+/** A section of the price list ("Coupes", "Colorations"…). */
+export interface ServiceCategory {
+  id: string;
+  name: string;
+  order: number;
+  /** Present on the dashboard list only. */
+  _count?: { services: number };
+}
+
 export interface Service {
   id: string;
   nameFr: string;
@@ -9,6 +18,10 @@ export interface Service {
   bufferMin: number;
   /** Soft delete: a removed service stays in the history with `active: false`. */
   active?: boolean;
+  categoryId?: string | null;
+  category?: ServiceCategory | null;
+  /** Staff who can perform it. Empty means the whole team. */
+  staff?: { id: string; name: string }[];
 }
 
 export interface Staff {
@@ -75,4 +88,24 @@ export interface DashboardStats {
   clients: number;
   services: number;
   staff: number;
+}
+
+/** What one hairdresser did over a period. */
+export interface StaffStats {
+  staffId: string;
+  name: string;
+  /** Appointments in the period, cancellations excluded. */
+  bookings: number;
+  completed: number;
+  cancelled: number;
+  noShow: number;
+  upcoming: number;
+  revenueCents: number;
+}
+
+export interface StaffStatsReport {
+  from: string;
+  to: string;
+  staff: StaffStats[];
+  totals: { bookings: number; completed: number; revenueCents: number };
 }

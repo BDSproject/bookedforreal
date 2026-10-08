@@ -43,6 +43,18 @@ export const listAppointmentsQuerySchema = z.object({
   status: z.enum(APPOINTMENT_STATUSES).optional(),
 });
 
+/** Period for the per-staff statistics, as `YYYY-MM-DD` calendar days. */
+export const staffStatsQuerySchema = z.object({
+  from: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
+  to: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
+});
+
 /** Availability query params (date + optional service/staff filters). */
 export const availabilityQuerySchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -54,3 +66,4 @@ export type CreateAppointmentInput = z.infer<typeof createAppointmentSchema>;
 export type CreateManualAppointmentInput = z.infer<typeof createManualAppointmentSchema>;
 export type UpdateAppointmentStatusInput = z.infer<typeof updateAppointmentStatusSchema>;
 export type AvailabilityQuery = z.infer<typeof availabilityQuerySchema>;
+export type StaffStatsQuery = z.infer<typeof staffStatsQuerySchema>;

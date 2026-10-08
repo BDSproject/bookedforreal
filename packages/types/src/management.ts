@@ -25,6 +25,14 @@ export const createStaffSchema = z.object({
 });
 export const updateStaffSchema = createStaffSchema.partial();
 
+/** A section of the price list ("Coupes", "Colorations"…). */
+export const createServiceCategorySchema = z.object({
+  name: z.string().min(1).max(60),
+  /** Display order inside the price list. */
+  order: z.number().int().nonnegative().optional(),
+});
+export const updateServiceCategorySchema = createServiceCategorySchema.partial();
+
 export const createServiceSchema = z.object({
   nameFr: z.string().min(1).max(120),
   nameEn: z.string().min(1).max(120),
@@ -32,6 +40,13 @@ export const createServiceSchema = z.object({
   priceCents: z.number().int().nonnegative().optional(),
   bufferMin: z.number().int().nonnegative().optional(),
   active: z.boolean().optional(),
+  /** Price-list section; `null` moves the service back to the ungrouped list. */
+  categoryId: z.string().min(1).nullable().optional(),
+  /**
+   * Staff who can perform it. An empty array means everyone, which is also the
+   * behaviour of every service created before this field existed.
+   */
+  staffIds: z.array(z.string().min(1)).optional(),
 });
 export const updateServiceSchema = createServiceSchema.partial();
 
@@ -60,5 +75,7 @@ export type CreateStaffInput = z.infer<typeof createStaffSchema>;
 export type UpdateStaffInput = z.infer<typeof updateStaffSchema>;
 export type CreateServiceInput = z.infer<typeof createServiceSchema>;
 export type UpdateServiceInput = z.infer<typeof updateServiceSchema>;
+export type CreateServiceCategoryInput = z.infer<typeof createServiceCategorySchema>;
+export type UpdateServiceCategoryInput = z.infer<typeof updateServiceCategorySchema>;
 export type CreateAvailabilityInput = z.infer<typeof createAvailabilitySchema>;
 export type UpdateAvailabilityInput = z.infer<typeof updateAvailabilitySchema>;
