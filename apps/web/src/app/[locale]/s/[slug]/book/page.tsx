@@ -33,6 +33,13 @@ interface Range {
 /** How many days of availability to offer in one go. */
 const RANGE_DAYS = 14;
 
+const STEP_ORDER: Step[] = ["service", "datetime", "contact"];
+
+/**
+ * The client booking flow, mobile-first:
+ * 1. pick a service → 2. pick a slot → 3. contact details, then a WhatsApp/SMS
+ * confirmation. A sticky bottom bar keeps the selection visible at all times.
+ */
 export default function BookPage() {
   const params = useParams<{ slug: string }>();
   const t = useTranslations("booking");
@@ -119,6 +126,12 @@ export default function BookPage() {
     });
   }
 
+  /** Goes back one step, preserving the choices already made. */
+  function goBack() {
+    const index = STEP_ORDER.indexOf(step);
+    if (index > 0) setStep(STEP_ORDER[index - 1] ?? "service");
+  }
+
   async function confirm() {
     if (!service || !selected || !salon) return;
     try {
@@ -168,12 +181,50 @@ export default function BookPage() {
     );
   }
 
+  const stepIndex = STEP_ORDER.indexOf(step);
+
   return (
-    <main className="mx-auto max-w-md px-4 py-16 sm:px-6">
-      <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>
+    <main className="mx-auto max-w-md px-4 pb-28 pt-6 sm:px-6">
+      {/* --- Step indicator ------------------------------------------------- */}
+      <div className="flex items-center gap-2">
+        {STEP_ORDER.map((id, index) => (
+          <div key={id} className="flex flex-1 items-center gap-2">
+            <span
+              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                index <= stepIndex ? "bg-primary text-white" : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {index + 1}
+            </span>
+            <span
+              className={`hidden text-xs font-medium sm:block ${
+                index <= stepIndex ? "text-foreground" : "text-muted-foreground"
+              }`}
+            >
+              {t(`steps.${id}`)}
+            </span>
+            {index < STEP_ORDER.length - 1 ? (
+              <span className={`h-px flex-1 ${index < stepIndex ? "bg-primary" : "bg-muted"}`} />
+            ) : null}
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-5 flex items-center justify-between">
+        <h1 className="text-xl font-bold tracking-tight">{t(`steps.${step}`)}</h1>
+        {step !== "service" ? (
+          <button
+            type="button"
+            onClick={goBack}
+            className="text-muted-foreground hover:text-foreground text-sm font-medium"
+          >
+            ← {t("back")}
+          </button>
+        ) : null}
+      </div>
 
       {step === "service" ? (
-        <div className="mt-6 space-y-6">
+        <div className="mt-5 space-y-6">
           {salon
             ? groupServices(salon.services ?? []).map((group) => (
                 <div key={group.category?.id ?? "ungrouped"}>
@@ -192,15 +243,15 @@ export default function BookPage() {
                               setSelected(null);
                               setStep("datetime");
                             }}
-                            className="flex w-full items-center justify-between gap-4 p-6 text-left"
+                            className="flex min-h-20 w-full items-center justify-between gap-4 p-5 text-left"
                           >
                             <span>
-                              <span className="block font-semibold">{item.nameFr}</span>
+                              <span className="block text-base font-semibold">{item.nameFr}</span>
                               <span className="text-muted-foreground block text-sm">
                                 {item.durationMin} min
                               </span>
                             </span>
-                            <span className="text-primary font-semibold">
+                            <span className="text-primary shrink-0 font-semibold">
                               {(item.priceCents / 100).toFixed(2)} €
                             </span>
                           </button>
@@ -215,7 +266,7 @@ export default function BookPage() {
       ) : null}
 
       {step === "datetime" ? (
-        <div className="mt-6 space-y-5">
+        <div className="mt-5 space-y-5">
           {/* Only offered when the service is done by more than one person. */}
           {eligibleStaff.length > 1 ? (
             <fieldset className="space-y-2">
@@ -230,7 +281,7 @@ export default function BookPage() {
                       setStaffChoice(member.id);
                       setSelected(null);
                     }}
-                    className={`rounded-lg px-4 py-2 text-sm ${
+                    className={`rounded-full px-4 py-2.5 text-sm ${
                       staffChoice === member.id ? "bg-primary text-white" : "border"
                     }`}
                   >
@@ -250,7 +301,7 @@ export default function BookPage() {
               {t("noSlots")}
             </p>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-5">
               {days.map((day) => (
                 <div key={day.date}>
                   <p className="text-muted-foreground text-xs font-bold uppercase tracking-wide">
@@ -266,8 +317,10 @@ export default function BookPage() {
                           setSelected(slot);
                           setStep("contact");
                         }}
-                        className={`rounded-lg px-4 py-2 text-sm ${
-                          selected?.startAt === slot.startAt ? "bg-primary text-white" : "border"
+                        className={`rounded-xl px-4 py-3 text-sm font-semibold ${
+                          selected?.startAt === slot.startAt
+                            ? "bg-primary text-white"
+                            : "bg-card border"
                         }`}
                       >
                         {slot.time}
@@ -283,17 +336,13 @@ export default function BookPage() {
 
       {step === "contact" ? (
         <form
-          className="mt-6 space-y-4"
+          id="booking-form"
+          className="mt-5 space-y-4"
           onSubmit={(e) => {
             e.preventDefault();
             void confirm();
           }}
         >
-          <div className="text-muted-foreground rounded-lg border p-3 text-sm">
-            <span className="font-semibold">{service?.nameFr}</span>
-            {selected ? ` · ${dayLabel(selected.date)} ${selected.time}` : ""}
-          </div>
-
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="booking-first">{t("contact.firstName")}</Label>
@@ -342,15 +391,47 @@ export default function BookPage() {
               {te("slotTaken")}
             </p>
           ) : null}
-          <Button
-            type="submit"
-            size="xl"
-            className="w-full"
-            disabled={!firstName || !lastName || !email}
-          >
-            {t("confirm")}
-          </Button>
         </form>
+      ) : null}
+
+      {/* --- Sticky bottom bar --------------------------------------------- */}
+      {step !== "service" ? (
+        <div className="bg-background/95 fixed inset-x-0 bottom-0 z-20 border-t px-4 py-3 backdrop-blur sm:px-6">
+          <div className="mx-auto max-w-md">
+            {step === "datetime" && service ? (
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-muted-foreground text-xs">{t("selectedService")}</p>
+                  <p className="truncate font-semibold">
+                    {service.nameFr} · {(service.priceCents / 100).toFixed(2)} €
+                  </p>
+                </div>
+                <Button variant="outline" size="sm" onClick={() => setStep("service")}>
+                  {t("change")}
+                </Button>
+              </div>
+            ) : null}
+
+            {step === "contact" && service && selected ? (
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-muted-foreground text-xs">{t("selectedService")}</p>
+                  <p className="truncate font-semibold">
+                    {service.nameFr} · {dayLabel(selected.date)} {selected.time}
+                  </p>
+                </div>
+                <Button
+                  type="submit"
+                  form="booking-form"
+                  disabled={!firstName || !lastName || !email}
+                  size="lg"
+                >
+                  {t("confirm")}
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        </div>
       ) : null}
     </main>
   );

@@ -359,7 +359,10 @@
     "closed": "Closed",
     "noSlots": "No slot available in the coming days",
     "pickSlot": "Pick a slot",
-    "break": "break"
+    "break": "break",
+    "back": "Back",
+    "change": "Change",
+    "selectedService": "Your service"
   },
   "dashboard": {
     "nav": {

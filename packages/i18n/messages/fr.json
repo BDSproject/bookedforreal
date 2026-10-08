@@ -359,7 +359,10 @@
     "closed": "Fermé",
     "noSlots": "Aucun créneau disponible sur les prochains jours",
     "pickSlot": "Choisissez un créneau",
-    "break": "pause"
+    "break": "pause",
+    "back": "Retour",
+    "change": "Modifier",
+    "selectedService": "Votre prestation"
   },
   "dashboard": {
     "nav": {
