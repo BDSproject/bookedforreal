@@ -37,6 +37,13 @@ describe("plans", () => {
     }
   });
 
+  it("reserves the WhatsApp channel to Solo and above", () => {
+    expect(PLANS.USAGE.whatsappReminders).toBe(false);
+    expect(PLANS.SOLO.whatsappReminders).toBe(true);
+    expect(PLANS.SALON.whatsappReminders).toBe(true);
+    expect(PLANS.GROUP.whatsappReminders).toBe(true);
+  });
+
   it("exposes the pay-as-you-go fee in cents (0,50 €)", () => {
     expect(USAGE_FEE_CENTS).toBe(50);
   });

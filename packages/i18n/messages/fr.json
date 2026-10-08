@@ -125,7 +125,7 @@
           "2": "Réservation en ligne 24/7",
           "3": "Aucun abonnement fixe",
           "4": "0,50 € par RDV en ligne",
-          "5": "Rappels WhatsApp/SMS (50 crédits)",
+          "5": "Rappels SMS (50 crédits)",
           "6": "Sans engagement, résiliable à tout moment"
         },
         "cta": "Créer mon compte"
@@ -142,7 +142,7 @@
           "2": "Réservation en ligne 24/7",
           "3": "80 RDV / mois",
           "4": "1 membre du personnel",
-          "5": "Rappels WhatsApp/SMS (100 crédits)",
+          "5": "Rappels WhatsApp (100 crédits)",
           "6": "Sans engagement, résiliable à tout moment"
         }
       },
@@ -157,7 +157,7 @@
           "1": "Tout Solo",
           "2": "400 RDV / mois",
           "3": "5 membres du personnel",
-          "4": "Rappels WhatsApp/SMS (400 crédits)",
+          "4": "Rappels WhatsApp (400 crédits)",
           "5": "Domaine personnalisé + app mobile",
           "6": "Sans engagement, résiliable à tout moment"
         }
@@ -223,7 +223,7 @@
         },
         "6": {
           "q": "Les rappels SMS/WhatsApp sont-ils inclus ?",
-          "a": "Oui, sur tous les plans. Les messages partent sur WhatsApp et basculent automatiquement en SMS si le client n'a pas WhatsApp : 50 crédits sur À l'usage, 100 sur Solo, 400 sur Salon et 2000 sur Groupe"
+          "a": "Oui. À partir du plan Solo, les rappels partent sur WhatsApp et basculent automatiquement en SMS si le client n'a pas WhatsApp. Le plan À l'usage envoie les rappels en SMS. 50 crédits sur À l'usage, 100 sur Solo, 400 sur Salon et 2000 sur Groupe"
         },
         "7": {
           "q": "Puis-je annuler à tout moment ?",
@@ -348,7 +348,7 @@
   "dashboard": {
     "nav": {
       "dashboard": "Tableau de bord",
-      "appointments": "Rendez-vous",
+      "appointments": "Agenda",
       "clients": "Clients",
       "services": "Services",
       "staff": "Personnel",
@@ -381,7 +381,8 @@
         "remaining": "{remaining} sur {quota} restants ce mois",
         "test": "Recevoir un message de test",
         "testSent": "Message envoyé sur WhatsApp ou SMS",
-        "testNoPhone": "Ajoutez un numéro de téléphone au salon"
+        "testNoPhone": "Ajoutez un numéro de téléphone au salon",
+        "labelSms": "Crédits SMS"
       }
     },
     "stats": {
@@ -479,6 +480,16 @@
     "clients": {
       "title": "Clients",
       "empty": "Aucun client pour le moment"
+    },
+    "calendar": {
+      "prev": "Semaine précédente",
+      "next": "Semaine suivante",
+      "today": "Aujourd'hui",
+      "blocked": "Bloqué",
+      "blockHint": "Cliquez un créneau vide pour le bloquer, cliquez un créneau bloqué pour le libérer",
+      "week": "Semaine du {date}",
+      "noStaff": "Ajoutez d'abord une personne dans Équipe",
+      "selected": "Actions"
     }
   },
   "seo": {

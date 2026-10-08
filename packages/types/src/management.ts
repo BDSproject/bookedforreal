@@ -70,6 +70,20 @@ export const createAvailabilitySchema = availabilityFields.refine(
 );
 export const updateAvailabilitySchema = availabilityFields.partial();
 
+/** A manually blocked slot on the calendar (holiday, personal appointment…). */
+const timeBlockFields = z.object({
+  staffId: z.string().min(1),
+  startAt: z.string().datetime(),
+  endAt: z.string().datetime(),
+  label: z.string().max(120).nullable().optional(),
+});
+
+export const createTimeBlockSchema = timeBlockFields.refine(
+  (value) => new Date(value.startAt) < new Date(value.endAt),
+  { message: "endAt must be after startAt", path: ["endAt"] },
+);
+export const updateTimeBlockSchema = timeBlockFields.partial();
+
 export type UpdateSalonInput = z.infer<typeof updateSalonSchema>;
 export type CreateStaffInput = z.infer<typeof createStaffSchema>;
 export type UpdateStaffInput = z.infer<typeof updateStaffSchema>;
@@ -79,3 +93,5 @@ export type CreateServiceCategoryInput = z.infer<typeof createServiceCategorySch
 export type UpdateServiceCategoryInput = z.infer<typeof updateServiceCategorySchema>;
 export type CreateAvailabilityInput = z.infer<typeof createAvailabilitySchema>;
 export type UpdateAvailabilityInput = z.infer<typeof updateAvailabilitySchema>;
+export type CreateTimeBlockInput = z.infer<typeof createTimeBlockSchema>;
+export type UpdateTimeBlockInput = z.infer<typeof updateTimeBlockSchema>;

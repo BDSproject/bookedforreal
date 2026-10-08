@@ -155,7 +155,9 @@ export default function SettingsPage() {
 
           <div className="space-y-3 rounded-xl border p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="font-semibold">{t("messaging.label")}</span>
+              <span className="font-semibold">
+                {messaging.whatsapp ? t("messaging.label") : t("messaging.labelSms")}
+              </span>
               <span className="text-muted-foreground text-sm">
                 {t("messaging.remaining", {
                   remaining: messaging.remaining,

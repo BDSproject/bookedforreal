@@ -125,7 +125,7 @@
           "2": "24/7 online booking",
           "3": "No fixed subscription",
           "4": "0,50 € per online booking",
-          "5": "WhatsApp/SMS reminders (50 credits)",
+          "5": "SMS reminders (50 credits)",
           "6": "No commitment, cancel anytime"
         },
         "cta": "Create my account"
@@ -142,7 +142,7 @@
           "2": "24/7 online booking",
           "3": "80 bookings / month",
           "4": "1 staff member",
-          "5": "WhatsApp/SMS reminders (100 credits)",
+          "5": "WhatsApp reminders (100 credits)",
           "6": "No commitment, cancel anytime"
         }
       },
@@ -157,7 +157,7 @@
           "1": "Everything in Solo",
           "2": "400 bookings / month",
           "3": "5 staff members",
-          "4": "WhatsApp/SMS reminders (400 credits)",
+          "4": "WhatsApp reminders (400 credits)",
           "5": "Custom domain + mobile app",
           "6": "No commitment, cancel anytime"
         }
@@ -223,7 +223,7 @@
         },
         "6": {
           "q": "Are SMS/WhatsApp reminders included?",
-          "a": "Yes, on every plan. Messages go out on WhatsApp and automatically fall back to SMS when the client is not on WhatsApp: 50 credits on Pay as you go, 100 on Solo, 400 on Salon and 2000 on Group"
+          "a": "Yes. From the Solo plan up, reminders go out on WhatsApp and fall back to SMS when the client is not on WhatsApp. The pay-as-you-go plan sends reminders over SMS. 50 credits on Pay as you go, 100 on Solo, 400 on Salon and 2000 on Group"
         },
         "7": {
           "q": "Can I cancel anytime?",
@@ -348,7 +348,7 @@
   "dashboard": {
     "nav": {
       "dashboard": "Dashboard",
-      "appointments": "Appointments",
+      "appointments": "Calendar",
       "clients": "Clients",
       "services": "Services",
       "staff": "Staff",
@@ -381,7 +381,8 @@
         "remaining": "{remaining} of {quota} left this month",
         "test": "Send me a test message",
         "testSent": "Message sent over WhatsApp or SMS",
-        "testNoPhone": "Add a phone number to the salon first"
+        "testNoPhone": "Add a phone number to the salon first",
+        "labelSms": "SMS credits"
       }
     },
     "stats": {
@@ -479,6 +480,16 @@
     "clients": {
       "title": "Clients",
       "empty": "No clients yet"
+    },
+    "calendar": {
+      "prev": "Previous week",
+      "next": "Next week",
+      "today": "Today",
+      "blocked": "Blocked",
+      "blockHint": "Click an empty slot to block it, click a blocked slot to free it",
+      "week": "Week of {date}",
+      "noStaff": "Add a person in Team first",
+      "selected": "Actions"
     }
   },
   "seo": {

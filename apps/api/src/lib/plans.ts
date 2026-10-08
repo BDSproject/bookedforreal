@@ -6,6 +6,8 @@ export interface PlanDefinition {
   maxStaff: number;
   /** WhatsApp/SMS messages included per month (1 credit = 1 message sent). */
   smsWhatsAppCredits: number;
+  /** WhatsApp reminders are a premium channel: reserved to Solo and above. */
+  whatsappReminders: boolean;
   customDomain: boolean;
 }
 
@@ -23,24 +25,28 @@ export const PLANS: Record<Plan, PlanDefinition> = {
     monthlyAppointments: UNLIMITED,
     maxStaff: 1,
     smsWhatsAppCredits: 50,
+    whatsappReminders: false,
     customDomain: false,
   },
   SOLO: {
     monthlyAppointments: 80,
     maxStaff: 1,
     smsWhatsAppCredits: 100,
+    whatsappReminders: true,
     customDomain: false,
   },
   SALON: {
     monthlyAppointments: 400,
     maxStaff: 5,
     smsWhatsAppCredits: 400,
+    whatsappReminders: true,
     customDomain: true,
   },
   GROUP: {
     monthlyAppointments: UNLIMITED,
     maxStaff: UNLIMITED,
     smsWhatsAppCredits: 2000,
+    whatsappReminders: true,
     customDomain: true,
   },
 };

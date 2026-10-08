@@ -153,7 +153,7 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
 
     const result: Record<string, Slot[]> = {};
     for (const staff of staffList) {
-      const [availabilities, appointments] = await Promise.all([
+      const [availabilities, appointments, blocks] = await Promise.all([
         prisma.availability.findMany({ where: { salonId: salon.id, staffId: staff.id, weekday } }),
         prisma.appointment.findMany({
           where: {
@@ -164,13 +164,29 @@ export async function publicRoutes(app: FastifyInstance): Promise<void> {
           },
           include: { service: { select: { bufferMin: true } } },
         }),
+        // Manually blocked slots act like occupied time with no buffer.
+        prisma.timeBlock.findMany({
+          where: {
+            salonId: salon.id,
+            staffId: staff.id,
+            startAt: { lt: dayEnd },
+            endAt: { gt: dayStart },
+          },
+        }),
       ]);
 
-      const occupied = appointments.map((a) => ({
-        startAt: a.startAt,
-        endAt: a.endAt,
-        bufferMin: a.service.bufferMin,
-      }));
+      const occupied = [
+        ...appointments.map((a) => ({
+          startAt: a.startAt,
+          endAt: a.endAt,
+          bufferMin: a.service.bufferMin,
+        })),
+        ...blocks.map((block) => ({
+          startAt: block.startAt,
+          endAt: block.endAt,
+          bufferMin: 0,
+        })),
+      ];
 
       const slots: Slot[] = [];
       for (const avail of availabilities) {

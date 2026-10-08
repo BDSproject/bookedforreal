@@ -61,6 +61,16 @@ export interface Appointment {
   service: Service | null;
 }
 
+/** A manually blocked slot on the calendar (holiday, personal appointment…). */
+export interface TimeBlock {
+  id: string;
+  staffId: string;
+  startAt: string;
+  endAt: string;
+  label: string | null;
+  staff?: { id: string; name: string };
+}
+
 export interface Salon {
   id: string;
   slug: string;
@@ -79,6 +89,8 @@ export interface Salon {
 export interface MessagingQuota {
   remaining: number;
   quota: number;
+  /** False on the pay-as-you-go plan, where only SMS is available. */
+  whatsapp?: boolean;
 }
 
 export interface DashboardStats {

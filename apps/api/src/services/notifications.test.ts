@@ -67,6 +67,27 @@ describe("notifications", () => {
     expect(channels).not.toContain("EMAIL");
   });
 
+  it("drops WhatsApp on the pay-as-you-go plan, keeping SMS", async () => {
+    const owner = await prisma.user.create({
+      data: { email: `usage-${unique}@test.local`, passwordHash: "x", role: "OWNER" },
+    });
+    const usageSalon = await prisma.salon.create({
+      data: {
+        slug: `usage-${unique}`,
+        ownerId: owner.id,
+        name: "Usage",
+        plan: "USAGE",
+        phone: "+33612345678",
+      },
+    });
+
+    expect(await allowedChannels(usageSalon.id, ["WHATSAPP", "SMS"])).toEqual(["SMS"]);
+    expect(await allowedChannels(usageSalon.id, ["WHATSAPP"])).toEqual([]);
+
+    await prisma.salon.delete({ where: { id: usageSalon.id } });
+    await prisma.user.delete({ where: { id: owner.id } });
+  });
+
   it("grants the messaging quota of the plan", async () => {
     expect(await remainingCredits(salonId)).toBe(100);
   });

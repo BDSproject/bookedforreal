@@ -9,6 +9,8 @@ multi-tenant dashboard — on web and mobile.
 - **Catalogue**: services grouped into price-list categories and assignable to specific
   staff (a service with nobody assigned is open to the whole team), with a per-hairdresser
   report of bookings and revenue.
+- **Agenda**: a Monday–Sunday calendar where the owner confirms, completes or cancels an
+  appointment in one click and blocks a slot (holiday, personal appointment) in another.
 - **SEO-first**: SSR/SSG, translated metadata, structured data (JSON-LD), `sitemap.xml`,
   `robots.txt` and a 48-city local-SEO directory.
 - **Billing**: Stripe subscriptions with a 7-day trial, a pay-as-you-go plan, two
@@ -202,7 +204,7 @@ Login/register are rate-limited (5 attempts / 15 min). `requireAuth` / `requireR
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
-| CRUD | `/staff`, `/services`, `/availability`, `/appointments`, `/clients`, `/service-categories` | Tenant-scoped management |
+| CRUD | `/staff`, `/services`, `/availability`, `/appointments`, `/clients`, `/service-categories`, `/time-blocks` | Tenant-scoped management |
 | GET | `/stats/dashboard` | Dashboard metrics |
 | GET | `/stats/staff?from=&to=` | Per-hairdresser bookings and revenue |
 
@@ -216,10 +218,11 @@ Login/register are rate-limited (5 attempts / 15 min). `requireAuth` / `requireR
 
 Plans (see `apps/api/src/lib/plans.ts`). Public prices are **Solo €29/mo ex VAT** and
 **Salon €59/mo ex VAT**; the first 50 salons get a **founding rate locked for life** at
-**€19 / €39**. **Usage** = no subscription, **€0,50 per booking made online**, 1 staff.
-Solo = 80 bookings/mo + 1 staff; Salon = 400 bookings/mo, 5 staff, 50 SMS/WhatsApp
-credits, custom domain and mobile app. Group = unlimited shops, quote-based. Every plan
-starts with a 7-day free trial, no credit card required.
+**€19 / €39**. **Usage** = no subscription, **€0,50 per booking made online**, 1 staff,
+SMS reminders only. Solo = 80 bookings/mo + 1 staff + WhatsApp reminders; Salon =
+400 bookings/mo, 5 staff, 400 WhatsApp/SMS credits, custom domain and mobile app. Group =
+unlimited shops, quote-based. Every plan starts with a 7-day free trial, no credit card
+required — and **WhatsApp reminders are the up-sell from the pay-as-you-go plan to Solo**.
 
 ## Notifications
 

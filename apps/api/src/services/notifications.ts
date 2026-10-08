@@ -53,11 +53,23 @@ export async function remainingCredits(salonId: string): Promise<number> {
 
 /**
  * Narrows the requested channels to what the salon may actually use.
- * Returns an empty list once the monthly credit quota is exhausted, which makes
+ *
+ * WhatsApp is a premium channel reserved to Solo and above, so the pay-as-you-go
+ * plan falls back to SMS. An empty list means the quota is exhausted, which makes
  * the caller drop the notification instead of overspending on the plan.
  */
 export async function allowedChannels(salonId: string, requested: Channel[]): Promise<Channel[]> {
-  const allowed = CHANNEL_CHAIN.filter((channel) => requested.includes(channel));
+  const salon = await prisma.salon.findUnique({ where: { id: salonId }, select: { plan: true } });
+  if (!salon) {
+    return [];
+  }
+
+  const allowed = CHANNEL_CHAIN.filter(
+    (channel) =>
+      requested.includes(channel) &&
+      // USAGE never sends WhatsApp: the premium channel is the up-sell to Solo.
+      (channel !== "WHATSAPP" || PLANS[salon.plan].whatsappReminders),
+  );
   if (allowed.length === 0) {
     return [];
   }

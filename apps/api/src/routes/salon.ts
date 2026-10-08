@@ -27,6 +27,8 @@ export async function salonRoutes(app: FastifyInstance): Promise<void> {
     const messaging = {
       remaining: await remainingCredits(request.salon!.id),
       quota: salon ? PLANS[salon.plan].smsWhatsAppCredits : 0,
+      // WhatsApp is the premium channel, reserved to Solo and above.
+      whatsapp: salon ? PLANS[salon.plan].whatsappReminders : false,
     };
     return { salon, trial, messaging };
   });

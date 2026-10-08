@@ -17,6 +17,7 @@ import { salonRoutes } from "./routes/salon";
 import { serviceCategoryRoutes } from "./routes/service-categories";
 import { serviceRoutes } from "./routes/services";
 import { staffRoutes } from "./routes/staff";
+import { timeBlockRoutes } from "./routes/time-blocks";
 import { statsRoutes } from "./routes/stats";
 
 /**
@@ -46,6 +47,7 @@ export function buildApp(): FastifyInstance {
   void app.register(publicRoutes, { prefix: "/public" });
   void app.register(salonRoutes, { prefix: "/salons" });
   void app.register(staffRoutes, { prefix: "/staff" });
+  void app.register(timeBlockRoutes, { prefix: "/time-blocks" });
   void app.register(serviceRoutes, { prefix: "/services" });
   void app.register(serviceCategoryRoutes, { prefix: "/service-categories" });
   void app.register(availabilityRoutes, { prefix: "/availability" });
