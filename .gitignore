@@ -13,6 +13,7 @@ out/
 .expo/
 build/
 .turbo/
+deploy-out/
 
 # Environment
 .env
