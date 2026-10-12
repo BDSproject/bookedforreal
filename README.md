@@ -294,6 +294,7 @@ coverage gate, then preview/production deploys (Vercel for web, EAS for mobile).
 | [`docs/STRIPE.md`](docs/STRIPE.md) | Billing setup | Prices to create, webhook, customer portal, tax |
 | [`docs/GOOGLE_OAUTH.md`](docs/GOOGLE_OAUTH.md) | Client login | Google OAuth client for "Sign in with Google" |
 | [`docs/NOTIFICATIONS.md`](docs/NOTIFICATIONS.md) | Messaging setup | WhatsApp + SMS via Twilio or Telnyx, templates, troubleshooting |
+| [`docs/MARGES.md`](docs/MARGES.md) | Business | Unit economics per plan, break-even, sensitivity |
 | `/{locale}/guide` | The shop owner | The same guide, published in the app |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Ops | Hosting, environment, migrations |
 | [`docs/SEO.md`](docs/SEO.md) | Marketing | Technical SEO decisions |
