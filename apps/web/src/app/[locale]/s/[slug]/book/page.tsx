@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { Button, Card, CardContent, Input, Label } from "@bookedforreal/ui";
 
+import { WhatsappInstallLink } from "@/components/whatsapp-install-link";
 import { Link } from "@/i18n/navigation";
 import { apiFetch } from "@/lib/api-client";
 import type { Salon, Service } from "@/lib/api-types";
@@ -159,6 +160,17 @@ export default function BookPage() {
         <p className="text-3xl">✅</p>
         <h1 className="mt-4 text-2xl font-bold">{t("confirmation.title")}</h1>
         <p className="text-muted-foreground mt-2">{t("confirmation.subtitle")}</p>
+
+        {/* Reminders go out on WhatsApp first: nudging the client to install it
+            avoids the (more expensive) SMS fallback for the J-1 reminder. */}
+        <div className="bg-card mt-8 rounded-2xl border p-5">
+          <p className="text-muted-foreground text-sm">{t("confirmation.whatsappHint")}</p>
+          <WhatsappInstallLink className="text-primary mt-3 inline-flex items-center gap-2 font-semibold underline-offset-4 hover:underline">
+            <span aria-hidden>💬</span>
+            {t("confirmation.whatsappCta")}
+          </WhatsappInstallLink>
+        </div>
+
         <Link
           href="/client/login"
           className="text-primary mt-6 inline-block text-sm font-semibold underline-offset-4 hover:underline"

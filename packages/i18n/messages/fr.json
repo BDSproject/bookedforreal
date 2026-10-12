@@ -344,7 +344,9 @@
     "confirmation": {
       "title": "Rendez-vous confirmé !",
       "subtitle": "Un email vient de vous être envoyé pour confirmer votre réservation",
-      "track": "Retrouvez mes rendez-vous"
+      "track": "Retrouvez mes rendez-vous",
+      "whatsappHint": "Vos rappels partent sur WhatsApp. Pas encore installé ?",
+      "whatsappCta": "Installer WhatsApp"
     },
     "unavailable": "Les réservations en ligne sont momentanément fermées pour ce salon",
     "unavailableHint": "Merci de contacter le salon directement",

@@ -344,7 +344,9 @@
     "confirmation": {
       "title": "Booking confirmed!",
       "subtitle": "An email was just sent to confirm your booking",
-      "track": "See my appointments"
+      "track": "See my appointments",
+      "whatsappHint": "Your reminders go out on WhatsApp. Not installed yet?",
+      "whatsappCta": "Install WhatsApp"
     },
     "unavailable": "Online booking is temporarily closed for this salon",
     "unavailableHint": "Please contact the salon directly",
