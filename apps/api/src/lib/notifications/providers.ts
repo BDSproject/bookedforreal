@@ -3,26 +3,40 @@
  *
  * Email is deliberately not supported: appointment messages go out on WhatsApp
  * (roughly half the price of an SMS in France) and fall back to SMS when
- * WhatsApp is not configured or rejected by Twilio.
+ * WhatsApp is not configured or rejected by the provider.
  *
- * Both channels go through Twilio, so there is a single set of credentials and a
- * single fallback chain.
+ * Two providers are supported and both carry SMS *and* WhatsApp, so the
+ * fallback chain stays in one place:
+ *   - `twilio` — default
+ *   - `telnyx` — WhatsApp at Meta's rate with no markup, cheaper SMS for France
+ *
+ * Pick one with `NOTIFY_PROVIDER`; when it is unset we infer it from the keys
+ * (Telnyx when `TELNYX_API_KEY` exists, Twilio otherwise).
  */
 
 export type Channel = "SMS" | "WHATSAPP";
+export type NotifyProvider = "twilio" | "telnyx";
 
 /** Thrown when a channel is missing its credentials or template. */
 export class ChannelNotConfiguredError extends Error {}
 
 /**
- * WhatsApp refuses business-initiated messages that are not an approved template,
- * so every automated message needs a Twilio Content template and its variables.
+ * Provider-neutral WhatsApp template.
+ *
+ * WhatsApp refuses business-initiated messages that are not an approved
+ * template. Twilio identifies one by its Content SID (`HX…`), Telnyx/Meta by
+ * its name plus language. `values` holds the ordered values for `{{1}}`,
+ * `{{2}}`… so each provider can shape them its own way.
  */
 export interface WhatsappTemplate {
-  /** Twilio Content template SID (`HX…`). */
-  contentSid: string;
-  /** Values injected into the `{{1}}`, `{{2}}` … placeholders. */
-  variables: Record<string, string>;
+  /** Twilio Content template SID. */
+  contentSid?: string;
+  /** Telnyx/Meta template name. */
+  name?: string;
+  /** Telnyx/Meta language code, e.g. `fr`. */
+  language?: string;
+  /** Ordered values injected into `{{1}}`, `{{2}}`… (empty for the test). */
+  values: string[];
 }
 
 export interface SendParams {
@@ -32,6 +46,15 @@ export interface SendParams {
   /** Plain-text body; used for SMS. */
   message: string;
   whatsapp?: WhatsappTemplate;
+}
+
+/** The provider to use, from `NOTIFY_PROVIDER` or inferred from the keys. */
+export function activeProvider(): NotifyProvider {
+  const configured = process.env.NOTIFY_PROVIDER?.trim().toLowerCase();
+  if (configured === "twilio" || configured === "telnyx") {
+    return configured;
+  }
+  return process.env.TELNYX_API_KEY ? "telnyx" : "twilio";
 }
 
 /** Sends on a single channel. Throws when the channel is unavailable. */
@@ -70,6 +93,59 @@ export async function sendWithFallback(
   throw lastError instanceof Error ? lastError : new Error("All channels failed");
 }
 
+// ---------------------------------------------------------------------------
+// Channel dispatch
+// ---------------------------------------------------------------------------
+
+async function sendSms(to: string, message: string): Promise<void> {
+  if (activeProvider() === "telnyx") {
+    await telnyxSms(to, message);
+    return;
+  }
+  await twilioSms(to, message);
+}
+
+async function sendWhatsapp(to: string, template: WhatsappTemplate): Promise<void> {
+  if (activeProvider() === "telnyx") {
+    await telnyxWhatsapp(to, template);
+    return;
+  }
+  await twilioWhatsapp(to, template);
+}
+
+// ---------------------------------------------------------------------------
+// Twilio
+// ---------------------------------------------------------------------------
+
+async function twilioSms(to: string, message: string): Promise<void> {
+  const from = process.env.TWILIO_PHONE_NUMBER;
+  if (!from) {
+    throw new ChannelNotConfiguredError("TWILIO_PHONE_NUMBER is missing");
+  }
+  await twilioSend(from, to, { Body: message });
+}
+
+async function twilioWhatsapp(to: string, template: WhatsappTemplate): Promise<void> {
+  const from = process.env.TWILIO_WHATSAPP_NUMBER;
+  if (!from) {
+    throw new ChannelNotConfiguredError("TWILIO_WHATSAPP_NUMBER is missing");
+  }
+  if (!template.contentSid) {
+    throw new ChannelNotConfiguredError("TWILIO_CONTENT_* is missing");
+  }
+
+  // Twilio reads the placeholders as a {"1": value, "2": value} map.
+  const variables: Record<string, string> = {};
+  template.values.forEach((value, index) => {
+    variables[String(index + 1)] = value;
+  });
+
+  await twilioSend(`whatsapp:${from}`, `whatsapp:${to}`, {
+    ContentSid: template.contentSid,
+    ContentVariables: JSON.stringify(variables),
+  });
+}
+
 /** Posts a message through the Twilio Messages API. */
 async function twilioSend(from: string, to: string, body: Record<string, string>): Promise<void> {
   const sid = process.env.TWILIO_ACCOUNT_SID;
@@ -94,22 +170,70 @@ async function twilioSend(from: string, to: string, body: Record<string, string>
   }
 }
 
-async function sendSms(to: string, message: string): Promise<void> {
-  const from = process.env.TWILIO_PHONE_NUMBER;
+// ---------------------------------------------------------------------------
+// Telnyx
+// ---------------------------------------------------------------------------
+
+async function telnyxSms(to: string, message: string): Promise<void> {
+  const from = process.env.TELNYX_PHONE_NUMBER;
   if (!from) {
-    throw new ChannelNotConfiguredError("TWILIO_PHONE_NUMBER is missing");
+    throw new ChannelNotConfiguredError("TELNYX_PHONE_NUMBER is missing");
   }
-  await twilioSend(from, to, { Body: message });
+  await telnyxSend("/v2/messages", { from, to, text: message });
 }
 
-async function sendWhatsapp(to: string, template: WhatsappTemplate): Promise<void> {
-  const from = process.env.TWILIO_WHATSAPP_NUMBER;
+async function telnyxWhatsapp(to: string, template: WhatsappTemplate): Promise<void> {
+  const from = process.env.TELNYX_WHATSAPP_NUMBER;
   if (!from) {
-    throw new ChannelNotConfiguredError("TWILIO_WHATSAPP_NUMBER is missing");
+    throw new ChannelNotConfiguredError("TELNYX_WHATSAPP_NUMBER is missing");
+  }
+  if (!template.name) {
+    throw new ChannelNotConfiguredError("TELNYX_TEMPLATE_* is missing");
   }
 
-  await twilioSend(`whatsapp:${from}`, `whatsapp:${to}`, {
-    ContentSid: template.contentSid,
-    ContentVariables: JSON.stringify(template.variables),
+  await telnyxSend("/v2/messages/whatsapp", {
+    from,
+    to,
+    whatsapp_message: {
+      type: "template",
+      template: {
+        name: template.name,
+        language: {
+          policy: "deterministic",
+          code: template.language ?? process.env.TELNYX_TEMPLATE_LANGUAGE ?? "fr",
+        },
+        ...(template.values.length > 0
+          ? {
+              components: [
+                {
+                  type: "body",
+                  parameters: template.values.map((value) => ({ type: "text", text: value })),
+                },
+              ],
+            }
+          : {}),
+      },
+    },
   });
+}
+
+/** Posts a JSON payload through the Telnyx v2 API. */
+async function telnyxSend(path: string, payload: Record<string, unknown>): Promise<void> {
+  const key = process.env.TELNYX_API_KEY;
+  if (!key) {
+    throw new ChannelNotConfiguredError("TELNYX_API_KEY is missing");
+  }
+
+  const response = await fetch(`https://api.telnyx.com${path}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Telnyx ${response.status}: ${await response.text()}`);
+  }
 }

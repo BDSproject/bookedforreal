@@ -58,18 +58,30 @@ export function buildMessage(
 }
 
 /** Twilio Content template SID per message kind, from the environment. */
-const CONTENT_ENV: Record<AppointmentMessageKind, string> = {
+const TWILIO_CONTENT_ENV: Record<AppointmentMessageKind, string> = {
   CONFIRMATION: "TWILIO_CONTENT_CONFIRMATION",
   REMINDER: "TWILIO_CONTENT_REMINDER",
   OWNER_ALERT: "TWILIO_CONTENT_OWNER_ALERT",
   TEST: "TWILIO_CONTENT_TEST",
 };
 
+/** Telnyx/Meta template name per message kind, from the environment. */
+const TELNYX_TEMPLATE_ENV: Record<AppointmentMessageKind, string> = {
+  CONFIRMATION: "TELNYX_TEMPLATE_CONFIRMATION",
+  REMINDER: "TELNYX_TEMPLATE_REMINDER",
+  OWNER_ALERT: "TELNYX_TEMPLATE_OWNER_ALERT",
+  TEST: "TELNYX_TEMPLATE_TEST",
+};
+
 /**
- * WhatsApp template for a message kind, or `undefined` when the operator has not
- * created it yet — in which case the chain silently falls back to SMS.
+ * WhatsApp template for a message kind, or `undefined` when nothing is
+ * configured for either provider — in which case the chain falls back to SMS.
  *
- * The appointment templates must be created in this placeholder order in Twilio:
+ * The same four templates exist in both worlds; only their identifier differs
+ * (a Twilio Content SID `HX…` or a Telnyx/Meta template name). Whichever the
+ * active provider needs is the one it reads.
+ *
+ * The appointment templates must use this placeholder order:
  * `{{1}}` salon, `{{2}}` date, `{{3}}` time, `{{4}}` service, `{{5}}` client.
  * The test template takes no variable.
  */
@@ -77,23 +89,20 @@ export function buildWhatsappTemplate(
   kind: AppointmentMessageKind,
   vars: AppointmentMessageVars,
 ): WhatsappTemplate | undefined {
-  const contentSid = process.env[CONTENT_ENV[kind]];
-  if (!contentSid) {
+  const contentSid = process.env[TWILIO_CONTENT_ENV[kind]];
+  const name = process.env[TELNYX_TEMPLATE_ENV[kind]];
+  if (!contentSid && !name) {
     return undefined;
   }
 
-  const variables: Record<string, string> =
-    kind === "TEST"
-      ? {}
-      : {
-          "1": vars.salonName,
-          "2": vars.date,
-          "3": vars.time,
-          "4": vars.service,
-          "5": vars.clientName,
-        };
+  const values =
+    kind === "TEST" ? [] : [vars.salonName, vars.date, vars.time, vars.service, vars.clientName];
 
-  return { contentSid, variables };
+  return {
+    ...(contentSid ? { contentSid } : {}),
+    ...(name ? { name } : {}),
+    values,
+  };
 }
 
 /** Renders the appointment start as a short day and a `HH:MM` time. */

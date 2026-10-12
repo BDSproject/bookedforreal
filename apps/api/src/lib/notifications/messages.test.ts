@@ -15,6 +15,8 @@ afterEach(() => {
   delete process.env.TWILIO_CONTENT_REMINDER;
   delete process.env.TWILIO_CONTENT_OWNER_ALERT;
   delete process.env.TWILIO_CONTENT_TEST;
+  delete process.env.TELNYX_TEMPLATE_CONFIRMATION;
+  delete process.env.TELNYX_TEMPLATE_TEST;
 });
 
 describe("appointment messages", () => {
@@ -49,23 +51,25 @@ describe("appointment messages", () => {
     expect(buildWhatsappTemplate("CONFIRMATION", VARS)).toBeUndefined();
   });
 
-  it("maps the appointment values onto the template placeholders", () => {
+  it("maps the appointment values onto the Twilio placeholders", () => {
     process.env.TWILIO_CONTENT_CONFIRMATION = "HXconfirmation";
     expect(buildWhatsappTemplate("CONFIRMATION", VARS)).toEqual({
       contentSid: "HXconfirmation",
-      variables: {
-        "1": "Studio Marais",
-        "2": "jeu. 12 juin",
-        "3": "14:30",
-        "4": "Coupe",
-        "5": "Camille",
-      },
+      values: ["Studio Marais", "jeu. 12 juin", "14:30", "Coupe", "Camille"],
+    });
+  });
+
+  it("carries the Telnyx template name when only that one is configured", () => {
+    process.env.TELNYX_TEMPLATE_CONFIRMATION = "rdv_confirmation";
+    expect(buildWhatsappTemplate("CONFIRMATION", VARS)).toEqual({
+      name: "rdv_confirmation",
+      values: ["Studio Marais", "jeu. 12 juin", "14:30", "Coupe", "Camille"],
     });
   });
 
   it("sends the test template without variables", () => {
     process.env.TWILIO_CONTENT_TEST = "HXtest";
-    expect(buildWhatsappTemplate("TEST", VARS)).toEqual({ contentSid: "HXtest", variables: {} });
+    expect(buildWhatsappTemplate("TEST", VARS)).toEqual({ contentSid: "HXtest", values: [] });
   });
 
   it("renders the day and time in the salon timezone", () => {

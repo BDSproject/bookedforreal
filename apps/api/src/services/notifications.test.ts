@@ -14,6 +14,9 @@ const unique = Date.now().toString(36);
 let salonId = "";
 
 beforeAll(async () => {
+  // Pin the provider so a stray TELNYX_API_KEY in the shell cannot switch it.
+  process.env.NOTIFY_PROVIDER = "twilio";
+
   const owner = await prisma.user.create({
     data: { email: `notif-${unique}@test.local`, passwordHash: "x", role: "OWNER" },
   });
