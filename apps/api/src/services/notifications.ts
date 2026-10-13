@@ -22,6 +22,22 @@ export const CHANNEL_CHAIN: Channel[] = ["WHATSAPP", "SMS"];
 /** How long before the appointment the reminder goes out. */
 const REMINDER_LEAD_MS = 24 * 60 * 60 * 1000;
 
+/**
+ * Which messages a booking triggers.
+ *
+ * `minimal` sends a single message per booking — the J-1 reminder, the one that
+ * actually cuts no-shows. `full` adds the immediate confirmation and the salon
+ * alert. Minimal is the default because three messages per booking do not fit any
+ * plan's credit budget, and never on SMS: a Salon with 400 bookings would spend
+ * 48 € of SMS on a 39 € plan.
+ */
+export type MessageSet = "minimal" | "full";
+
+/** The message set to use, from `NOTIFY_MESSAGES` (minimal by default). */
+export function activeMessageSet(): MessageSet {
+  return process.env.NOTIFY_MESSAGES?.trim().toLowerCase() === "full" ? "full" : "minimal";
+}
+
 export interface NotificationPayload {
   salonId: string;
   appointmentId?: string;
@@ -143,19 +159,27 @@ export async function scheduleAppointmentNotifications(appointmentId: string): P
 
     // The client only hears from us when we hold a number we can actually dial.
     const clientPhone = normalizePhone(client.phone);
-    if (clientPhone) {
-      queue.push(enqueue("CONFIRMATION", new Date(), clientPhone, client.locale));
+    const reminderAt = new Date(appointment.startAt.getTime() - REMINDER_LEAD_MS);
+    const canRemind = reminderAt.getTime() > Date.now();
+    const messageSet = activeMessageSet();
 
-      // Nothing to remind when the appointment is already less than a day away.
-      const reminderAt = new Date(appointment.startAt.getTime() - REMINDER_LEAD_MS);
-      if (reminderAt.getTime() > Date.now()) {
+    if (clientPhone) {
+      if (canRemind) {
         queue.push(enqueue("REMINDER", reminderAt, clientPhone, client.locale));
+      }
+
+      // Full mode always confirms. In minimal mode the confirmation only goes out
+      // when the booking is too close for a reminder, so the client always gets
+      // exactly one message instead of none.
+      if (messageSet === "full" || !canRemind) {
+        queue.push(enqueue("CONFIRMATION", new Date(), clientPhone, client.locale));
       }
     }
 
-    // The salon is alerted on its own number, in the owner's language.
+    // The salon alert costs one more message: the calendar already shows it, so
+    // it is reserved to full mode.
     const salonPhone = normalizePhone(salon.phone);
-    if (salonPhone) {
+    if (salonPhone && messageSet === "full") {
       queue.push(enqueue("OWNER_ALERT", new Date(), salonPhone, salon.owner.locale));
     }
 

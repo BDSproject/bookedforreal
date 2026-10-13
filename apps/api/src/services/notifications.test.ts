@@ -36,6 +36,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
   delete process.env.TWILIO_CONTENT_CONFIRMATION;
   delete process.env.TWILIO_CONTENT_OWNER_ALERT;
+  delete process.env.NOTIFY_MESSAGES;
 });
 
 /**
@@ -48,6 +49,44 @@ async function drainQueue(): Promise<void> {
       return;
     }
   }
+}
+
+/** Creates a client, a service, a staff member and a booking `hoursAhead` away. */
+async function bookAppointment(hoursAhead: number) {
+  const suffix = Math.random().toString(36).slice(2, 8);
+  const client = await prisma.client.create({
+    data: { salonId, name: `Client ${suffix}`, phone: "0612345678", locale: "fr" },
+  });
+  const service = await prisma.service.create({
+    data: { salonId, nameFr: "Coupe", nameEn: "Haircut", durationMin: 30 },
+  });
+  const staff = await prisma.staff.create({ data: { salonId, name: `Léa ${suffix}` } });
+  const startAt = new Date(Date.now() + hoursAhead * 60 * 60 * 1000);
+
+  return prisma.appointment.create({
+    data: {
+      salonId,
+      staffId: staff.id,
+      serviceId: service.id,
+      clientId: client.id,
+      startAt,
+      endAt: new Date(startAt.getTime() + 30 * 60 * 1000),
+      source: "WEB",
+    },
+  });
+}
+
+/** The appointment jobs queued for one booking. */
+async function jobsFor(appointmentId: string) {
+  return prisma.job.findMany({
+    where: {
+      type: {
+        in: ["appointment.confirmation", "appointment.reminder", "appointment.owner_alert"],
+      },
+      payload: { path: ["appointmentId"], equals: appointmentId },
+    },
+    orderBy: { runAt: "asc" },
+  });
 }
 
 afterAll(async () => {
@@ -95,39 +134,33 @@ describe("notifications", () => {
     expect(await remainingCredits(salonId)).toBe(100);
   });
 
-  it("queues the client confirmation, the J-1 reminder and the salon alert", async () => {
-    const client = await prisma.client.create({
-      data: { salonId, name: "Camille", phone: "0612345678", locale: "fr" },
-    });
-    const staff = await prisma.staff.create({ data: { salonId, name: "Léa" } });
-    const service = await prisma.service.create({
-      data: { salonId, nameFr: "Coupe", nameEn: "Haircut", durationMin: 30 },
-    });
-    const appointment = await prisma.appointment.create({
-      data: {
-        salonId,
-        staffId: staff.id,
-        serviceId: service.id,
-        clientId: client.id,
-        startAt: new Date(Date.now() + 48 * 60 * 60 * 1000),
-        endAt: new Date(Date.now() + 48 * 60 * 60 * 1000 + 30 * 60 * 1000),
-        source: "WEB",
-      },
-    });
+  it("sends only the J-1 reminder by default (minimal set)", async () => {
+    const appointment = await bookAppointment(48);
 
     await scheduleAppointmentNotifications(appointment.id);
 
-    const jobs = await prisma.job.findMany({
-      where: {
-        type: {
-          in: ["appointment.confirmation", "appointment.reminder", "appointment.owner_alert"],
-        },
-        // Scoped to this appointment: other test files queue jobs in parallel.
-        payload: { path: ["appointmentId"], equals: appointment.id },
-      },
-    });
-    const types = jobs.map((job) => job.type).sort();
-    expect(types).toEqual([
+    const types = (await jobsFor(appointment.id)).map((job) => job.type);
+    expect(types).toEqual(["appointment.reminder"]);
+  });
+
+  it("confirms instead of reminding when the booking is less than a day away", async () => {
+    // Too close for a J-1 reminder: the client still gets exactly one message.
+    const appointment = await bookAppointment(2);
+
+    await scheduleAppointmentNotifications(appointment.id);
+
+    const types = (await jobsFor(appointment.id)).map((job) => job.type);
+    expect(types).toEqual(["appointment.confirmation"]);
+  });
+
+  it("queues confirmation, reminder and salon alert in the full set", async () => {
+    process.env.NOTIFY_MESSAGES = "full";
+    const appointment = await bookAppointment(48);
+
+    await scheduleAppointmentNotifications(appointment.id);
+
+    const jobs = await jobsFor(appointment.id);
+    expect(jobs.map((job) => job.type).sort()).toEqual([
       "appointment.confirmation",
       "appointment.owner_alert",
       "appointment.reminder",

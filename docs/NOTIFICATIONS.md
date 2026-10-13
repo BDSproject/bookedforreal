@@ -1,6 +1,6 @@
 # Notifications WhatsApp + SMS
 
-Chaque rendez-vous déclenche trois messages, envoyés **WhatsApp d'abord**, puis
+Un rendez-vous déclenche jusqu'à trois messages, envoyés **WhatsApp d'abord**, puis
 **SMS en repli** si WhatsApp échoue ou n'est pas configuré :
 
 | Message | Destinataire | Quand |
@@ -10,6 +10,27 @@ Chaque rendez-vous déclenche trois messages, envoyés **WhatsApp d'abord**, pui
 | Alerte | numéro du salon | à chaque nouveau rendez-vous |
 
 Les modèles vivent dans `apps/api/src/lib/notifications/messages.ts`.
+
+## Combien de messages par réservation
+
+```env
+NOTIFY_MESSAGES="minimal"   # ou "full"
+```
+
+| Réglage | Ce qui part | Coût pour 100 RDV |
+| ------- | ----------- | ----------------- |
+| **`minimal`** (défaut) | **le rappel J-1 uniquement** | ~4 € |
+| `full` | confirmation + rappel + alerte salon | ~12 € |
+
+`minimal` est le défaut car **trois messages par réservation ne tiennent dans
+aucun quota** : un Salon à 400 RDV dépenserait 48 € de SMS sur un abonnement de
+39 €. Le rappel J-1 est le message qui fait réellement baisser les lapins, c'est
+lui qu'on garde. Quand la réservation est trop proche pour un rappel (moins de
+24 h), c'est la confirmation qui part — le client reçoit toujours exactement un
+message.
+
+La confirmation reste de toute façon couverte par **l'email de vérification**
+(envoyé à la réservation), et le gérant voit les nouveaux RDV dans son agenda.
 
 ## Choisir le fournisseur
 
